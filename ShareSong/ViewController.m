@@ -1,0 +1,210 @@
+//
+//  ViewController.m
+//  SpeakerAlarm
+//
+//  Created by Vo1 on 18/04/2017.
+//  Copyright © 2017 Samoilenko Volodymyr. All rights reserved.
+//
+
+#import "ViewController.h"
+#import <StoreKit/StoreKit.h>
+#import "SpotifySearch.h"
+#import "AppleMusicSearch.h"
+#import "SMKTransferingSong.h"
+#import "SMKHistoryCollectionViewController.h"
+#import "SMKHistoryData.h"
+
+
+@interface ViewController () <MPMediaPickerControllerDelegate, UITextFieldDelegate, UIViewControllerTransitioningDelegate>
+@property (nonatomic) UIActivityIndicatorView *indicatorView;
+
+@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
+@property (weak, nonatomic) IBOutlet UITextField *resultTextField;
+@property (nonatomic) NSString *fronteStoreId;
+@property (nonatomic) UIAlertController *alertController;
+@property (nonatomic) SMKTransferingSong *transferManager;
+
+@property (weak, nonatomic) IBOutlet UIView *backViewWithMask;
+@property (weak, nonatomic) IBOutlet UIButton *historyButton;
+@property (weak,nonatomic) IBOutlet UIView *logoBackgroundView;
+
+@property (nonatomic) SMKHistoryData *historyData;
+
+@end
+
+
+@implementation ViewController
+
+#pragma mark - LifeCycle
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.historyData = [[SMKHistoryData alloc] init];
+    self.transferManager = [[SMKTransferingSong alloc] init];
+    [self prepareView];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self ssearch];
+    
+}
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self setMaskToBackView];
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.searchTextField resignFirstResponder];
+    [self.resultTextField resignFirstResponder];
+    
+}
+
+#pragma mark - Actions
+- (IBAction)presentHistoryVC:(id)sender {
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    float size = self.view.frame.size.width / 3.0;
+    flowLayout.itemSize = CGSizeMake(size, size);
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    SMKHistoryCollectionViewController *vc = [[SMKHistoryCollectionViewController alloc] initWithCollectionViewLayout:flowLayout];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+- (void)ssearch{
+    self.resultTextField.text = @"";
+    NSString *url = [UIPasteboard generalPasteboard].string;
+    NSLog(@"%@", url);
+    self.searchTextField.text = @"";
+    if ([SMKTransferingSong isSuitableLink:url]) {
+        [self.indicatorView startAnimating];
+        
+        [self.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSString *str) {
+            // fill text field
+            // put back link in UIPasteboard
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self succesfullLink:str];
+            });
+        } withFailureBlock:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self failureWithLink];
+            });
+            
+
+        }];
+    } else {
+        NSLog(@"Bad Link");
+        [self.indicatorView stopAnimating];
+    }
+}
+- (IBAction)search:(id)sender {
+    
+    self.resultTextField.text = @"";
+    NSString *url = self.searchTextField.text;
+    self.searchTextField.text = @"";
+    if ([SMKTransferingSong isSuitableLink:url]) {
+        [self.indicatorView startAnimating];
+        
+        [self.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSString *str) {
+            // fill text field
+            // put back link in UIPasteboard
+            // stop animation
+            [self succesfullLink:str];
+        } withFailureBlock:^{
+            // stop animation
+            // alert with fail
+            [self failureWithLink];
+        }];
+    } else {
+        // bad link
+    }
+    
+}
+
+#pragma mark - success/fail
+- (void)succesfullLink:(NSString *)url{
+    self.resultTextField.text = url;
+    [self.indicatorView stopAnimating];
+    [self pasteToPasteboard:url];
+    [self setMessageForSuccessAlert];
+    [self presentViewController:self.alertController animated:YES completion:nil];
+}
+- (void)failureWithLink {
+    self.resultTextField.text = @"";
+    [self.indicatorView stopAnimating];
+    [self setMessageForWrongLink];
+    [self presentViewController:self.alertController animated:YES completion:nil];
+}
+
+#pragma mark - Prepare view
+- (void)prepareView {
+    [self prepareIndicatorView];
+    [self prepareAlertController];
+    [self prepareTextFields];
+    [self prepareLogo];
+}
+- (void)prepareLogo {
+    self.logoBackgroundView.layer.cornerRadius = self.logoBackgroundView.frame.size.width/2.0;
+}
+- (void)prepareTextFields {
+    self.searchTextField.layer.cornerRadius = 5;
+    self.resultTextField.layer.cornerRadius = 5;
+}
+- (void)prepareIndicatorView {
+    self.indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.indicatorView.center = self.view.center;
+    [self.view addSubview:self.indicatorView];
+}
+- (void)prepareAlertController {
+    self.alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *actionSuccess = [UIAlertAction actionWithTitle:@"Daaamn" style:UIAlertActionStyleCancel handler:nil];
+    [self.alertController addAction:actionSuccess];
+}
+- (void)setMessageForWrongLink {
+    NSString *tittle = [NSString stringWithFormat:@"Sorry, but your link is wrong. "];
+    [self.alertController setTitle:tittle];
+    [self.alertController setMessage:@"Maybe, it's not link from your subscription country. Try again with another lunk, and be careaful"];
+}
+- (void)setMessageForSuccessAlert {
+    NSString *emoji = [self getEmoji:@"\xF0\x9F\x99\x8C"];
+    NSString *tittle = [NSString stringWithFormat:@"%@ Success %@",emoji,emoji];
+    [self.alertController setTitle:tittle];
+    [self.alertController setMessage:@"You link to the song now in clipboard. Just send it"];
+}
+- (NSString *)getEmoji:(NSString *)str {
+    NSData *data = [str dataUsingEncoding:NSNonLossyASCIIStringEncoding];
+    NSString *valueUnicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSData *datta = [valueUnicode dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [[NSString alloc] initWithData:datta encoding:NSNonLossyASCIIStringEncoding];
+    return result;
+}
+- (void)setMaskToBackView {
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    CGRect maskRect = CGRectMake(0, 0, self.backViewWithMask.frame.size.width, self.backViewWithMask.frame.size.height);
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    
+    [path moveToPoint:CGPointMake(0, 0)];
+    [path addLineToPoint:CGPointMake(maskRect.size.width, 0)];
+    [path addLineToPoint:CGPointMake(maskRect.size.width, 321)];
+    [path addLineToPoint:CGPointMake(0, maskRect.size.height)];
+    [path addLineToPoint:CGPointMake(0, 0)];
+    [path closePath];
+    [maskLayer setBackgroundColor:[UIColor blackColor].CGColor];
+    
+    maskLayer.path = path.CGPath;
+    self.backViewWithMask.layer.mask = maskLayer;
+    
+}
+
+#pragma mark - UIPasteboard
+- (void)pasteToPasteboard:(NSString *)url{
+    [UIPasteboard generalPasteboard].string = url;
+}
+- (bool)checkIsLinkAlreadyInPasteboard {
+    NSString *link = [UIPasteboard generalPasteboard].string;
+    if ([AppleMusicSearch checkLinkWithString:link] || [SpotifySearch checkLinkWithString:link]) {
+        return YES;
+    }
+    return NO;
+}
+
+
+@end
