@@ -15,6 +15,7 @@
 #import "SMKHistoryData.h"
 
 #import "SMKLoaderView.h"
+#import "SMKSong.h"
 
 
 @interface ViewController () <MPMediaPickerControllerDelegate, UITextFieldDelegate, UIViewControllerTransitioningDelegate>
@@ -45,7 +46,7 @@
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self ssearch];
+    [self search];
     
 }
 - (void)viewDidLayoutSubviews {
@@ -66,9 +67,12 @@
     vc.historyData = self.historyData;
     [self presentViewController:vc animated:YES completion:nil];
 }
-- (void)ssearch{
+- (void)search{
     self.resultTextField.text = @"";
     NSString *url = [UIPasteboard generalPasteboard].string;
+    if ([self.historyData countOfSongs]!= 0 && [self.historyData isMemberWithLink:url]) {
+        return;
+    }
     self.searchTextField.text = url;
     if ([SMKTransferingSong isSuitableLink:url]) {
         [self.indicatorView startAnimating];

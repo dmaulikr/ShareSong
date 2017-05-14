@@ -53,7 +53,7 @@ NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
     NSString *url = [[[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"external_urls"] objectForKey:@"spotify"];
     NSString *title = [[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"name"];
     NSString *artist = [[[[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"artists"] objectAtIndex:0] objectForKey:@"name"];
-    NSString *urlWithImg = [[[[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"album"] objectForKey:@"images"] objectAtIndex:1];
+    NSString *urlWithImg = [[[[[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"album"] objectForKey:@"images"] objectAtIndex:1] objectForKey:@"url"];
     NSDictionary *dict = [[NSDictionary alloc] initWithObjects:@[title,artist,url,urlWithImg] forKeys:@[@"title",@"artist",@"url",@"imgLink"]];
     return dict;
 }

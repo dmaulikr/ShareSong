@@ -29,6 +29,15 @@
 - (NSInteger)countOfSongs {
     return [self.songs count];
 }
+
+- (BOOL)isMemberWithLink:(NSString *)link {
+    for (SMKSong *song in self.songs) {
+        if ([[song spotifyLink] containsString:link] || [[song appleMusicLink] containsString:link]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 - (void)addSongWithDict:(NSDictionary *)data {
     UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[data objectForKey:@"imgLink"]]]];
     SMKSong *song = [[SMKSong alloc] initWithTitle:[data objectForKey:@"title"] artist:[data objectForKey:@"artist"] albumCover:img spotifyLink:[data objectForKey:@"spotifyLink"] appleMusicLink:[data objectForKey:@"appleLink"]];
