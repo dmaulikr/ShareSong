@@ -19,9 +19,6 @@
     [inView addSubview:toVC.view];
     [toVC.view setAlpha:0.0];
     
-    
-    
-    
     [UIView animateKeyframesWithDuration:[self transitionDuration:transitionContext] delay:0.0 options:0 animations:^{
         [UIView animateKeyframesWithDuration:0.6/1.0 delay:0 options:0 animations:^{
             fromVC.logo.transform = CGAffineTransformMakeScale(0.8, 0.8);

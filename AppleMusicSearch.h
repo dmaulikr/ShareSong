@@ -11,7 +11,7 @@
 
 @interface AppleMusicSearch : NSObject
 
-+ (void)makeDataWithRequestString:(NSString *)requestString withFrontStoreID:(NSString *)frontstoreId withBlock:(void(^)(NSString *url,bool success))block;
++ (void)makeDataWithRequestString:(NSString *)requestString withFrontStoreID:(NSString *)frontstoreId withBlock:(void(^)(NSDictionary *dict,bool success))block;
 + (void)getAttributesWithAppleMusicLink:(NSString *)link withBlock:(void(^)(NSString* info, bool success, NSError *error))block;
 + (BOOL)checkLinkWithString:(NSString *)link;
 + (NSString *)checkTheTitle:(NSString *)title;

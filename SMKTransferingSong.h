@@ -11,8 +11,9 @@
 
 @interface SMKTransferingSong : NSObject
 - (instancetype)init;
-- (void)transferSongWithLink:(NSString *)link withSuccessBlock:(void(^)(NSString *str))successBlock withFailureBlock:(void(^)())failureBlock;
+- (void)transferSongWithLink:(NSString *)link withSuccessBlock:(void(^)(NSDictionary *dict))successBlock withFailureBlock:(void(^)())failureBlock;
 + (bool)isSuitableLink:(NSString *)link;
++ (bool)isAppleMusicLink:(NSString *)link;
 
 
 @end

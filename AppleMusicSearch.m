@@ -7,40 +7,23 @@
 //
 
 #import "AppleMusicSearch.h"
-#import "SMKSong.h"
-
-@interface AppleMusicSearch()
-
-@end
 
 @implementation AppleMusicSearch
-
 
 NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?";
 
 #pragma mark - download Data
-+ (void)makeDataWithRequestString:(NSString *)requestString withFrontStoreID:(NSString *)frontstoreId withBlock:(void(^)(NSString *url,bool success))block {
++ (void)makeDataWithRequestString:(NSString *)requestString withFrontStoreID:(NSString *)frontstoreId withBlock:(void(^)(NSDictionary *dict,bool success))block {
     if (!requestString) {return;}
     NSString *prepareForURL = [NSString stringWithFormat:@"%@term=%@&entity=song&s=%@",appleMusicURLWithTermFrontStoreID,requestString, frontstoreId];
     NSURL *url = [NSURL URLWithString:prepareForURL];
-    
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
     [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSLog(@"%@", json);
             if ([AppleMusicSearch isJSONvalid:json]) {
-                // Getting image
-//                NSString *title = [[[json objectForKey:@"results"] objectAtIndex:0]objectForKey:@"trackCensoredName"];
-//                NSString *artist = [[[json objectForKey:@"results"] objectAtIndex:0]objectForKey:@"artistName"];
-                NSString *url = [[[json objectForKey:@"results"] objectAtIndex:0] objectForKey:@"trackViewUrl"];
-//                NSString *urlWithImg = [[[json objectForKey:@"results"] objectAtIndex:0]objectForKey:@"artworkUrl100"];
-//                
-//                UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlWithImg]]];
-//                SMKSong *song = [[SMKSong alloc] initWithTitle:title artist:artist albumCover:img spotifyLink:nil appleMusicLink:url];
-                //
-                block(url,YES);
+                NSDictionary *dict = [AppleMusicSearch parseJSON:json];
+                block(dict,YES);
             } else {
                 block(nil,NO);
             }
@@ -50,7 +33,7 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
         }
     }] resume];
 }
-#pragma mark - check JSON/Link
+#pragma mark - check/parse JSON/Link
 + (NSString *)checkTheTitle:(NSString *)title {
     NSArray *components = [title componentsSeparatedByString:@"("];
     if ([components count]) {
@@ -58,8 +41,15 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     }
     return title;
 }
++ (NSDictionary *)parseJSON:(NSDictionary *)json {
+    NSString *title = [[[json objectForKey:@"results"] objectAtIndex:0]objectForKey:@"trackCensoredName"];
+    NSString *artist = [[[json objectForKey:@"results"] objectAtIndex:0]objectForKey:@"artistName"];
+    NSString *url = [[[json objectForKey:@"results"] objectAtIndex:0] objectForKey:@"trackViewUrl"];
+    NSString *urlWithImg = [[[json objectForKey:@"results"] objectAtIndex:0]objectForKey:@"artworkUrl100"];
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:url,@"url",title,@"title",artist,@"artist",urlWithImg,@"imgLink", nil];
+    return dict;
+}
 + (BOOL)isJSONvalid:(NSDictionary *)dict {
-    
     NSNumber *value = [dict objectForKey:@"resultCount"];
     if ([value integerValue] > 0) {
         return true;
@@ -67,7 +57,6 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     return false;
 }
 + (BOOL)checkLinkWithString:(NSString *)link {
-    
     if ([link containsString:@"https://itun."]) {
         return YES;
     }
@@ -102,9 +91,6 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
                 NSString *title = item.title;
                 NSString *artist = item.artist;
                 title = [AppleMusicSearch checkTheTitle:title];
-                for (int i = 0; i < [title length]; ++i) {
-                    NSLog(@"%id", [title characterAtIndex:i]);
-                }
                 title = [title stringByReplacingOccurrencesOfString:@" " withString:@"+"];
                 artist = [artist stringByReplacingOccurrencesOfString:@" " withString:@"+"];
                 NSString *info = [NSString stringWithFormat:@"%@+%@", title,artist];
@@ -115,7 +101,5 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
         }
     }];
 }
-
-
 
 @end

@@ -10,8 +10,7 @@
 
 @interface SpotifySearch : NSObject
 + (void)makeDataTaskWithTrackId:(NSString *)trackId withBlock:(void(^)(NSString *terms, bool success, NSError *error))block;
-+ (void)makeDataTaskWithTemp:(NSString *)temp withBlock:(void(^)(NSString *url, bool success, NSError *error))block;
++ (void)makeDataTaskWithTemp:(NSString *)temp withBlock:(void(^)(NSDictionary *dict, bool success, NSError *error))block;
 + (NSString *)parseURLToGetTrackId:(NSString *)str;
-+ (NSString *)parseJSONAndGetURL:(NSDictionary *)dict;
 + (BOOL)checkLinkWithString:(NSString *)link;
 @end

@@ -38,22 +38,23 @@
     }
     return NO;
 }
-
-- (void)transferSongWithLink:(NSString *)link withSuccessBlock:(void(^)(NSString *str))successBlock withFailureBlock:(void(^)())failureBlock {
++ (bool)isAppleMusicLink:(NSString *)link {
+    return [AppleMusicSearch checkLinkWithString:link];
+}
+- (void)transferSongWithLink:(NSString *)link withSuccessBlock:(void(^)(NSDictionary *dict))successBlock withFailureBlock:(void(^)())failureBlock {
     if ([SpotifySearch checkLinkWithString:link]) {
         [self fromSpotifyToAppleMusic:link withSuccessBlock:successBlock withFailureBlock:failureBlock];
     } else if ([AppleMusicSearch checkLinkWithString:link]) {
         [self fromAppleMusicToSpotify:link withSuccessBlock:successBlock withFailureBlock:failureBlock];
     }
 }
-
-- (void)fromSpotifyToAppleMusic:(NSString *)link withSuccessBlock:(void(^)(NSString *str))successBlock withFailureBlock:(void(^)())failureBlock {
+- (void)fromSpotifyToAppleMusic:(NSString *)link withSuccessBlock:(void(^)(NSDictionary *dict))successBlock withFailureBlock:(void(^)())failureBlock {
     NSString *trackId = [SpotifySearch parseURLToGetTrackId:link];
     [SpotifySearch makeDataTaskWithTrackId:trackId withBlock:^(NSString *terms, bool success, NSError *error) {
         if (success) {
-            [AppleMusicSearch makeDataWithRequestString:terms withFrontStoreID:self.appleMusicFrontStoreId withBlock:^(NSString *url, bool success) {
+            [AppleMusicSearch makeDataWithRequestString:terms withFrontStoreID:self.appleMusicFrontStoreId withBlock:^(NSDictionary* dict, bool success) {
                 if (success) {
-                    successBlock(url);
+                    successBlock(dict);
                 } else {
                     failureBlock();
                 }
@@ -63,12 +64,12 @@
         }
     }];
 }
-- (void)fromAppleMusicToSpotify:(NSString *)link withSuccessBlock:(void(^)(NSString *str))successBlock withFailureBlock:(void(^)())failureBlock {
+- (void)fromAppleMusicToSpotify:(NSString *)link withSuccessBlock:(void(^)(NSDictionary *dict))successBlock withFailureBlock:(void(^)())failureBlock {
     [AppleMusicSearch getAttributesWithAppleMusicLink:link withBlock:^(NSString *info, bool success, NSError *error) {
         if (success) {
-            [SpotifySearch makeDataTaskWithTemp:info withBlock:^(NSString *url, bool success, NSError *error) {
+            [SpotifySearch makeDataTaskWithTemp:info withBlock:^(NSDictionary *dict, bool success, NSError *error) {
                 if (success) {
-                    successBlock(url);
+                    successBlock(dict);
                 } else {
                     NSLog(@"%@", error);
                     failureBlock();
@@ -81,7 +82,6 @@
     
     
 }
-
 - (void)appleMusicFetchStorefrontRegion {
     SKCloudServiceController *serviceController = [[SKCloudServiceController alloc] init];
     [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
@@ -95,6 +95,7 @@
         }
     }];
 }
+
 
 
 

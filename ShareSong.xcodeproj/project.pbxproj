@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E75D135C1EC900DD0046429D /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = E75D135B1EC900DD0046429D /* up.png */; };
+		E75D135F1EC904980046429D /* SMKLoaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E75D135E1EC904980046429D /* SMKLoaderView.m */; };
 		E764C9661EBA946C00625D9E /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E764C9651EBA946C00625D9E /* logo.png */; };
 		E764C96E1EBA976B00625D9E /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E764C96D1EBA976B00625D9E /* NotificationCenter.framework */; };
 		E764C9721EBA976B00625D9E /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E764C9711EBA976B00625D9E /* TodayViewController.m */; };
@@ -23,11 +25,12 @@
 		E7993B461EBA93240028B276 /* SpotifySearch.m in Sources */ = {isa = PBXBuildFile; fileRef = E7993B451EBA93240028B276 /* SpotifySearch.m */; };
 		E7993B4A1EBA93820028B276 /* SMKLoadAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = E7993B491EBA93820028B276 /* SMKLoadAnimator.m */; };
 		E7993B4E1EBA93C60028B276 /* SMKIntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7993B4D1EBA93C60028B276 /* SMKIntroViewController.m */; };
-		E79BDB611EC786AB006F1AA5 /* b.png in Resources */ = {isa = PBXBuildFile; fileRef = E79BDB601EC786AB006F1AA5 /* b.png */; };
+		E79BDB611EC786AB006F1AA5 /* down.png in Resources */ = {isa = PBXBuildFile; fileRef = E79BDB601EC786AB006F1AA5 /* down.png */; };
 		E79BDB671EC791C0006F1AA5 /* SMKHistoryCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E79BDB661EC791C0006F1AA5 /* SMKHistoryCollectionViewController.m */; };
 		E79BDB6C1EC79D48006F1AA5 /* SMKHistoryData.m in Sources */ = {isa = PBXBuildFile; fileRef = E79BDB6B1EC79D48006F1AA5 /* SMKHistoryData.m */; };
 		E79BDB701EC79E22006F1AA5 /* SMKSong.m in Sources */ = {isa = PBXBuildFile; fileRef = E79BDB6F1EC79E22006F1AA5 /* SMKSong.m */; };
-		E7F3AC521EC3371E00C747AC /* historyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E7F3AC511EC3371E00C747AC /* historyButton.png */; };
+		E7C5AA3F1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5AA3D1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m */; };
+		E7C5AA401EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C5AA3E1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +58,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E75D135B1EC900DD0046429D /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
+		E75D135D1EC904980046429D /* SMKLoaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKLoaderView.h; sourceTree = "<group>"; };
+		E75D135E1EC904980046429D /* SMKLoaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKLoaderView.m; sourceTree = "<group>"; };
 		E764C9651EBA946C00625D9E /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		E764C96B1EBA976B00625D9E /* SMKShareSongTodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SMKShareSongTodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E764C96D1EBA976B00625D9E /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -82,14 +88,16 @@
 		E7993B491EBA93820028B276 /* SMKLoadAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKLoadAnimator.m; sourceTree = "<group>"; };
 		E7993B4C1EBA93C60028B276 /* SMKIntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKIntroViewController.h; sourceTree = "<group>"; };
 		E7993B4D1EBA93C60028B276 /* SMKIntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKIntroViewController.m; sourceTree = "<group>"; };
-		E79BDB601EC786AB006F1AA5 /* b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = b.png; sourceTree = "<group>"; };
+		E79BDB601EC786AB006F1AA5 /* down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = down.png; sourceTree = "<group>"; };
 		E79BDB651EC791C0006F1AA5 /* SMKHistoryCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMKHistoryCollectionViewController.h; path = ../SMKHistoryCollectionViewController.h; sourceTree = "<group>"; };
 		E79BDB661EC791C0006F1AA5 /* SMKHistoryCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMKHistoryCollectionViewController.m; path = ../SMKHistoryCollectionViewController.m; sourceTree = "<group>"; };
 		E79BDB6A1EC79D48006F1AA5 /* SMKHistoryData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKHistoryData.h; sourceTree = "<group>"; };
 		E79BDB6B1EC79D48006F1AA5 /* SMKHistoryData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKHistoryData.m; sourceTree = "<group>"; };
 		E79BDB6E1EC79E22006F1AA5 /* SMKSong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKSong.h; sourceTree = "<group>"; };
 		E79BDB6F1EC79E22006F1AA5 /* SMKSong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKSong.m; sourceTree = "<group>"; };
-		E7F3AC511EC3371E00C747AC /* historyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = historyButton.png; sourceTree = "<group>"; };
+		E7C5AA3C1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKHistoryCollectionViewCell.h; sourceTree = "<group>"; };
+		E7C5AA3D1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKHistoryCollectionViewCell.m; sourceTree = "<group>"; };
+		E7C5AA3E1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMKHistoryCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,8 +178,8 @@
 		E7993B261EBA926C0028B276 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E79BDB601EC786AB006F1AA5 /* b.png */,
-				E7F3AC511EC3371E00C747AC /* historyButton.png */,
+				E75D135B1EC900DD0046429D /* up.png */,
+				E79BDB601EC786AB006F1AA5 /* down.png */,
 				E764C9651EBA946C00625D9E /* logo.png */,
 				E7993B291EBA926C0028B276 /* AppDelegate.h */,
 				E7993B2A1EBA926C0028B276 /* AppDelegate.m */,
@@ -189,6 +197,7 @@
 				E7993B4D1EBA93C60028B276 /* SMKIntroViewController.m */,
 				E79BDB651EC791C0006F1AA5 /* SMKHistoryCollectionViewController.h */,
 				E79BDB661EC791C0006F1AA5 /* SMKHistoryCollectionViewController.m */,
+				E7C5AA411EC8A793006FB610 /* ViewCell */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -210,6 +219,8 @@
 			children = (
 				E7993B481EBA93820028B276 /* SMKLoadAnimator.h */,
 				E7993B491EBA93820028B276 /* SMKLoadAnimator.m */,
+				E75D135D1EC904980046429D /* SMKLoaderView.h */,
+				E75D135E1EC904980046429D /* SMKLoaderView.m */,
 			);
 			name = Animator;
 			path = ..;
@@ -224,6 +235,17 @@
 				E79BDB6F1EC79E22006F1AA5 /* SMKSong.m */,
 			);
 			name = Data;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		E7C5AA411EC8A793006FB610 /* ViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				E7C5AA3C1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.h */,
+				E7C5AA3D1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m */,
+				E7C5AA3E1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib */,
+			);
+			name = ViewCell;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -319,11 +341,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E79BDB611EC786AB006F1AA5 /* b.png in Resources */,
+				E79BDB611EC786AB006F1AA5 /* down.png in Resources */,
 				E764C9661EBA946C00625D9E /* logo.png in Resources */,
-				E7F3AC521EC3371E00C747AC /* historyButton.png in Resources */,
 				E7993B361EBA926C0028B276 /* LaunchScreen.storyboard in Resources */,
 				E7993B331EBA926C0028B276 /* Assets.xcassets in Resources */,
+				E7C5AA401EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib in Resources */,
+				E75D135C1EC900DD0046429D /* up.png in Resources */,
 				E7993B311EBA926C0028B276 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7993B401EBA92C70028B276 /* SMKTransferingSong.m in Sources */,
+				E7C5AA3F1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m in Sources */,
 				E79BDB671EC791C0006F1AA5 /* SMKHistoryCollectionViewController.m in Sources */,
 				E7993B4E1EBA93C60028B276 /* SMKIntroViewController.m in Sources */,
 				E7993B431EBA92ED0028B276 /* AppleMusicSearch.m in Sources */,
@@ -354,6 +378,7 @@
 				E7993B4A1EBA93820028B276 /* SMKLoadAnimator.m in Sources */,
 				E79BDB6C1EC79D48006F1AA5 /* SMKHistoryData.m in Sources */,
 				E7993B281EBA926C0028B276 /* main.m in Sources */,
+				E75D135F1EC904980046429D /* SMKLoaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

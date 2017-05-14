@@ -14,24 +14,24 @@
 #import "SMKHistoryCollectionViewController.h"
 #import "SMKHistoryData.h"
 
+#import "SMKLoaderView.h"
+
 
 @interface ViewController () <MPMediaPickerControllerDelegate, UITextFieldDelegate, UIViewControllerTransitioningDelegate>
-@property (nonatomic) UIActivityIndicatorView *indicatorView;
 
+@property (nonatomic) UIActivityIndicatorView *indicatorView;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (weak, nonatomic) IBOutlet UITextField *resultTextField;
-@property (nonatomic) NSString *fronteStoreId;
-@property (nonatomic) UIAlertController *alertController;
-@property (nonatomic) SMKTransferingSong *transferManager;
-
 @property (weak, nonatomic) IBOutlet UIView *backViewWithMask;
 @property (weak, nonatomic) IBOutlet UIButton *historyButton;
 @property (weak,nonatomic) IBOutlet UIView *logoBackgroundView;
+@property (nonatomic) UIAlertController *alertController;
+@property (nonatomic) NSString *fronteStoreId;
 
+@property (nonatomic) SMKTransferingSong *transferManager;
 @property (nonatomic) SMKHistoryData *historyData;
 
 @end
-
 
 @implementation ViewController
 
@@ -41,12 +41,10 @@
     self.historyData = [[SMKHistoryData alloc] init];
     self.transferManager = [[SMKTransferingSong alloc] init];
     [self prepareView];
+    
 }
-
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     [self ssearch];
     
 }
@@ -54,6 +52,7 @@
     [super viewDidLayoutSubviews];
     [self setMaskToBackView];
 }
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.searchTextField resignFirstResponder];
     [self.resultTextField resignFirstResponder];
@@ -63,68 +62,41 @@
 #pragma mark - Actions
 - (IBAction)presentHistoryVC:(id)sender {
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    float size = self.view.frame.size.width / 3.0;
-    flowLayout.itemSize = CGSizeMake(size, size);
-    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     SMKHistoryCollectionViewController *vc = [[SMKHistoryCollectionViewController alloc] initWithCollectionViewLayout:flowLayout];
+    vc.historyData = self.historyData;
     [self presentViewController:vc animated:YES completion:nil];
 }
 - (void)ssearch{
     self.resultTextField.text = @"";
     NSString *url = [UIPasteboard generalPasteboard].string;
-    NSLog(@"%@", url);
-    self.searchTextField.text = @"";
+    self.searchTextField.text = url;
     if ([SMKTransferingSong isSuitableLink:url]) {
         [self.indicatorView startAnimating];
         
-        [self.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSString *str) {
+        [self.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSDictionary *dict) {
             // fill text field
             // put back link in UIPasteboard
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self succesfullLink:str];
+                [self succesfullLink:dict sourceLink:url];
             });
         } withFailureBlock:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self failureWithLink];
             });
-            
-
         }];
     } else {
         NSLog(@"Bad Link");
         [self.indicatorView stopAnimating];
     }
 }
-- (IBAction)search:(id)sender {
-    
-    self.resultTextField.text = @"";
-    NSString *url = self.searchTextField.text;
-    self.searchTextField.text = @"";
-    if ([SMKTransferingSong isSuitableLink:url]) {
-        [self.indicatorView startAnimating];
-        
-        [self.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSString *str) {
-            // fill text field
-            // put back link in UIPasteboard
-            // stop animation
-            [self succesfullLink:str];
-        } withFailureBlock:^{
-            // stop animation
-            // alert with fail
-            [self failureWithLink];
-        }];
-    } else {
-        // bad link
-    }
-    
-}
 
 #pragma mark - success/fail
-- (void)succesfullLink:(NSString *)url{
-    self.resultTextField.text = url;
+- (void)succesfullLink:(NSDictionary *)dict sourceLink:(NSString *)link{
+    self.resultTextField.text = [dict objectForKey:@"url"];
     [self.indicatorView stopAnimating];
-    [self pasteToPasteboard:url];
+    [self pasteToPasteboard:self.resultTextField.text];
     [self setMessageForSuccessAlert];
+    [self.historyData addSongWithDict:[self prepareDictWith:dict sourceLink:link]];
     [self presentViewController:self.alertController animated:YES completion:nil];
 }
 - (void)failureWithLink {
@@ -132,6 +104,25 @@
     [self.indicatorView stopAnimating];
     [self setMessageForWrongLink];
     [self presentViewController:self.alertController animated:YES completion:nil];
+}
+
+#pragma mark - Prerare dict for crearitn history 
+- (NSDictionary *)prepareDictWith:(NSDictionary *)dict sourceLink:(NSString *)link {
+    NSString *spotifyLink;
+    NSString *appleMusicLink;
+    if ([SMKTransferingSong isAppleMusicLink:link]) {
+        appleMusicLink = link;
+        spotifyLink = [dict objectForKey:@"url"];
+    } else {
+        spotifyLink = link;
+        appleMusicLink = [dict objectForKey:@"url"];
+    }
+    NSString *title = [dict objectForKey:@"title"];
+    NSString *artist = [dict objectForKey:@"artist"];
+    NSString *imgLink = [dict objectForKey:@"imgLink"];
+    
+    NSDictionary *songData = [[NSDictionary alloc] initWithObjectsAndKeys:appleMusicLink,@"appleLink", spotifyLink, @"spotifyLink",title, @"title", artist, @"artist", imgLink, @"imgLink",nil];
+    return songData;
 }
 
 #pragma mark - Prepare view
@@ -183,7 +174,7 @@
     
     [path moveToPoint:CGPointMake(0, 0)];
     [path addLineToPoint:CGPointMake(maskRect.size.width, 0)];
-    [path addLineToPoint:CGPointMake(maskRect.size.width, 321)];
+    [path addLineToPoint:CGPointMake(maskRect.size.width, maskRect.size.height*0.737)];
     [path addLineToPoint:CGPointMake(0, maskRect.size.height)];
     [path addLineToPoint:CGPointMake(0, 0)];
     [path closePath];

@@ -75,7 +75,7 @@
                                     <constraint firstAttribute="height" constant="19.5" id="Tqz-oG-r8b"/>
                                     <constraint firstAttribute="width" constant="36" id="nzr-L6-T0O"/>
                                 </constraints>
-                                <state key="normal" image="b.png"/>
+                                <state key="normal" image="up.png"/>
                                 <connections>
                                     <action selector="presentHistoryVC:" destination="BYZ-38-t0r" eventType="touchUpInside" id="M3y-ei-LQu"/>
                                 </connections>
@@ -130,7 +130,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="b.png" width="183" height="102"/>
         <image name="logo.png" width="435" height="477"/>
+        <image name="up.png" width="183" height="102"/>
     </resources>
 </document>

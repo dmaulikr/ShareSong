@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class SMKSong;
 @interface SMKHistoryData : NSObject
+
+- (void)addSongWithDict:(NSDictionary *)data;
+- (SMKSong*)songAtIndex:(NSUInteger)index;
+- (NSInteger)countOfSongs;
 
 @end

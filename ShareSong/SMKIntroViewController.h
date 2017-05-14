@@ -11,4 +11,5 @@
 @interface SMKIntroViewController : UIViewController
 @property (nonatomic) UIImageView *logo;
 
+
 @end

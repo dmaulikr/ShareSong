@@ -13,7 +13,7 @@
     return YES;
 }
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    ViewController *vc = (ViewController *)self.window.rootViewController;
+    ViewController *vc = (ViewController *)self.window.rootViewController.presentedViewController;
     [vc ssearch];
 }
 

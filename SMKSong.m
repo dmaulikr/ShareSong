@@ -12,23 +12,24 @@
 @interface SMKSong()
 
 @property (nonatomic) UIImage *img;
-@property (nonatomic) NSString *title;
-@property (nonatomic) NSString *artist;
-@property (nonatomic) NSString *spotifyLink;
-@property (nonatomic) NSString *appleMusicLink;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *artist;
+@property (nonatomic, copy) NSString *spotifyLink;
+@property (nonatomic, copy) NSString *appleMusicLink;
 
 @end
 
 @implementation SMKSong
 
 - (instancetype)initWithTitle:(NSString*)title artist:(NSString *)artist
-                   albumCover:(UIImage *)img spotifyLink:(NSString *)spotifylink appleMusicLink:(NSString *)appleMusicLink {
-    if (self = [super init]) {
+                   albumCover:(UIImage *)img spotifyLink:(NSString *)spotifyLink appleMusicLink:(NSString *)appleMusicLink {
+    self = [super init];
+    if (self) {
         self.title = title;
         self.artist = artist;
-        self.img = img;
-        self.spotifyLink = spotifylink;
+        self.spotifyLink = spotifyLink;
         self.appleMusicLink = appleMusicLink;
+        self.img = img;
     }
     return self;
 }
@@ -37,16 +38,19 @@
     return self.img;
 }
 - (NSString *)title {
-    return self.title;
+    return _title;
 }
 - (NSString *)artist {
-    return self.artist;
+    return _artist;
 }
 - (NSString *)spotifyLink {
-    return self.spotifyLink;
+    return _spotifyLink;
 }
 - (NSString *)appleMusicLink {
-    return self.appleMusicLink;
+    return _appleMusicLink;
+}
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Title: %@\nArtist: %@\nSpotLink: %@\nAppMLink: %@\nImg: %@", self.title, self.artist, self.spotifyLink, self.appleMusicLink, self.img];
 }
 
 @end

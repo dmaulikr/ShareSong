@@ -5,7 +5,7 @@
 //  Created by Vo1 on 18/04/2017.
 //  Copyright © 2017 Samoilenko Volodymyr. All rights reserved.
 //
-// Use -stringByAddingPercentEncodingWithAllowedCharacters: instead, which always uses the recommended UTF-8 encoding, and which encodes for a specific URL component or subcomponent since each URL component or subcomponent has different rules for what characters are valid.
+
 #import "SpotifySearch.h"
 
 @implementation SpotifySearch
@@ -13,18 +13,18 @@ NSString *spotifYURLSearchWithTrackID = @"https://api.spotify.com/v1/tracks/";
 NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
 
 #pragma mark - download Data
-+ (void)makeDataTaskWithTemp:(NSString *)temp withBlock:(void(^)(NSString *url, BOOL success, NSError *error))block {
++ (void)makeDataTaskWithTemp:(NSString *)temp withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block {
     
     NSString *encodeTemp = [temp stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@q=%@&type=track,artist&limit=1",spotifYURLSearchWithTemp, encodeTemp]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@q=%@&type=track&limit=1",spotifYURLSearchWithTemp, encodeTemp]];
 
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             if ([SpotifySearch checkIfValidJSON:json]) {
-                NSString *url = [SpotifySearch parseJSONAndGetURL:json];
-                block(url,true, nil);
+                NSDictionary *dict = [SpotifySearch parseJSON:json];
+                block(dict,true, nil);
             } else {
                 block(nil,false, error);
             }
@@ -49,6 +49,14 @@ NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
     }] resume];
 }
 #pragma  mark - Parce methods
++ (NSDictionary *)parseJSON:(NSDictionary *)json {
+    NSString *url = [[[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"external_urls"] objectForKey:@"spotify"];
+    NSString *title = [[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"name"];
+    NSString *artist = [[[[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"artists"] objectAtIndex:0] objectForKey:@"name"];
+    NSString *urlWithImg = [[[[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"album"] objectForKey:@"images"] objectAtIndex:1];
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:@[title,artist,url,urlWithImg] forKeys:@[@"title",@"artist",@"url",@"imgLink"]];
+    return dict;
+}
 + (NSString *)parseJSONAndGetTerms:(NSDictionary *)dict {
     NSString *title = [dict objectForKey:@"name"];
     NSString *artist = [[[dict objectForKey:@"artists"] objectAtIndex:0] objectForKey:@"name"];
@@ -57,10 +65,6 @@ NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
     artist = [artist stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     NSString *term = [NSString stringWithFormat:@"%@+%@", title,artist];
     return term;
-}
-+ (NSString *)parseJSONAndGetURL:(NSDictionary *)dict {
-    NSString *url = [[[[[dict objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"external_urls"] objectForKey:@"spotify"];
-    return url;
 }
 + (NSString *)parseURLToGetTrackId:(NSString *)str {
     NSString *qwe = @"https://open.spotify.com/track/";
