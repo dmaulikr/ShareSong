@@ -17,9 +17,28 @@
 
 @implementation SMKHistoryData
 
++ (instancetype)sharedData {
+    static SMKHistoryData *sharedData = nil;
+    if (!sharedData) {
+        sharedData = [[self alloc] initPrivate];
+    }
+    return sharedData;
+}
+
+
+
 - (instancetype)init {
+    @throw [NSException exceptionWithName:@"Singleton" reason:@"Use +[SMKHistoryData sharedData]" userInfo:nil];
+    return nil;
+}
+
+- (instancetype)initPrivate {
     if (self = [super init]) {
-        self.songs = [[NSMutableArray alloc] init];
+        NSString *path = [self songArchivePath];
+        self.songs = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+        if (!self.songs) {
+            self.songs = [[NSMutableArray alloc] init];
+        }
     }
     return self;
 }
@@ -46,4 +65,16 @@
     }
     [self.songs insertObject:song atIndex:0];
 }
+
+- (NSString *)songArchivePath {
+    NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [documentDirectories firstObject];
+    return [documentDirectory stringByAppendingPathComponent:@"songs.archive"];
+}
+
+- (BOOL)saveChanges {
+    NSString *path = [self songArchivePath];
+    return [NSKeyedArchiver archiveRootObject:self.songs toFile:path];
+}
+
 @end

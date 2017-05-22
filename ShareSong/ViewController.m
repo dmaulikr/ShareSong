@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  SpeakerAlarm
+// ShareSong
 //
 //  Created by Vo1 on 18/04/2017.
 //  Copyright © 2017 Samoilenko Volodymyr. All rights reserved.
@@ -30,7 +30,6 @@
 @property (nonatomic) NSString *fronteStoreId;
 
 @property (nonatomic) SMKTransferingSong *transferManager;
-@property (nonatomic) SMKHistoryData *historyData;
 
 @end
 
@@ -39,15 +38,12 @@
 #pragma mark - LifeCycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.historyData = [[SMKHistoryData alloc] init];
     self.transferManager = [[SMKTransferingSong alloc] init];
     [self prepareView];
     
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self search];
-    
 }
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
@@ -64,22 +60,17 @@
 - (IBAction)presentHistoryVC:(id)sender {
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     SMKHistoryCollectionViewController *vc = [[SMKHistoryCollectionViewController alloc] initWithCollectionViewLayout:flowLayout];
-    vc.historyData = self.historyData;
     [self presentViewController:vc animated:YES completion:nil];
 }
 - (void)search{
     self.resultTextField.text = @"";
     NSString *url = [UIPasteboard generalPasteboard].string;
-    if ([self.historyData countOfSongs]!= 0 && [self.historyData isMemberWithLink:url]) {
-        return;
-    }
+    
     self.searchTextField.text = url;
     if ([SMKTransferingSong isSuitableLink:url]) {
         [self.indicatorView startAnimating];
         
         [self.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSDictionary *dict) {
-            // fill text field
-            // put back link in UIPasteboard
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self succesfullLink:dict sourceLink:url];
             });
@@ -89,7 +80,7 @@
             });
         }];
     } else {
-        NSLog(@"Bad Link");
+        [self failureWithLink];
         [self.indicatorView stopAnimating];
     }
 }
@@ -100,7 +91,9 @@
     [self.indicatorView stopAnimating];
     [self pasteToPasteboard:self.resultTextField.text];
     [self setMessageForSuccessAlert];
-    [self.historyData addSongWithDict:[self prepareDictWith:dict sourceLink:link]];
+    if (![[SMKHistoryData sharedData] isMemberWithLink:link]) {
+        [[SMKHistoryData sharedData] addSongWithDict:[self prepareDictWith:dict sourceLink:link]];
+    }
     [self presentViewController:self.alertController animated:YES completion:nil];
 }
 - (void)failureWithLink {
@@ -164,6 +157,7 @@
     [self.alertController setTitle:tittle];
     [self.alertController setMessage:@"You link to the song now in clipboard. Just send it"];
 }
+
 - (NSString *)getEmoji:(NSString *)str {
     NSData *data = [str dataUsingEncoding:NSNonLossyASCIIStringEncoding];
     NSString *valueUnicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

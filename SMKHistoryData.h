@@ -10,9 +10,11 @@
 @class SMKSong;
 @interface SMKHistoryData : NSObject
 
++ (instancetype)sharedData;
+
 - (void)addSongWithDict:(NSDictionary *)data;
 - (SMKSong*)songAtIndex:(NSUInteger)index;
 - (NSInteger)countOfSongs;
 - (BOOL)isMemberWithLink:(NSString *)link;
-
+- (BOOL)saveChanges;
 @end

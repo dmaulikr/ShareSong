@@ -1,6 +1,6 @@
 //
 //  SMKIntroViewController.m
-//  constrains
+//  ShareSong
 //
 //  Created by Vo1 on 01/05/2017.
 //  Copyright © 2017 Samoilenko Volodymyr. All rights reserved.

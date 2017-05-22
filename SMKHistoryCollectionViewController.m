@@ -34,13 +34,13 @@
     return 1;
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.historyData countOfSongs];
+    return [[SMKHistoryData sharedData] countOfSongs];
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SMKHistoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([SMKHistoryCollectionViewCell class]) forIndexPath:indexPath];
     
     NSInteger index = indexPath.item;
-    SMKSong *song = [self.historyData songAtIndex:index];
+    SMKSong *song = [[SMKHistoryData sharedData] songAtIndex:index];
     cell.img.image = [song albumCover];
     cell.titleLabel.text = [song title];
     cell.artistLabel.text = [song artist];

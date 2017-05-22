@@ -60,6 +60,7 @@
                 }
             }];
         } else {
+            failureBlock();
             NSLog(@"%@", error);
         }
     }];

@@ -78,8 +78,8 @@
 		E7993B321EBA926C0028B276 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7993B351EBA926C0028B276 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E7993B371EBA926C0028B276 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E7993B3E1EBA92C70028B276 /* SMKTransferingSong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMKTransferingSong.h; path = ../SMKTransferingSong.h; sourceTree = "<group>"; };
-		E7993B3F1EBA92C70028B276 /* SMKTransferingSong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMKTransferingSong.m; path = ../SMKTransferingSong.m; sourceTree = "<group>"; };
+		E7993B3E1EBA92C70028B276 /* SMKTransferingSong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKTransferingSong.h; sourceTree = "<group>"; };
+		E7993B3F1EBA92C70028B276 /* SMKTransferingSong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKTransferingSong.m; sourceTree = "<group>"; };
 		E7993B411EBA92ED0028B276 /* AppleMusicSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleMusicSearch.h; sourceTree = "<group>"; };
 		E7993B421EBA92ED0028B276 /* AppleMusicSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleMusicSearch.m; sourceTree = "<group>"; };
 		E7993B441EBA93240028B276 /* SpotifySearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpotifySearch.h; sourceTree = "<group>"; };
@@ -119,6 +119,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E759F05C1ED3972F00E5B44D /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				E7993B291EBA926C0028B276 /* AppDelegate.h */,
+				E7993B2A1EBA926C0028B276 /* AppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		E759F05D1ED399F900E5B44D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E7C5AA411EC8A793006FB610 /* ViewCell */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		E764C96C1EBA976B00625D9E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,12 +177,12 @@
 		E7993B251EBA926C0028B276 /* ShareSong */ = {
 			isa = PBXGroup;
 			children = (
-				E7993B3E1EBA92C70028B276 /* SMKTransferingSong.h */,
-				E7993B3F1EBA92C70028B276 /* SMKTransferingSong.m */,
 				E79BDB6D1EC79D5A006F1AA5 /* Data */,
 				E7993B4B1EBA93970028B276 /* Animator */,
 				E7993B471EBA934A0028B276 /* Model */,
 				E7993B3D1EBA92A50028B276 /* ViewController */,
+				E759F05C1ED3972F00E5B44D /* AppDelegate */,
+				E759F05D1ED399F900E5B44D /* View */,
 				E7993B2F1EBA926C0028B276 /* Main.storyboard */,
 				E7993B321EBA926C0028B276 /* Assets.xcassets */,
 				E7993B341EBA926C0028B276 /* LaunchScreen.storyboard */,
@@ -181,8 +198,6 @@
 				E75D135B1EC900DD0046429D /* up.png */,
 				E79BDB601EC786AB006F1AA5 /* down.png */,
 				E764C9651EBA946C00625D9E /* logo.png */,
-				E7993B291EBA926C0028B276 /* AppDelegate.h */,
-				E7993B2A1EBA926C0028B276 /* AppDelegate.m */,
 				E7993B271EBA926C0028B276 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -197,7 +212,6 @@
 				E7993B4D1EBA93C60028B276 /* SMKIntroViewController.m */,
 				E79BDB651EC791C0006F1AA5 /* SMKHistoryCollectionViewController.h */,
 				E79BDB661EC791C0006F1AA5 /* SMKHistoryCollectionViewController.m */,
-				E7C5AA411EC8A793006FB610 /* ViewCell */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -205,6 +219,8 @@
 		E7993B471EBA934A0028B276 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E7993B3E1EBA92C70028B276 /* SMKTransferingSong.h */,
+				E7993B3F1EBA92C70028B276 /* SMKTransferingSong.m */,
 				E7993B411EBA92ED0028B276 /* AppleMusicSearch.h */,
 				E7993B421EBA92ED0028B276 /* AppleMusicSearch.m */,
 				E7993B441EBA93240028B276 /* SpotifySearch.h */,

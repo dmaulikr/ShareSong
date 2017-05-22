@@ -67,8 +67,8 @@ NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
     return term;
 }
 + (NSString *)parseURLToGetTrackId:(NSString *)str {
-    NSString *qwe = @"https://open.spotify.com/track/";
-    NSString *trackId = [str substringFromIndex:[qwe length]];
+    NSString *url = @"https://open.spotify.com/track/";
+    NSString *trackId = [str substringFromIndex:[url length]];
     return trackId;
 }
 #pragma  mark - Check JSON/Link methods

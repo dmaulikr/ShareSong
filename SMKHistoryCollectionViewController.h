@@ -10,6 +10,5 @@
 #import "SMKHistoryData.h"
 
 @interface SMKHistoryCollectionViewController : UICollectionViewController
-@property (nonatomic, weak) SMKHistoryData *historyData;
 
 @end
