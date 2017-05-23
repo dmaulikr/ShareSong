@@ -13,6 +13,15 @@
 
 @interface SMKHistoryCollectionViewController ()
 @property (nonatomic) UIButton *backButton;
+@property (nonatomic) UIVisualEffectView *blurView;
+
+@property (nonatomic) UIImageView *coverAlbumView;
+@property (nonatomic,copy) NSString *songTitle;
+@property (nonatomic,copy) NSString *songArtist;
+
+@property (nonatomic) UIButton *spotifyLinkToCLipboardButton;
+@property (nonatomic) UIButton *appleMusicLinkToCLipboardButton;
+
 
 @end
 
@@ -22,9 +31,7 @@
     [super viewDidLoad];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-    
     [self prepareView];
-    
     [self.collectionView registerNib:[UINib nibWithNibName:@"SMKHistoryCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:NSStringFromClass([SMKHistoryCollectionViewCell class])];
 }
 
@@ -54,22 +61,31 @@
 
 #pragma mark - <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self addBlurToForeground];
     
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    if ([touch view] == self.blurView) {
+        [self hideBlurForeground];
+    }
 }
 
 #pragma mark - settings for cells/collectionView/view
-
 - (void)prepareView {
     [self setBackgroundColor];
     [self preparePaggingFromTop];
     [self prepareCollectionViewFlowLayout];
     [self prepareBackButton];
+    [self prepareBlurVisualEffectView];
 }
-- (void)prepareBackButton {
-    self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.center.x-18, 25.5, 36, 19.5)];
-    [self.backButton addTarget:self action:@selector(dismissVC) forControlEvents:UIControlEventTouchUpInside];
-    [self.backButton setImage:[UIImage imageNamed:@"down"] forState:UIControlStateNormal];
-    [self.view addSubview:self.backButton];
+- (void)setBackgroundColor {
+    self.collectionView.backgroundColor = [UIColor colorWithRed:235/255.0 green:239/255.0 blue:242/255.0 alpha:1.0];
+    self.view.backgroundColor = [UIColor colorWithRed:235/255.0 green:239/255.0 blue:242/255.0 alpha:1.0];
+}
+- (void)preparePaggingFromTop {
+    CGRect rect = self.collectionView.frame;
+    [self.collectionView setFrame:CGRectMake(0, 50, rect.size.width, rect.size.height)];
 }
 - (void)prepareCollectionViewFlowLayout {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
@@ -79,13 +95,38 @@
     flowLayout.minimumLineSpacing = 0.0;
     flowLayout.minimumInteritemSpacing = 0.0;
 }
-- (void)setBackgroundColor {
-    self.collectionView.backgroundColor = [UIColor colorWithRed:235/255.0 green:239/255.0 blue:242/255.0 alpha:1.0];
-    self.view.backgroundColor = [UIColor colorWithRed:235/255.0 green:239/255.0 blue:242/255.0 alpha:1.0];
+- (void)prepareBackButton {
+    self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.center.x-18, 25.5, 36, 19.5)];
+    [self.backButton addTarget:self action:@selector(dismissVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.backButton setImage:[UIImage imageNamed:@"down"] forState:UIControlStateNormal];
+    [self.view addSubview:self.backButton];
 }
-- (void)preparePaggingFromTop {
-    CGRect rect = self.collectionView.frame;
-    [self.collectionView setFrame:CGRectMake(0, 50, rect.size.width, rect.size.height)];
+- (void)prepareBlurVisualEffectView {
+    if (!UIAccessibilityIsReduceTransparencyEnabled()) {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        self.blurView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        self.blurView.frame = self.view.bounds;
+        self.blurView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    } else {
+        @throw [NSException exceptionWithName:@"UIAccessibilityIsReduceTransparencyEnabled()" reason:nil userInfo:nil];
+    }
+}
+
+#pragma makr - add/hide Blur to foreground
+
+- (void)addBlurToForeground {
+    self.blurView.layer.opacity = 0.0;
+    [self.view addSubview:self.blurView];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.blurView.layer.opacity = 1.0;
+    }];
+}
+- (void)hideBlurForeground {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.blurView.layer.opacity = 0.0;
+    } completion:^(BOOL finished) {
+        [self.blurView removeFromSuperview];
+    }];
 }
 
 @end

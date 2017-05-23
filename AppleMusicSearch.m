@@ -14,7 +14,7 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
 
 #pragma mark - download Data
 + (void)makeDataWithRequestString:(NSString *)requestString withFrontStoreID:(NSString *)frontstoreId withBlock:(void(^)(NSDictionary *dict,bool success))block {
-    if (!requestString) {return;}
+    if (!requestString) {@throw [NSException exceptionWithName:@"NO Request string" reason:@"+ (void)makeDataWithRequestString:(NSString *)requestString" userInfo:nil];}
     NSString *encodeTemp = [requestString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     NSString *prepareForURL = [NSString stringWithFormat:@"%@term=%@&entity=song&s=%@",appleMusicURLWithTermFrontStoreID,encodeTemp, frontstoreId];
     NSURL *url = [NSURL URLWithString:prepareForURL];
@@ -35,6 +35,11 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     }] resume];
 }
 #pragma mark - check/parse JSON/Link
++ (NSUInteger)findCurrentSongInJSON:(NSString *)requestString {
+    
+    
+    return 1;
+}
 + (NSString *)checkTheTitle:(NSString *)title {
     NSArray *components = [title componentsSeparatedByString:@"("];
     if ([components count]) {

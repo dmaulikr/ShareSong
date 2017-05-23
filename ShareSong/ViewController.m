@@ -69,7 +69,7 @@
     self.searchTextField.text = url;
     if ([SMKTransferingSong isSuitableLink:url]) {
         [self.indicatorView startAnimating];
-        
+        // убрать испольщование self в блоках - завикифаить)
         [self.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSDictionary *dict) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self succesfullLink:dict sourceLink:url];
@@ -124,15 +124,15 @@
 
 #pragma mark - Prepare view
 - (void)prepareView {
+    [self configureLogo];
+    [self configureTextFields];
     [self prepareIndicatorView];
     [self prepareAlertController];
-    [self prepareTextFields];
-    [self prepareLogo];
 }
-- (void)prepareLogo {
+- (void)configureLogo {
     self.logoBackgroundView.layer.cornerRadius = self.logoBackgroundView.frame.size.width/2.0;
 }
-- (void)prepareTextFields {
+- (void)configureTextFields {
     self.searchTextField.layer.cornerRadius = 5;
     self.resultTextField.layer.cornerRadius = 5;
 }
@@ -147,18 +147,18 @@
     [self.alertController addAction:actionSuccess];
 }
 - (void)setMessageForWrongLink {
-    NSString *tittle = [NSString stringWithFormat:@"Sorry, but your link is wrong. "];
-    [self.alertController setTitle:tittle];
+    NSString *title = [NSString stringWithFormat:@"Sorry, but your link is wrong. "];
+    [self.alertController setTitle:title];
     [self.alertController setMessage:@"Maybe, it's not link from your subscription country. Try again with another lunk, and be careaful"];
 }
 - (void)setMessageForSuccessAlert {
-    NSString *emoji = [self getEmoji:@"\xF0\x9F\x99\x8C"];
-    NSString *tittle = [NSString stringWithFormat:@"%@ Success %@",emoji,emoji];
-    [self.alertController setTitle:tittle];
+    NSString *emoji = [self configuredEmoji:@"\xF0\x9F\x99\x8C"];
+    NSString *title = [NSString stringWithFormat:@"%@ Success %@",emoji,emoji];
+    [self.alertController setTitle:title];
     [self.alertController setMessage:@"You link to the song now in clipboard. Just send it"];
 }
 
-- (NSString *)getEmoji:(NSString *)str {
+- (NSString *)configuredEmoji:(NSString *)str {
     NSData *data = [str dataUsingEncoding:NSNonLossyASCIIStringEncoding];
     NSString *valueUnicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSData *datta = [valueUnicode dataUsingEncoding:NSUTF8StringEncoding];
