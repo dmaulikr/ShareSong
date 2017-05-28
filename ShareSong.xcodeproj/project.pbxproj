@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E72966F01EDA13B500BC2FC2 /* SMKDoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = E72966EF1EDA13B500BC2FC2 /* SMKDoneView.m */; };
 		E75D135C1EC900DD0046429D /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = E75D135B1EC900DD0046429D /* up.png */; };
 		E75D135F1EC904980046429D /* SMKLoaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E75D135E1EC904980046429D /* SMKLoaderView.m */; };
 		E764C9661EBA946C00625D9E /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E764C9651EBA946C00625D9E /* logo.png */; };
@@ -14,6 +15,8 @@
 		E764C9721EBA976B00625D9E /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E764C9711EBA976B00625D9E /* TodayViewController.m */; };
 		E764C9751EBA976B00625D9E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E764C9731EBA976B00625D9E /* MainInterface.storyboard */; };
 		E764C9791EBA976B00625D9E /* SMKShareSongTodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E764C96B1EBA976B00625D9E /* SMKShareSongTodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E77F0FA31ED6108C0074D614 /* spotifyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E77F0FA11ED6108C0074D614 /* spotifyButton.png */; };
+		E77F0FA41ED6108C0074D614 /* appleButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E77F0FA21ED6108C0074D614 /* appleButton.png */; };
 		E7993B281EBA926C0028B276 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7993B271EBA926C0028B276 /* main.m */; };
 		E7993B2B1EBA926C0028B276 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7993B2A1EBA926C0028B276 /* AppDelegate.m */; };
 		E7993B2E1EBA926C0028B276 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7993B2D1EBA926C0028B276 /* ViewController.m */; };
@@ -58,6 +61,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E72966EE1EDA13B500BC2FC2 /* SMKDoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDoneView.h; sourceTree = "<group>"; };
+		E72966EF1EDA13B500BC2FC2 /* SMKDoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDoneView.m; sourceTree = "<group>"; };
 		E75D135B1EC900DD0046429D /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
 		E75D135D1EC904980046429D /* SMKLoaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKLoaderView.h; sourceTree = "<group>"; };
 		E75D135E1EC904980046429D /* SMKLoaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKLoaderView.m; sourceTree = "<group>"; };
@@ -68,6 +73,8 @@
 		E764C9711EBA976B00625D9E /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
 		E764C9741EBA976B00625D9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		E764C9761EBA976B00625D9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E77F0FA11ED6108C0074D614 /* spotifyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotifyButton.png; sourceTree = "<group>"; };
+		E77F0FA21ED6108C0074D614 /* appleButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appleButton.png; sourceTree = "<group>"; };
 		E7993B231EBA926C0028B276 /* ShareSong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareSong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7993B271EBA926C0028B276 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E7993B291EBA926C0028B276 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -132,6 +139,8 @@
 			isa = PBXGroup;
 			children = (
 				E7C5AA411EC8A793006FB610 /* ViewCell */,
+				E72966EE1EDA13B500BC2FC2 /* SMKDoneView.h */,
+				E72966EF1EDA13B500BC2FC2 /* SMKDoneView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -195,6 +204,8 @@
 		E7993B261EBA926C0028B276 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E77F0FA11ED6108C0074D614 /* spotifyButton.png */,
+				E77F0FA21ED6108C0074D614 /* appleButton.png */,
 				E75D135B1EC900DD0046429D /* up.png */,
 				E79BDB601EC786AB006F1AA5 /* down.png */,
 				E764C9651EBA946C00625D9E /* logo.png */,
@@ -360,9 +371,11 @@
 				E79BDB611EC786AB006F1AA5 /* down.png in Resources */,
 				E764C9661EBA946C00625D9E /* logo.png in Resources */,
 				E7993B361EBA926C0028B276 /* LaunchScreen.storyboard in Resources */,
+				E77F0FA41ED6108C0074D614 /* appleButton.png in Resources */,
 				E7993B331EBA926C0028B276 /* Assets.xcassets in Resources */,
 				E7C5AA401EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib in Resources */,
 				E75D135C1EC900DD0046429D /* up.png in Resources */,
+				E77F0FA31ED6108C0074D614 /* spotifyButton.png in Resources */,
 				E7993B311EBA926C0028B276 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -390,6 +403,7 @@
 				E7993B461EBA93240028B276 /* SpotifySearch.m in Sources */,
 				E79BDB701EC79E22006F1AA5 /* SMKSong.m in Sources */,
 				E7993B2E1EBA926C0028B276 /* ViewController.m in Sources */,
+				E72966F01EDA13B500BC2FC2 /* SMKDoneView.m in Sources */,
 				E7993B2B1EBA926C0028B276 /* AppDelegate.m in Sources */,
 				E7993B4A1EBA93820028B276 /* SMKLoadAnimator.m in Sources */,
 				E79BDB6C1EC79D48006F1AA5 /* SMKHistoryData.m in Sources */,

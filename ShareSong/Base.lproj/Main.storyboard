@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="lpT-73-7gU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="lpT-73-7gU">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -68,14 +68,13 @@
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4U-lx-310">
-                                <rect key="frame" x="142" y="538" width="36" height="19.5"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4U-lx-310">
+                                <rect key="frame" x="138" y="516" width="44" height="44"/>
                                 <color key="backgroundColor" red="0.99019607843137258" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="19.5" id="Tqz-oG-r8b"/>
-                                    <constraint firstAttribute="width" constant="36" id="nzr-L6-T0O"/>
+                                    <constraint firstAttribute="height" constant="44" id="Tqz-oG-r8b"/>
+                                    <constraint firstAttribute="width" constant="44" id="nzr-L6-T0O"/>
                                 </constraints>
-                                <state key="normal" image="up.png"/>
                                 <connections>
                                     <action selector="presentHistoryVC:" destination="BYZ-38-t0r" eventType="touchUpInside" id="M3y-ei-LQu"/>
                                 </connections>
@@ -84,9 +83,9 @@
                         <color key="backgroundColor" red="0.92156862745098034" green="0.93725490196078431" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="b4U-lx-310" firstAttribute="centerX" secondItem="g06-fl-3PG" secondAttribute="centerX" id="0RH-LI-Oxk"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="b4U-lx-310" secondAttribute="bottom" constant="10.5" id="3U9-sO-7fo"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="b4U-lx-310" secondAttribute="bottom" constant="8" id="3U9-sO-7fo"/>
                             <constraint firstItem="LEQ-oB-ji6" firstAttribute="top" secondItem="g06-fl-3PG" secondAttribute="bottom" constant="12" id="4UK-Ig-dRL"/>
-                            <constraint firstItem="b4U-lx-310" firstAttribute="top" secondItem="LEQ-oB-ji6" secondAttribute="bottom" constant="82" id="Jgo-hg-DyW"/>
+                            <constraint firstItem="b4U-lx-310" firstAttribute="top" secondItem="LEQ-oB-ji6" secondAttribute="bottom" constant="60" id="Jgo-hg-DyW"/>
                             <constraint firstItem="g06-fl-3PG" firstAttribute="height" secondItem="LEQ-oB-ji6" secondAttribute="height" id="NOb-R8-WT4"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LT6-q3-WyK" secondAttribute="bottom" constant="133" id="PxK-NT-Qzh"/>
                             <constraint firstItem="b4U-lx-310" firstAttribute="centerX" secondItem="LT6-q3-WyK" secondAttribute="centerX" id="QsV-VA-hkq"/>
@@ -131,6 +130,5 @@
     </scenes>
     <resources>
         <image name="logo.png" width="435" height="477"/>
-        <image name="up.png" width="183" height="102"/>
     </resources>
 </document>

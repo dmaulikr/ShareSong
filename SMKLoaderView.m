@@ -8,14 +8,17 @@
 
 #import "SMKLoaderView.h"
 
+@interface SMKLoaderView()
+
+@property (nonatomic) CAShapeLayer *shapeLayer;
+
+@end
+
 @implementation SMKLoaderView
 
-
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-    CGFloat x = self.center.x-50;
-    CGFloat y = self.center.y-50;
+    CGFloat x = 0;
+    CGFloat y = 0;
     //sorry god for magic numbers
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(x+43.59, y+46)];
@@ -41,24 +44,29 @@
     [path addLineToPoint:CGPointMake(x+59, y+41)];
     [path addCurveToPoint:CGPointMake(x+74, y+42) controlPoint1:CGPointMake(x+59, y+30) controlPoint2:CGPointMake(x+74, y+30)];
     
-    CAShapeLayer *layer = [CAShapeLayer layer];
-    layer.strokeColor = [UIColor whiteColor].CGColor;
-    layer.lineWidth = 2.0;
-    layer.path = path.CGPath;
-    [layer setFillColor:[UIColor clearColor].CGColor];
+    self.shapeLayer = [CAShapeLayer layer];
+    self.shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
+    self.shapeLayer.lineWidth = 2.0;
+    self.shapeLayer.path = path.CGPath;
+    [self.shapeLayer setFillColor:[UIColor clearColor].CGColor];
     
-    [self.layer addSublayer:layer];
-    
-    layer.strokeStart = 0.0;
+    [self.layer addSublayer:self.shapeLayer];
+}
+
+- (void)startAnimating {
     
     CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     [anim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    
+    self.shapeLayer.strokeStart = 0.0;
     anim.duration = 2.0;
     anim.fromValue = @(0.0);
     anim.toValue = @(1.0);
-        anim.repeatCount = HUGE_VAL;
-    [layer addAnimation:anim forKey:@"anim"];
+    anim.repeatCount = 1;
+
+    [self.shapeLayer addAnimation:anim forKey:@"anim"];
+}
+- (void)stopAnimating {
+    [self.shapeLayer removeAllAnimations];
 }
 
 

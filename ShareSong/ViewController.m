@@ -29,6 +29,8 @@
 @property (nonatomic) UIAlertController *alertController;
 @property (nonatomic) NSString *fronteStoreId;
 
+@property (nonatomic) SMKLoaderView *animationView;
+
 @property (nonatomic) SMKTransferingSong *transferManager;
 
 @end
@@ -40,20 +42,20 @@
     [super viewDidLoad];
     self.transferManager = [[SMKTransferingSong alloc] init];
     [self prepareView];
-    
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self search];
 }
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [self setMaskToBackView];
 }
 
+#pragma mark - Touches
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.searchTextField resignFirstResponder];
     [self.resultTextField resignFirstResponder];
-    
 }
 
 #pragma mark - Actions
@@ -67,28 +69,30 @@
     NSString *url = [UIPasteboard generalPasteboard].string;
     
     self.searchTextField.text = url;
+    __weak ViewController* weakViewController = self;
     if ([SMKTransferingSong isSuitableLink:url]) {
-        [self.indicatorView startAnimating];
-        // убрать испольщование self в блоках - завикифаить)
-        [self.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSDictionary *dict) {
+//        [self.indicatorView startAnimating];
+        
+        [weakViewController.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSDictionary *dict) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self succesfullLink:dict sourceLink:url];
+                [weakViewController succesfullLink:dict sourceLink:url];
             });
         } withFailureBlock:^{
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self failureWithLink];
+                [weakViewController failureWithLink];
             });
         }];
     } else {
-        [self failureWithLink];
-        [self.indicatorView stopAnimating];
+        [weakViewController failureWithLink];
+//        [self.indicatorView stopAnimating];
+//        self.animationView.hidden = YES;
     }
 }
 
 #pragma mark - success/fail
 - (void)succesfullLink:(NSDictionary *)dict sourceLink:(NSString *)link{
     self.resultTextField.text = [dict objectForKey:@"url"];
-    [self.indicatorView stopAnimating];
+
     [self pasteToPasteboard:self.resultTextField.text];
     [self setMessageForSuccessAlert];
     if (![[SMKHistoryData sharedData] isMemberWithLink:link]) {
@@ -98,7 +102,7 @@
 }
 - (void)failureWithLink {
     self.resultTextField.text = @"";
-    [self.indicatorView stopAnimating];
+
     [self setMessageForWrongLink];
     [self presentViewController:self.alertController animated:YES completion:nil];
 }
@@ -128,6 +132,7 @@
     [self configureTextFields];
     [self prepareIndicatorView];
     [self prepareAlertController];
+    [self setImageForHistoryButton];
 }
 - (void)configureLogo {
     self.logoBackgroundView.layer.cornerRadius = self.logoBackgroundView.frame.size.width/2.0;
@@ -146,6 +151,17 @@
     UIAlertAction *actionSuccess = [UIAlertAction actionWithTitle:@"Daaamn" style:UIAlertActionStyleCancel handler:nil];
     [self.alertController addAction:actionSuccess];
 }
+- (void)setImageForHistoryButton {
+    [self.historyButton setImage:[UIImage imageNamed:@"up"] forState:UIControlStateNormal];
+    
+    self.historyButton.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.historyButton.imageView.heightAnchor constraintEqualToConstant:22].active = YES;
+    [self.historyButton.imageView.widthAnchor constraintEqualToConstant:36].active = YES;
+    [self.historyButton.imageView.centerXAnchor constraintEqualToAnchor:self.historyButton.centerXAnchor].active = YES;
+    [self.historyButton.imageView.centerYAnchor constraintEqualToAnchor:self.historyButton.centerYAnchor].active = YES;
+    
+    
+}
 - (void)setMessageForWrongLink {
     NSString *title = [NSString stringWithFormat:@"Sorry, but your link is wrong. "];
     [self.alertController setTitle:title];
@@ -157,7 +173,6 @@
     [self.alertController setTitle:title];
     [self.alertController setMessage:@"You link to the song now in clipboard. Just send it"];
 }
-
 - (NSString *)configuredEmoji:(NSString *)str {
     NSData *data = [str dataUsingEncoding:NSNonLossyASCIIStringEncoding];
     NSString *valueUnicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

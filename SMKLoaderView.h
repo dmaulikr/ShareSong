@@ -10,4 +10,8 @@
 
 @interface SMKLoaderView : UIView
 
+//- (void)startAnimating;
+- (void)startAnimating;
+- (void)stopAnimating;
+
 @end

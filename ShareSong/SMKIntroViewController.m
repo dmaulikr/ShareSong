@@ -20,14 +20,14 @@
     
     [super viewDidLoad];
     self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]];
+    self.logo.translatesAutoresizingMaskIntoConstraints = false;
     
-    //вместо фреймов используй NSLayoutAnchor:
-    //self.logo.translatesAutoresizingMaskIntoConstraints = false;
-    //[self.logo.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:100];
-    
-    [self.logo setFrame:CGRectMake(133, 254, 54, 60)];
-    self.logo.center = self.view.center;
     [self.view addSubview:self.logo];
+    
+    [self.logo.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
+    [self.logo.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
+    [self.logo.widthAnchor constraintEqualToConstant:54].active = YES;
+    [self.logo.heightAnchor constraintEqualToConstant:60].active = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
