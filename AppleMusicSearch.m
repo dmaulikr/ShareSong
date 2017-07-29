@@ -142,7 +142,7 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     
     [library addItemWithProductID:[AppleMusicSearch parseURLforProductId:link] completionHandler:^(NSArray<__kindof MPMediaEntity *> * _Nonnull entities, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"%@\n%s", error, __FUNCTION__);
+            @throw [NSException exceptionWithName:error.localizedDescription reason:error.domain userInfo:error.userInfo];
         } else {
             if ([entities count]) {
                 MPMediaItem *item = [entities lastObject];

@@ -81,11 +81,9 @@
     [self prepareForegroundAfterDidSelectItem];
 }
 - (void)setBackgroundColor {
-    self.collectionView.backgroundColor = [UIColor colorWithRed:235/255.0 green:239/255.0 blue:242/255.0 alpha:1.0];
-    self.view.backgroundColor = [UIColor colorWithRed:235/255.0 green:239/255.0 blue:242/255.0 alpha:1.0];
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor whiteColor];
 }
-
-
 - (void)prepareCollectionViewFlowLayout {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
     float size = self.view.frame.size.width / 3.0;
@@ -182,10 +180,6 @@
     }
     
     [self dismissVC];
-    
-    
-    
-    
 }
 
 #pragma mark - add/hide Blur to foreground
@@ -216,23 +210,23 @@
     [self.coverAlbumView.centerXAnchor constraintEqualToAnchor:margin.centerXAnchor].active = YES;
     [self.coverAlbumView.heightAnchor constraintEqualToAnchor:self.coverAlbumView.widthAnchor multiplier:1.0].active = YES;
     
-    [self.titleLabel.topAnchor constraintEqualToAnchor:self.coverAlbumView.bottomAnchor constant:70].active = YES;
+    [self.titleLabel.topAnchor constraintEqualToAnchor:self.coverAlbumView.bottomAnchor constant:60].active = YES;
     [self.titleLabel.centerXAnchor constraintEqualToAnchor:self.coverAlbumView.centerXAnchor].active = YES;
     [self.titleLabel.leftAnchor constraintGreaterThanOrEqualToAnchor:margin.leftAnchor].active = YES;
     [self.titleLabel.rightAnchor constraintLessThanOrEqualToAnchor:margin.rightAnchor].active = YES;
     
     [self.artistLabel.topAnchor constraintEqualToAnchor:self.titleLabel.bottomAnchor constant:20].active = YES;
     [self.artistLabel.centerXAnchor constraintEqualToAnchor:self.titleLabel.centerXAnchor].active = YES;
-    
+
     [self.appleMusicLinkToPasteboardButton.heightAnchor constraintEqualToConstant:50].active = YES;
     [self.appleMusicLinkToPasteboardButton.widthAnchor constraintEqualToConstant:50].active = YES;
     [self.appleMusicLinkToPasteboardButton.bottomAnchor constraintEqualToAnchor:margin.bottomAnchor constant:-100].active = YES;
-    [self.appleMusicLinkToPasteboardButton.leftAnchor constraintEqualToAnchor:self.coverAlbumView.leftAnchor constant:50].active = YES;
-
+    [self.appleMusicLinkToPasteboardButton.rightAnchor constraintGreaterThanOrEqualToAnchor:self.coverAlbumView.centerXAnchor constant:-25].active = YES;
+    
     [self.spotifyLinkToPasteboardButton.heightAnchor constraintEqualToConstant:50].active = YES;
     [self.spotifyLinkToPasteboardButton.widthAnchor constraintEqualToConstant:50].active = YES;
     [self.spotifyLinkToPasteboardButton.bottomAnchor constraintEqualToAnchor:margin.bottomAnchor constant:-100].active = YES;
-    [self.spotifyLinkToPasteboardButton.rightAnchor constraintEqualToAnchor:self.coverAlbumView.rightAnchor constant:-50].active = YES;
+    [self.spotifyLinkToPasteboardButton.leftAnchor constraintLessThanOrEqualToAnchor:self.coverAlbumView.centerXAnchor constant:+25].active = YES;
 }
 
 #pragma mark - add/hide Buttons and Img to foreground

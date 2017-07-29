@@ -7,32 +7,47 @@
 //
 
 #import "SpotifySearch.h"
+#import "SMKTransferingSong.h"
 
 @implementation SpotifySearch
 NSString *spotifYURLSearchWithTrackID = @"https://api.spotify.com/v1/tracks/";
 NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
+NSString *clientId = @"2bf098647b36471489e3575763ee7661";
+NSString *clientSecret = @"14fba0da45374793b66b9dbf5e0ea7d4";
 
 #pragma mark - download Data
-+ (void)makeDataTaskWithTemp:(NSDictionary *)temp withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block {
++ (void)makeDataTaskWithTemp:(NSDictionary *)temp withToken:(NSDictionary *)tokenData withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block {
     
     NSString *artist = [temp objectForKey:@"artist"];
     NSString *title = [temp objectForKey:@"title"];
-    
     NSString *encodeArtist = [artist stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     NSString *encodeTitle = [title stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@q=%@+%@&type=track&limit=20",spotifYURLSearchWithTemp, encodeTitle, encodeArtist]];
     
+    NSMutableURLRequest *request = [SpotifySearch configureRequestForDataTaskWith:url withToken:tokenData];
+    
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            
+            if ([json objectForKey:@"error"]) {
+                [SpotifySearch spotifyToken:^(NSDictionary *token) {
+                    [SMKTransferingSong sharedTransfer].tokenData = token;
+                    [SpotifySearch makeDataTaskWithTemp:temp withToken:[SMKTransferingSong sharedTransfer].tokenData withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
+                        block(dict,success,error);
+                    }];
+                }];
+                return;
+            }
+            
             if ([SpotifySearch checkIfValidJSON:json]) {
                 NSDictionary *dict = [SpotifySearch parseJSON:json];
                 
                 block(dict,true, nil);
             } else {
-                [SpotifySearch retryRequestWithTitle:title withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
+                [SpotifySearch retryRequestWithTitle:title withToken:tokenData withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
                     block(dict,success,error);
                 }];
             }
@@ -41,21 +56,22 @@ NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
         }
     }] resume];
 }
-+ (void)retryRequestWithTitle:(NSString *)songTitle withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block {
++ (void)retryRequestWithTitle:(NSString *)songTitle withToken:(NSDictionary *)tokenData withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block {
     NSString *title = songTitle;
     NSString *encodeTitle = [title stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@q=%@&type=track&limit=20",spotifYURLSearchWithTemp, encodeTitle]];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSMutableURLRequest *request = [SpotifySearch configureRequestForDataTaskWith:url withToken:tokenData];
     
-    [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         if (!error) {
             if ([SpotifySearch checkIfValidJSON:json]) {
                 NSDictionary *dict = [SpotifySearch parseJSON:json];
                 block(dict,true, nil);
             } else {
-                [self retryRequestWithShortTitle:[SpotifySearch removeScopesFromTitle:title] withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
+                [self retryRequestWithShortTitle:[SpotifySearch removeScopesFromTitle:title] withToken:tokenData withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
                     block(dict,success,error);
                 }];
             }
@@ -64,14 +80,14 @@ NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
         }
     }] resume];
 }
-+ (void)retryRequestWithShortTitle:(NSString *)songTitle withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block {
++ (void)retryRequestWithShortTitle:(NSString *)songTitle withToken:(NSDictionary *)tokenData withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block {
     NSString *title = songTitle;
     NSString *encodeTitle = [title stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@q=%@&type=track&limit=20",spotifYURLSearchWithTemp, encodeTitle]];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSMutableURLRequest *request = [SpotifySearch configureRequestForDataTaskWith:url withToken:tokenData];
+    [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         if (!error) {
             if ([SpotifySearch checkIfValidJSON:json]) {
@@ -87,19 +103,75 @@ NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
 }
 
 #pragma mark - Get song's info from track ID
-+ (void)makeDataTaskWithTrackId:(NSString *)trackId withBlock:(void(^)(NSDictionary *terms, bool success, NSError *error))block {
++ (void)makeDataTaskWithTrackId:(NSString *)trackId withToken:(NSDictionary *)tokenData withBlock:(void(^)(NSDictionary *terms, BOOL success, NSError *error))block {
     NSString *prepareForUrl = [NSString stringWithFormat:@"%@%@",spotifYURLSearchWithTrackID, trackId];
     NSURL *url = [NSURL URLWithString:prepareForUrl];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSMutableURLRequest *request = [SpotifySearch configureRequestForDataTaskWith:url withToken:tokenData];
+    [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            
+            if ([json objectForKey:@"error"]) {
+                [SpotifySearch spotifyToken:^(NSDictionary *token) {
+                    [SMKTransferingSong sharedTransfer].tokenData = token;
+                    [SpotifySearch makeDataTaskWithTrackId:trackId withToken:[SMKTransferingSong sharedTransfer].tokenData withBlock:^(NSDictionary *terms, BOOL success, NSError *error) {
+                        block(terms,success,error);
+                    }];
+                }];
+                return;
+            }
             NSDictionary *terms = [SpotifySearch parseJSONAndGetTerms:json];
-            block(terms,1,nil);
+            block(terms,YES,error);
         } else {
             @throw [NSException exceptionWithName:@"makeDataTaskWithTrackId" reason:error.localizedDescription userInfo:error.userInfo];
         }
     }] resume];
+}
+
+#pragma mark - Configure request
++ (NSMutableURLRequest *)configureRequestForDataTaskWith:(NSURL *)url withToken:(NSDictionary *)tokenData {
+    
+    NSString *token = [tokenData objectForKey:@"access_token"];
+    NSString *tokenType = [tokenData objectForKey:@"token_type"];
+    
+    NSString *header = [NSString stringWithFormat:@"%@ %@", tokenType, token];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    [request setValue:header forHTTPHeaderField:@"Authorization"];
+    [request setURL:url];
+    return request;
+    
+}
+
+#pragma mark - Token
++ (void)spotifyToken:(void(^)(NSDictionary *token))block {
+    NSString *body = @"grant_type=client_credentials";
+    NSData *postData = [body dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    NSString *prepareHeader = [NSString stringWithFormat:@"%@:%@",clientId, clientSecret];
+    NSData *data = [prepareHeader dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64encoded = [data base64EncodedStringWithOptions:0];
+    NSString *header = [NSString stringWithFormat:@"Basic %@", base64encoded];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];
+    [request setURL:[NSURL URLWithString:@"https://accounts.spotify.com/api/token"]];
+    [request setHTTPBody:postData];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:header forHTTPHeaderField:@"Authorization"];
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (!error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                block([NSJSONSerialization JSONObjectWithData:data options:0 error:nil]);
+            });
+            
+        } else {
+            @throw [NSException exceptionWithName:@"Token" reason:error.localizedDescription userInfo:error.userInfo];
+        }
+    }];
+    [task resume];
 }
 
 #pragma  mark - Parce methods
@@ -145,5 +217,9 @@ NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
     if ([link containsString:@"https://open.spotify.com/"]) {return YES;}
     return NO;
 }
+
+
+
+
 
 @end

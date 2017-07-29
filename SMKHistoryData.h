@@ -17,4 +17,6 @@
 - (NSInteger)countOfSongs;
 - (BOOL)isMemberWithLink:(NSString *)link;
 - (BOOL)saveChanges;
+
+- (void)removeAllSongs;
 @end

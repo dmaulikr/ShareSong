@@ -51,6 +51,16 @@
     [self.shapeLayer setFillColor:[UIColor clearColor].CGColor];
     
     [self.layer addSublayer:self.shapeLayer];
+    // delete
+    CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    [anim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    self.shapeLayer.strokeStart = 0.0;
+    anim.duration = 2.0;
+    anim.fromValue = @(0.0);
+    anim.toValue = @(1.0);
+    anim.repeatCount = HUGE_VAL;
+    
+    [self.shapeLayer addAnimation:anim forKey:@"anim"];
 }
 
 - (void)startAnimating {

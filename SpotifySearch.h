@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface SpotifySearch : NSObject
-+ (void)makeDataTaskWithTrackId:(NSString *)trackId withBlock:(void(^)(NSDictionary *terms, bool success, NSError *error))block;
-+ (void)makeDataTaskWithTemp:(NSDictionary *)temp withBlock:(void(^)(NSDictionary *dict, bool success, NSError *error))block;
++ (void)makeDataTaskWithTrackId:(NSString *)trackId withToken:(NSDictionary *)tokenData withBlock:(void(^)(NSDictionary *terms, BOOL success, NSError *error))block;
++ (void)makeDataTaskWithTemp:(NSDictionary *)temp withToken:(NSDictionary *)tokenData withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block;
 + (NSString *)parseURLToGetTrackId:(NSString *)str;
 + (BOOL)checkLinkWithString:(NSString *)link;
++ (void)spotifyToken:(void(^)(NSDictionary *token))block;
+
 
 @end

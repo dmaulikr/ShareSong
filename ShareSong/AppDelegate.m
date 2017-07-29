@@ -9,20 +9,17 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    return YES;
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 }
+
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    ViewController *vc = (ViewController *)self.window.rootViewController.presentedViewController;
-    [vc search];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"search" object:nil];
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     BOOL success = [[SMKHistoryData sharedData] saveChanges];
     if (!success) {
-        @throw [NSException exceptionWithName:@"Error while saving" reason:@"IDK appDelegate" userInfo:nil];
+        @throw [NSException exceptionWithName:@"Error while saving" reason:@"appDelegate" userInfo:nil];
     }
-    
 }
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -24,7 +24,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dpE-F1-8xe">
                         <rect key="frame" x="0.0" y="85" width="100" height="15"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="15" id="vBT-E8-HbS"/>
+                            <constraint firstAttribute="height" constant="15" id="IH2-2S-yxv"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -33,7 +33,7 @@
                         <size key="shadowOffset" width="0.0" height="-0.5"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZEl-rF-N5V">
-                        <rect key="frame" x="0.0" y="69" width="100" height="16"/>
+                        <rect key="frame" x="0.0" y="65" width="100" height="20"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -43,17 +43,18 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="ZEl-rF-N5V" firstAttribute="width" secondItem="dpE-F1-8xe" secondAttribute="width" id="5dy-8e-46C"/>
-                <constraint firstItem="ZEl-rF-N5V" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="69" id="EDd-ay-4o9"/>
+                <constraint firstItem="ZEl-rF-N5V" firstAttribute="centerX" secondItem="dpE-F1-8xe" secondAttribute="centerX" id="Eun-NG-6DY"/>
                 <constraint firstItem="Tft-sb-e85" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="G7V-lX-63y"/>
                 <constraint firstItem="Tft-sb-e85" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="I05-Yw-f1r"/>
-                <constraint firstItem="dpE-F1-8xe" firstAttribute="top" secondItem="ZEl-rF-N5V" secondAttribute="bottom" id="LSX-hr-pbi"/>
-                <constraint firstItem="dpE-F1-8xe" firstAttribute="bottom" secondItem="Tft-sb-e85" secondAttribute="bottom" id="Wh9-MY-GQL"/>
+                <constraint firstItem="ZEl-rF-N5V" firstAttribute="width" secondItem="dpE-F1-8xe" secondAttribute="width" id="MBb-IC-R4n"/>
+                <constraint firstItem="dpE-F1-8xe" firstAttribute="leading" secondItem="Tft-sb-e85" secondAttribute="leading" id="Q6l-UO-G9Z"/>
+                <constraint firstItem="dpE-F1-8xe" firstAttribute="trailing" secondItem="ZEl-rF-N5V" secondAttribute="trailing" id="T6T-dg-ON9"/>
                 <constraint firstItem="Tft-sb-e85" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="ZvV-7R-Pj2"/>
-                <constraint firstItem="dpE-F1-8xe" firstAttribute="width" secondItem="Tft-sb-e85" secondAttribute="width" id="djC-DQ-YYr"/>
+                <constraint firstItem="dpE-F1-8xe" firstAttribute="bottom" secondItem="Tft-sb-e85" secondAttribute="bottom" id="bug-Mb-Bk2"/>
+                <constraint firstItem="dpE-F1-8xe" firstAttribute="top" secondItem="ZEl-rF-N5V" secondAttribute="bottom" id="cas-8I-n3q"/>
                 <constraint firstItem="Tft-sb-e85" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="fIY-ri-axM"/>
-                <constraint firstItem="ZEl-rF-N5V" firstAttribute="leading" secondItem="dpE-F1-8xe" secondAttribute="leading" id="oU1-ao-fu9"/>
-                <constraint firstItem="dpE-F1-8xe" firstAttribute="centerX" secondItem="Tft-sb-e85" secondAttribute="centerX" id="sDo-Fm-qbo"/>
+                <constraint firstItem="dpE-F1-8xe" firstAttribute="trailing" secondItem="Tft-sb-e85" secondAttribute="trailing" id="lDs-c6-ntK"/>
+                <constraint firstItem="dpE-F1-8xe" firstAttribute="leading" secondItem="ZEl-rF-N5V" secondAttribute="leading" id="uf2-Uf-yd6"/>
             </constraints>
             <connections>
                 <outlet property="artistLabel" destination="dpE-F1-8xe" id="CAs-8S-fio"/>
