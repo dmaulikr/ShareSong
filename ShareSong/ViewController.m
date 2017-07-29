@@ -159,10 +159,12 @@
 }
 - (void)showWarningView:(NSString *)str {
     self.errorLabel.text = str;
-    [UIView animateWithDuration:1/2.0 animations:^{
-        CGRect rect = CGRectMake(self.notificatationView.frame.origin.x, self.notificatationView.frame.origin.y+self.notificatationView.frame.size.height, self.notificatationView.frame.size.width, self.notificatationView.frame.size.height);
-        [self.notificatationView setFrame:rect];
-    } completion:nil];
+    if (self.notificatationView.frame.origin.y <= 0) {
+        [UIView animateWithDuration:1/2.0 animations:^{
+            CGRect rect = CGRectMake(self.notificatationView.frame.origin.x, self.notificatationView.frame.origin.y+self.notificatationView.frame.size.height, self.notificatationView.frame.size.width, self.notificatationView.frame.size.height);
+            [self.notificatationView setFrame:rect];
+        } completion:nil];        
+    }
 }
 - (void)hideWarningView {
     [UIView animateWithDuration:1/2.0 animations:^{
@@ -171,7 +173,7 @@
     } completion:nil];
 }
 - (BOOL)isNeedToHideWarning{
-    if (self.notificatationView.frame.origin.y == 0) {
+    if (self.notificatationView.frame.origin.y >= 0) {
         return YES;
     }
     return NO;
