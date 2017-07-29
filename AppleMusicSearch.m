@@ -4,7 +4,7 @@
 //
 //  Created by Vo1 on 18/04/2017.
 //  Copyright © 2017 Samoilenko Volodymyr. All rights reserved.
-//
+//https://itunes.apple.com/ua/lookup?id=1245248621&entity=song
 
 #import "AppleMusicSearch.h"
 
@@ -119,8 +119,13 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     return NO;
 }
 
-#pragma marl - parse
-+ (NSString *)parseURLforProductId:(NSString *)url {
+#pragma mark - parse
++ (NSString *)storefrontCountryWithURL:(NSString *)url {
+    NSArray *compon = [url componentsSeparatedByString:@"/"];
+//    return [compon[3] uppercaseString];
+    return compon[3];
+}
++ (NSString *)trackIDWithURL:(NSString *)url {
     
     NSArray *compon = [url componentsSeparatedByString:@"="];
     NSString *productId;
@@ -135,28 +140,39 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     }
     return productId;
 }
++ (NSURL *)configureLookupURLWithTrackID:(NSString *)trackID storefrontIdentifier:(NSString *)identifier {
+    NSLog(@"%@", trackID);
+    NSLog(@"%@", identifier);
+    NSString *base = @"https://itunes.apple.com/";
+    NSString *result = [[[[base stringByAppendingString:identifier]
+                          stringByAppendingString:@"/lookup?id="]
+                         stringByAppendingString:trackID]
+                        stringByAppendingString:@"&entity=song"];
+    return [NSURL URLWithString:result];
+}
 
 #pragma mark - extend info from song
-+ (void)getAttributesWithAppleMusicLink:(NSString *)link withBlock:(void(^)(NSDictionary* info, bool success, NSError* error))block {
-    MPMediaLibrary *library = [MPMediaLibrary defaultMediaLibrary];
++ (void)trackInfoWithURL:(NSString *)link   withBlock:(void(^)(NSDictionary* info, bool success, NSError* error))block {
     
-    [library addItemWithProductID:[AppleMusicSearch parseURLforProductId:link] completionHandler:^(NSArray<__kindof MPMediaEntity *> * _Nonnull entities, NSError * _Nullable error) {
-        if (error) {
-            @throw [NSException exceptionWithName:error.localizedDescription reason:error.domain userInfo:error.userInfo];
+    NSURL *url = [AppleMusicSearch configureLookupURLWithTrackID:[AppleMusicSearch trackIDWithURL:link] storefrontIdentifier:[self storefrontCountryWithURL:link]];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (!error) {
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+
+            NSDictionary *data = [[json objectForKey:@"results"] objectAtIndex:0];
+            NSString *title = [data objectForKey:@"trackName"];
+            NSString *artist = [data objectForKey:@"artistName"];
+            title = [title stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+            artist = [artist stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+            NSDictionary *info = @{@"title" : title, @"artist" : artist};
+            block(info, YES, nil);
         } else {
-            if ([entities count]) {
-                MPMediaItem *item = [entities lastObject];
-                NSString *title = item.title;
-                NSString *artist = item.artist;
-                title = [title stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-                artist = [artist stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-                NSDictionary *info = @{@"title" : title, @"artist" : artist};
-                block(info, YES, nil);
-            } else {
-                block(nil, NO, error);
-            }
+            block(nil, NO, error);
         }
-    }];
+    }] resume];
 }
+
 
 @end

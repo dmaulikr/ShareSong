@@ -83,7 +83,7 @@
     }];
 }
 - (void)fromAppleMusicToSpotify:(NSString *)link withSuccessBlock:(void(^)(NSDictionary *dict))successBlock withFailureBlock:(void(^)())failureBlock {
-    [AppleMusicSearch getAttributesWithAppleMusicLink:link withBlock:^(NSDictionary *info, bool success, NSError *error) {
+    [AppleMusicSearch trackInfoWithURL:link withBlock:^(NSDictionary *info, bool success, NSError *error) {
         if (success) {
             [SpotifySearch makeDataTaskWithTemp:info withToken:self.tokenData withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
                 if (success) {
@@ -106,7 +106,6 @@
     [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
         
         if (status) {
-        
             [serviceController requestStorefrontIdentifierWithCompletionHandler:^(NSString * _Nullable storefrontIdentifier, NSError * _Nullable error) {
                 if (error) {
                     @throw [NSException exceptionWithName:error.localizedDescription reason:error.domain userInfo:error.userInfo];
@@ -115,6 +114,12 @@
             }];
         }
     }];
+}
+- (NSString *)countryCodeWithIdentifier:(NSString *)identifier {
+    NSURL *plistURL = [[NSBundle mainBundle] URLForResource:@"StorefrontCountries" withExtension:@"plist"];
+    NSDictionary *countryCodeDictionary = [NSDictionary dictionaryWithContentsOfURL:plistURL];
+    
+    return countryCodeDictionary[identifier];
 }
 
 

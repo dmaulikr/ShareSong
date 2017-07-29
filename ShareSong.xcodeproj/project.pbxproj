@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E72966F01EDA13B500BC2FC2 /* SMKDoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = E72966EF1EDA13B500BC2FC2 /* SMKDoneView.m */; };
+		E749F25C1F2D08EE00CA99C2 /* StorefrontCountries.plist in Resources */ = {isa = PBXBuildFile; fileRef = E749F25B1F2D08EE00CA99C2 /* StorefrontCountries.plist */; };
 		E75D135C1EC900DD0046429D /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = E75D135B1EC900DD0046429D /* up.png */; };
 		E75D135F1EC904980046429D /* SMKLoaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E75D135E1EC904980046429D /* SMKLoaderView.m */; };
 		E764C9661EBA946C00625D9E /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E764C9651EBA946C00625D9E /* logo.png */; };
@@ -63,6 +64,7 @@
 /* Begin PBXFileReference section */
 		E72966EE1EDA13B500BC2FC2 /* SMKDoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDoneView.h; sourceTree = "<group>"; };
 		E72966EF1EDA13B500BC2FC2 /* SMKDoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDoneView.m; sourceTree = "<group>"; };
+		E749F25B1F2D08EE00CA99C2 /* StorefrontCountries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = StorefrontCountries.plist; sourceTree = "<group>"; };
 		E75D135B1EC900DD0046429D /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
 		E75D135D1EC904980046429D /* SMKLoaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKLoaderView.h; sourceTree = "<group>"; };
 		E75D135E1EC904980046429D /* SMKLoaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKLoaderView.m; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				E7993B321EBA926C0028B276 /* Assets.xcassets */,
 				E7993B341EBA926C0028B276 /* LaunchScreen.storyboard */,
 				E7993B371EBA926C0028B276 /* Info.plist */,
+				E749F25B1F2D08EE00CA99C2 /* StorefrontCountries.plist */,
 				E7993B261EBA926C0028B276 /* Supporting Files */,
 			);
 			path = ShareSong;
@@ -371,6 +374,7 @@
 				E79BDB611EC786AB006F1AA5 /* down.png in Resources */,
 				E764C9661EBA946C00625D9E /* logo.png in Resources */,
 				E7993B361EBA926C0028B276 /* LaunchScreen.storyboard in Resources */,
+				E749F25C1F2D08EE00CA99C2 /* StorefrontCountries.plist in Resources */,
 				E77F0FA41ED6108C0074D614 /* appleButton.png in Resources */,
 				E7993B331EBA926C0028B276 /* Assets.xcassets in Resources */,
 				E7C5AA401EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib in Resources */,

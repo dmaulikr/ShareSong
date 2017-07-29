@@ -12,7 +12,7 @@
 @interface AppleMusicSearch : NSObject
 
 + (void)makeDataWithDictionary:(NSDictionary *)dict withFrontStoreID:(NSString *)frontstoreId withBlock:(void(^)(NSDictionary *dict,bool success))block;
-+ (void)getAttributesWithAppleMusicLink:(NSString *)link withBlock:(void(^)(NSDictionary* info, bool success, NSError *error))block;
++ (void)trackInfoWithURL:(NSString *)url withBlock:(void(^)(NSDictionary* info, bool success, NSError* error))block;
 + (BOOL)checkLinkWithString:(NSString *)link;
 
 @end
