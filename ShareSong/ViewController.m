@@ -62,6 +62,14 @@
     [self setMaskToBackView];
 }
 
+- (BOOL)updateTodayExtensionWithSong:(NSDictionary *)dict {
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.ShareSong.ShareSongToday"];
+    [sharedDefaults setObject:[dict objectForKey:@"title"] forKey:@"title"];
+    [sharedDefaults setObject:[dict objectForKey:@"artist"] forKey:@"artist"];
+    [sharedDefaults synchronize];
+    
+    return YES;
+}
 #pragma mark - Keyboard Notification
 - (void)keyboardWillShow:(NSNotification *)n {
     CGSize keyBoardSize = [[[n userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey]CGRectValue].size;
@@ -122,6 +130,7 @@
         [weakViewController.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSDictionary *dict) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakViewController succesfullLink:dict sourceLink:url];
+                [self updateTodayExtensionWithSong:dict];
                 [self save];
                 [self.indicatorView stopAnimating];
             });

@@ -71,7 +71,7 @@ NSString *clientSecret = @"14fba0da45374793b66b9dbf5e0ea7d4";
                 NSDictionary *dict = [SpotifySearch parseJSON:json];
                 block(dict,true, nil);
             } else {
-                [self retryRequestWithShortTitle:[SpotifySearch removeScopesFromTitle:title] withToken:tokenData withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
+                [self retryRequestWithShortTitle:[SpotifySearch removeScopesFromString:title] withToken:tokenData withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
                     block(dict,success,error);
                 }];
             }
@@ -111,7 +111,8 @@ NSString *clientSecret = @"14fba0da45374793b66b9dbf5e0ea7d4";
     [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            
+            NSLog(@"%@", [SpotifySearch arrayWith:json]);
+
             if ([json objectForKey:@"error"]) {
                 [SpotifySearch spotifyToken:^(NSDictionary *token) {
                     [SMKTransferingSong sharedTransfer].tokenData = token;
@@ -121,11 +122,13 @@ NSString *clientSecret = @"14fba0da45374793b66b9dbf5e0ea7d4";
                 }];
                 return;
             }
-            NSDictionary *terms = [SpotifySearch parseJSONAndGetTerms:json];
+            
+            NSDictionary *terms = [SpotifySearch getInfoFromSong:json];
             block(terms,YES,error);
         } else {
             @throw [NSException exceptionWithName:@"makeDataTaskWithTrackId" reason:error.localizedDescription userInfo:error.userInfo];
         }
+        
     }] resume];
 }
 
@@ -181,23 +184,50 @@ NSString *clientSecret = @"14fba0da45374793b66b9dbf5e0ea7d4";
     NSString *title = [[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"name"];
     NSString *artist = [[[[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"artists"] objectAtIndex:0] objectForKey:@"name"];
     NSString *urlWithImg = [[[[[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"album"] objectForKey:@"images"] objectAtIndex:0] objectForKey:@"url"];
-    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:@[title,artist,url,urlWithImg] forKeys:@[@"title",@"artist",@"url",@"imgLink"]];
+    NSString *albumName = [[[[[json objectForKey:@"tracks"] objectForKey:@"items"] objectAtIndex:0] objectForKey:@"album"] objectForKey:@"name"];
+    
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:@[title,artist,url,urlWithImg,albumName] forKeys:@[@"title",@"artist",@"url",@"imgLink",@"albumName"]];
     return dict;
 }
-+ (NSDictionary *)parseJSONAndGetTerms:(NSDictionary *)dict {
++ (NSArray *)arrayWith:(NSDictionary *)json {
+    
+    NSArray *arr = [json objectForKey:@"results"];
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *dict in arr) {
+        NSLog(@"%@", dict);
+        NSString *artwork = [dict objectForKey:@"artworkUrl100"];
+        NSString *url = [[[dict objectForKey:@"trackViewUrl"] componentsSeparatedByString:@"&"] objectAtIndex:0];
+        artwork = [artwork stringByReplacingOccurrencesOfString:@"100x100bb" withString:@"600x600bb"];
+        NSDictionary *info = [NSDictionary dictionaryWithObjects:@[
+                                                                   [[[dict objectForKey:@"artists"] objectAtIndex:0] objectForKey:@"name"],
+                                                                   [dict objectForKey:@"collectionName"],
+                                                                   [dict objectForKey:@"name"],
+                                                                   artwork,
+                                                                   url
+                                                                   ]
+                                                         forKeys:@[@"artist",@"albumName",@"title",@"artwork",@"url"]];
+        [result addObject:info];
+    }
+    return (NSArray *)result;
+}
++ (NSDictionary *)getInfoFromSong:(NSDictionary *)dict {
     NSString *title = [dict objectForKey:@"name"];
     NSString *artist = [[[dict objectForKey:@"artists"] objectAtIndex:0] objectForKey:@"name"];
+    NSString *albumName = [[dict objectForKey:@"album"] objectForKey:@"name"];
     
     title = [title stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     artist = [artist stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    return [NSDictionary dictionaryWithObjects:@[title,artist] forKeys:@[@"title",@"artist"]];
+    albumName = [albumName stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    
+    return [NSDictionary dictionaryWithObjects:@[title,artist,albumName] forKeys:@[@"title",@"artist",@"albumName"]];
 }
 + (NSString *)parseURLToGetTrackId:(NSString *)str {
     NSString *url = @"https://open.spotify.com/track/";
     NSString *trackId = [str substringFromIndex:[url length]];
     return trackId;
 }
-+ (NSString *)removeScopesFromTitle:(NSString *)title {
++ (NSString *)removeScopesFromString:(NSString *)title {
     NSArray *components = [title componentsSeparatedByString:@"("];
     if ([components count]) {
         title = [components firstObject];
@@ -217,6 +247,9 @@ NSString *clientSecret = @"14fba0da45374793b66b9dbf5e0ea7d4";
     if ([link containsString:@"https://open.spotify.com/"]) {return YES;}
     return NO;
 }
+
+
+
 
 
 

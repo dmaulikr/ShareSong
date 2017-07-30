@@ -11,7 +11,8 @@
 
 @interface SMKSong : NSObject
 
-- (instancetype)initWithTitle:(NSString*)title artist:(NSString *)artist albumCover:(UIImage *)img spotifyLink:(NSString *)spotifylink appleMusicLink:(NSString *)appleMusicLink;
+- (instancetype)initWithTitle:(NSString*)title artist:(NSString *)artist albumName:(NSString *)albumName
+                   albumCover:(UIImage *)img spotifyLink:(NSString *)spotifyLink appleMusicLink:(NSString *)appleMusicLink;
 - (UIImage *)albumCover;
 - (NSString *)title;
 - (NSString *)artist;
