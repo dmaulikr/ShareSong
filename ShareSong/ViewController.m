@@ -15,6 +15,7 @@
 #import "SMKHistoryData.h"
 #import "SMKLoaderView.h"
 #import "SMKSong.h"
+#import "Searcher.h"
 
 
 @interface ViewController () <MPMediaPickerControllerDelegate, UITextFieldDelegate, UIViewControllerTransitioningDelegate>
@@ -50,6 +51,8 @@
                                                  name:UIKeyboardWillHideNotification object:self.view.window];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchFromNotification:)
                                                  name:@"search" object:nil];
+    
+    
 }
 - (void)viewDidAppear:(BOOL)animated {
     static dispatch_once_t onceToken;

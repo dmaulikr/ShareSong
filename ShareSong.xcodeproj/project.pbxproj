@@ -12,6 +12,7 @@
 		E709B6001F2D44C700DFB5E1 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E709B5FE1F2D44C700DFB5E1 /* MainInterface.storyboard */; };
 		E709B6041F2D44C700DFB5E1 /* ShareSongToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E709B5F81F2D44C700DFB5E1 /* ShareSongToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E72966F01EDA13B500BC2FC2 /* SMKDoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = E72966EF1EDA13B500BC2FC2 /* SMKDoneView.m */; };
+		E72DE4331F2FCD3100A79C20 /* Searcher.m in Sources */ = {isa = PBXBuildFile; fileRef = E72DE4321F2FCD3100A79C20 /* Searcher.m */; };
 		E749F25C1F2D08EE00CA99C2 /* StorefrontCountries.plist in Resources */ = {isa = PBXBuildFile; fileRef = E749F25B1F2D08EE00CA99C2 /* StorefrontCountries.plist */; };
 		E75D135C1EC900DD0046429D /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = E75D135B1EC900DD0046429D /* up.png */; };
 		E75D135F1EC904980046429D /* SMKLoaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E75D135E1EC904980046429D /* SMKLoaderView.m */; };
@@ -71,6 +72,8 @@
 		E709B60A1F2D476200DFB5E1 /* ShareSong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareSong.entitlements; sourceTree = "<group>"; };
 		E72966EE1EDA13B500BC2FC2 /* SMKDoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDoneView.h; sourceTree = "<group>"; };
 		E72966EF1EDA13B500BC2FC2 /* SMKDoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDoneView.m; sourceTree = "<group>"; };
+		E72DE4311F2FCD3100A79C20 /* Searcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Searcher.h; sourceTree = "<group>"; };
+		E72DE4321F2FCD3100A79C20 /* Searcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Searcher.m; sourceTree = "<group>"; };
 		E749F25B1F2D08EE00CA99C2 /* StorefrontCountries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = StorefrontCountries.plist; sourceTree = "<group>"; };
 		E75D135B1EC900DD0046429D /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
 		E75D135D1EC904980046429D /* SMKLoaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKLoaderView.h; sourceTree = "<group>"; };
@@ -267,6 +270,8 @@
 				E79BDB6B1EC79D48006F1AA5 /* SMKHistoryData.m */,
 				E79BDB6E1EC79E22006F1AA5 /* SMKSong.h */,
 				E79BDB6F1EC79E22006F1AA5 /* SMKSong.m */,
+				E72DE4311F2FCD3100A79C20 /* Searcher.h */,
+				E72DE4321F2FCD3100A79C20 /* Searcher.m */,
 			);
 			name = Data;
 			path = ..;
@@ -421,6 +426,7 @@
 				E7993B461EBA93240028B276 /* SpotifySearch.m in Sources */,
 				E79BDB701EC79E22006F1AA5 /* SMKSong.m in Sources */,
 				E7993B2E1EBA926C0028B276 /* ViewController.m in Sources */,
+				E72DE4331F2FCD3100A79C20 /* Searcher.m in Sources */,
 				E72966F01EDA13B500BC2FC2 /* SMKDoneView.m in Sources */,
 				E7993B2B1EBA926C0028B276 /* AppDelegate.m in Sources */,
 				E7993B4A1EBA93820028B276 /* SMKLoadAnimator.m in Sources */,
@@ -620,6 +626,7 @@
 				E709B6061F2D44C700DFB5E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E7993B1E1EBA926C0028B276 /* Build configuration list for PBXProject "ShareSong" */ = {
 			isa = XCConfigurationList;
