@@ -113,7 +113,8 @@
 #pragma mark - Actions
 - (IBAction)presentHistoryVC:(id)sender {
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    SMKHistoryCollectionViewController *vc = [[SMKHistoryCollectionViewController alloc] initWithCollectionViewLayout:flowLayout];
+    SMKHistoryCollectionViewController *vc = [[SMKHistoryCollectionViewController alloc]
+                                              initWithCollectionViewLayout:flowLayout];
     
     [self presentViewController:vc animated:YES completion:nil];
     
@@ -130,24 +131,25 @@
     [self.indicatorView startAnimating];
     __weak ViewController* weakViewController = self;
     if ([SMKTransferingSong isSuitableLink:url]) {
-        [weakViewController.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string withSuccessBlock:^(NSDictionary *dict) {
+        [weakViewController.transferManager transferSongWithLink:[UIPasteboard generalPasteboard].string
+                                                withSuccessBlock:^(NSDictionary *dict) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakViewController succesfullLink:dict sourceLink:url];
-                [self updateTodayExtensionWithSong:dict];
-                [self save];
-                [self.indicatorView stopAnimating];
+//                [weakViewController updateTodayExtensionWithSong:dict];
+                [weakViewController save];
+                [weakViewController.indicatorView stopAnimating];
             });
         } withFailureBlock:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakViewController failureWithLink:@"Sorry, but this song is absent on wishes music service, please try again later"];
-                [self.indicatorView stopAnimating];
-                self.resultTextField.text = @"";
+                [weakViewController.indicatorView stopAnimating];
+                weakViewController.resultTextField.text = @"";
             });
         }];
     } else {
         [weakViewController failureWithLink:@"Wrong Link, try again with another link."];
-        self.resultTextField.text = @"";
-        [self.indicatorView stopAnimating];
+        weakViewController.resultTextField.text = @"";
+        [weakViewController.indicatorView stopAnimating];
     }
 }
 - (void)searchFromNotification:(NSNotification *)n {
@@ -173,14 +175,20 @@
     self.errorLabel.text = str;
     if (self.notificatationView.frame.origin.y <= 0) {
         [UIView animateWithDuration:1/2.0 animations:^{
-            CGRect rect = CGRectMake(self.notificatationView.frame.origin.x, self.notificatationView.frame.origin.y+self.notificatationView.frame.size.height, self.notificatationView.frame.size.width, self.notificatationView.frame.size.height);
+            CGRect rect = CGRectMake(self.notificatationView.frame.origin.x,
+                                     self.notificatationView.frame.origin.y+self.notificatationView.frame.size.height,
+                                     self.notificatationView.frame.size.width,
+                                     self.notificatationView.frame.size.height);
             [self.notificatationView setFrame:rect];
         } completion:nil];        
     }
 }
 - (void)hideWarningView {
     [UIView animateWithDuration:1/2.0 animations:^{
-        CGRect rect = CGRectMake(self.notificatationView.frame.origin.x, self.notificatationView.frame.origin.y-self.notificatationView.frame.size.height, self.notificatationView.frame.size.width, self.notificatationView.frame.size.height);
+        CGRect rect = CGRectMake(self.notificatationView.frame.origin.x,
+                                 self.notificatationView.frame.origin.y-self.notificatationView.frame.size.height,
+                                 self.notificatationView.frame.size.width,
+                                 self.notificatationView.frame.size.height);
         [self.notificatationView setFrame:rect];
     } completion:nil];
 }
@@ -206,7 +214,11 @@
     NSString *artist = [dict objectForKey:@"artist"];
     NSString *imgLink = [dict objectForKey:@"imgLink"];
     
-    NSDictionary *songData = [[NSDictionary alloc] initWithObjectsAndKeys:appleMusicLink,@"appleLink", spotifyLink, @"spotifyLink",title, @"title", artist, @"artist", imgLink, @"imgLink",nil];
+    NSDictionary *songData = [[NSDictionary alloc] initWithObjectsAndKeys:appleMusicLink,@"appleLink",
+                              spotifyLink, @"spotifyLink",
+                              title, @"title",
+                              artist, @"artist",
+                              imgLink,@"imgLink",nil];
     return songData;
 }
 

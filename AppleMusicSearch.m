@@ -16,77 +16,118 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
 
 
 #pragma mark - download Data
-+ (void)makeDataWithDictionary:(NSDictionary *)dict withFrontStoreID:(NSString *)frontstoreId withBlock:(void(^)(NSDictionary *dict,bool success))block {
++ (void)makeDataWithDictionary:(NSDictionary *)dict
+              withFrontStoreID:(NSString *)frontstoreId
+                     withBlock:(void(^)(NSDictionary *dict,bool success))block {
+
     
     NSString *title = [dict objectForKey:@"title"];
     NSString *artist = [dict objectForKey:@"artist"];
     
-    NSString *encodeTitle = [title stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    NSString *encodeArtist = [artist stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    NSString *encodeTitle = [title
+                             stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
+                                                                                 URLHostAllowedCharacterSet]];
+    NSString *encodeArtist = [artist
+                              stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
+                                                                                  URLHostAllowedCharacterSet]];
     
-    NSString *prepareForURL = [NSString stringWithFormat:@"%@term=%@+%@&entity=song&s=%@",appleMusicURLWithTermFrontStoreID,encodeTitle,encodeArtist, frontstoreId];
+    NSString *prepareForURL = [NSString stringWithFormat:@"%@term=%@+%@&entity=song&s=%@",
+                               appleMusicURLWithTermFrontStoreID, encodeTitle, encodeArtist, frontstoreId];
     NSURL *url = [NSURL URLWithString:prepareForURL];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (!error) {
+    NSURLSession *session = [NSURLSession
+                             sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    [[session dataTaskWithURL:url
+            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+                if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             
             NSArray *filtred = [Searcher searchTheNeededOneWith:dict in:[AppleMusicSearch arrayWith:json]];
             if ([filtred count]) {
+                
                 block([filtred firstObject],YES);
             } else {
-                [AppleMusicSearch makeDataWithTitle:title withFrontStoreID:frontstoreId withBlock:^(NSDictionary *dict, bool success) {
+                [AppleMusicSearch makeDataWithTitle:title
+                                   withFrontStoreID:frontstoreId
+                                          withBlock:^(NSDictionary *dict, bool success) {
+                                              
                     block(dict,success);
                 }];
             }
         } else {
-            @throw [NSException exceptionWithName:@"AppFromSpot" reason:error.localizedDescription userInfo:error.userInfo];
+            @throw [NSException exceptionWithName:@"AppFromSpot"
+                                           reason:error.localizedDescription
+                                         userInfo:error.userInfo];
         }
     }] resume];
 }
-+ (void)makeDataWithTitle:(NSString *)songTitle withFrontStoreID:(NSString *)frontstoreId withBlock:(void(^)(NSDictionary *dict,bool success))block {
++ (void)makeDataWithTitle:(NSString *)songTitle
+         withFrontStoreID:(NSString *)frontstoreId
+                withBlock:(void(^)(NSDictionary *dict,bool success))block {
     NSString *title = songTitle;
-    NSString *encodeTitle = [title stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    NSString *encodeTitle = [title
+                             stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
+                                                                                 URLHostAllowedCharacterSet]];
     
-    NSString *prepareForURL = [NSString stringWithFormat:@"%@term=%@&entity=song&s=%@",appleMusicURLWithTermFrontStoreID,encodeTitle, frontstoreId];
+    NSString *prepareForURL = [NSString stringWithFormat:@"%@term=%@&entity=song&s=%@",
+                            appleMusicURLWithTermFrontStoreID, encodeTitle, frontstoreId];
     NSURL *url = [NSURL URLWithString:prepareForURL];
     
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSession *session = [NSURLSession
+                             sessionWithConfiguration:[NSURLSessionConfiguration
+                                                       defaultSessionConfiguration]];
+    [[session dataTaskWithURL:url
+            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             NSArray *filtred = [Searcher searchTheNeededOneWith:@{songTitle:@"title"} in:[AppleMusicSearch arrayWith:json]];
             if ([filtred count]) {
                 block([filtred firstObject],YES);
             } else {
-                [AppleMusicSearch makeDataWithShortTitle:[AppleMusicSearch removeScopesFromTitle:title] withFrontStoreID:frontstoreId withBlock:^(NSDictionary *dict, bool success) {
+                [AppleMusicSearch makeDataWithShortTitle:[AppleMusicSearch removeScopesFromTitle:title]
+                                        withFrontStoreID:frontstoreId
+                                               withBlock:^(NSDictionary *dict, bool success) {
                     block(dict,success);
                 }];
             }
         } else {
-            @throw [NSException exceptionWithName:@"AppFromSpot" reason:error.localizedDescription userInfo:error.userInfo];
+            @throw [NSException exceptionWithName:@"AppFromSpot"
+                                           reason:error.localizedDescription
+                                         userInfo:error.userInfo];
         }
     }] resume];
 }
-+ (void)makeDataWithShortTitle:(NSString *)songTitle withFrontStoreID:(NSString *)frontstoreId withBlock:(void(^)(NSDictionary *dict,bool success))block {
++ (void)makeDataWithShortTitle:(NSString *)songTitle withFrontStoreID:(NSString *)frontstoreId
+                     withBlock:(void(^)(NSDictionary *dict,bool success))block {
     NSString *title = songTitle;
-    NSString *encodeTitle = [title stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    NSString *encodeTitle = [title
+                             stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
+                                                                                 URLHostAllowedCharacterSet]];
     
-    NSString *prepareForURL = [NSString stringWithFormat:@"%@term=%@&entity=song&s=%@",appleMusicURLWithTermFrontStoreID,encodeTitle, frontstoreId];
+    NSString *prepareForURL = [NSString stringWithFormat:@"%@term=%@&entity=song&s=%@",
+                               appleMusicURLWithTermFrontStoreID, encodeTitle, frontstoreId];
     NSURL *url = [NSURL URLWithString:prepareForURL];
     
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSession *session = [NSURLSession
+                             sessionWithConfiguration:[NSURLSessionConfiguration
+                                                       defaultSessionConfiguration]];
+    [[session dataTaskWithURL:url
+            completionHandler:^(NSData * _Nullable data,
+                                NSURLResponse * _Nullable response,
+                                NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSArray *filtred = [Searcher searchTheNeededOneWith:@{songTitle:@"title"} in:[AppleMusicSearch arrayWith:json]];
+            NSArray *filtred = [Searcher searchTheNeededOneWith:@{songTitle:@"title"}
+                                                             in:[AppleMusicSearch arrayWith:json]];
             if ([filtred count]) {
                 block([filtred firstObject],YES);
             } else {
                 block(nil,NO);
             }
         } else {
-            @throw [NSException exceptionWithName:@"AppFromSpot" reason:error.localizedDescription userInfo:error.userInfo];
+            @throw [NSException exceptionWithName:@"AppFromSpot"
+                                           reason:error.localizedDescription
+                                         userInfo:error.userInfo];
         }
     }] resume];
 }
@@ -101,7 +142,9 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     
     for (NSDictionary *dict in arr) {
         NSString *artwork = [dict objectForKey:@"artworkUrl100"];
-        NSString *url = [[[dict objectForKey:@"trackViewUrl"] componentsSeparatedByString:@"&"] objectAtIndex:0];
+        NSString *url = [[[dict objectForKey:@"trackViewUrl"]
+                          componentsSeparatedByString:@"&"]
+                         objectAtIndex:0];
         artwork = [artwork stringByReplacingOccurrencesOfString:@"100x100bb" withString:@"600x600bb"];
         NSDictionary *info = [NSDictionary dictionaryWithObjects:@[
                                                                    [dict objectForKey:@"artistName"],
@@ -182,12 +225,19 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
 }
 
 #pragma mark - extend info from song
-+ (void)trackInfoWithURL:(NSString *)link withBlock:(void(^)(NSDictionary* info, bool success, NSError* error))block {
++ (void)trackInfoWithURL:(NSString *)link withBlock:(void(^)(NSDictionary* info,
+                                                             bool success,
+                                                             NSError* error))block {
     
-    NSURL *url = [AppleMusicSearch configureLookupURLWithTrackID:[AppleMusicSearch trackIDWithURL:link] storefrontIdentifier:[self storefrontCountryWithURL:link]];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSURL *url = [AppleMusicSearch configureLookupURLWithTrackID:[AppleMusicSearch trackIDWithURL:link]
+                                            storefrontIdentifier:[self storefrontCountryWithURL:link]];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration
+                                                                    defaultSessionConfiguration]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [[session dataTaskWithRequest:request
+                completionHandler:^(NSData * _Nullable data,
+                                    NSURLResponse * _Nullable response,
+                                    NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 

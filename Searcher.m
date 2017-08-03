@@ -87,7 +87,7 @@
         }
         [grades addObject:@(hitCounter)];
     }
-    NSLog(@"%@", grades);
+//    NSLog(@"%@", grades);
     NSMutableArray *result = [[NSMutableArray alloc] init];
     int counter = 1;
     int maxHits = (int)[[pred componentsSeparatedByString:@" "] count];
@@ -139,65 +139,53 @@
 + (BOOL)isEqual:(NSDictionary *)one to:(NSDictionary *)target {
     
     
-    NSString *one1 = [[Searcher removeAllSymbols:[one objectForKey:@"title"]] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString *one2 = [[Searcher removeAllSymbols:[one objectForKey:@"artist"]] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *one1 = [[Searcher removeAllSymbols:[one objectForKey:@"title"]]
+                      stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *one2 = [[Searcher removeAllSymbols:[one objectForKey:@"artist"]]
+                      stringByReplacingOccurrencesOfString:@" " withString:@""];
     one1 = [one1 stringByAppendingString:one2];
     
-    NSString *target1 = [[Searcher removeAllSymbols:[target objectForKey:@"title"]] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString *target2 = [[Searcher removeAllSymbols:[target objectForKey:@"artist"]] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *target1 = [[Searcher removeAllSymbols:[target objectForKey:@"title"]]
+                         stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *target2 = [[Searcher removeAllSymbols:[target objectForKey:@"artist"]]
+                         stringByReplacingOccurrencesOfString:@" " withString:@""];
     target1 = [target1 stringByAppendingString:target2];
     
     return [one1 isEqualToString:target1];
 }
 
-
 // need to fix this method, it makes problems with symbols in names
 + (NSString *)removeAllSymbols:(NSString *)str {
     str = [str stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+    
     NSMutableArray *arr = (NSMutableArray *)[str componentsSeparatedByString:@" "];
-    for (int i = 0; i < [arr count]; ++i){
+    for (int i = 0; i < [arr count]; ++i) {
+        NSMutableString *word = arr[i];
+        NSUInteger length = [word length];
+        NSString *result = [[NSString alloc] init];
         
-        NSRange punctuationRange = [arr[i] rangeOfCharacterFromSet:[NSCharacterSet punctuationCharacterSet]];
-//        NSString *temp = arr[i];
-//        @try {
-//                NSLog(@"TEMP: %@", temp);
-        NSLog(@"%@",arr[i]);
-            if (punctuationRange.location != NSNotFound) {
-//                NSLog(@"LOCATION %lu", (unsigned long)punctuationRange.location);
-//                arr[i] = [arr[i] stringByTrimmingCharactersInSet:[NSCharacterSet punctuationCharacterSet]];
-//                [arr[i] characterAtIndex:punctuationRange.location] = @"";
-                NSMutableString *mutable = arr[i];
-//                [mutable replaceCharactersInRange:punctuationRange withString:@""];
-                [mutable stringByReplacingCharactersInRange:NSMakeRange(punctuationRange.location, 1) withString:@""];
-                arr[i] = mutable;
-            }
-        NSLog(@"%@",arr[i]);
-//        } @catch (NSException *exception) {
-//            
-//            NSLog(@"%@", exception);
-//            arr[i] = temp;
-//        }
-        
-        
-        NSRange whiteSpaceRange = [arr[i] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
-        if (whiteSpaceRange.location != NSNotFound) {
-            NSMutableString *mutable = arr[i];
-//            [mutable replaceCharactersInRange:whiteSpaceRange withString:@""];
-            [mutable stringByReplacingCharactersInRange:NSMakeRange(whiteSpaceRange.location, 1) withString:@""];
-            arr[i] = mutable;
+        for (NSUInteger j = 0; j < length; ++j) {
             
-//            arr[i] = [arr[i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        }
-        NSLog(@"%@",arr[i]);
-        if ([arr[i] length] == 0) {
-            [arr removeObjectAtIndex:i];
+            NSString *charachter = [NSString stringWithFormat:@"%c", [word characterAtIndex:j]];
+            NSRange symbolRange = [charachter rangeOfCharacterFromSet:[NSCharacterSet symbolCharacterSet]];
+            NSRange punctuationRange = [charachter rangeOfCharacterFromSet:[NSCharacterSet punctuationCharacterSet]];
+            NSRange whitespaceRange = [charachter rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+            
+            if (symbolRange.location == NSNotFound &&
+                punctuationRange.location == NSNotFound &&
+                whitespaceRange.location == NSNotFound ) {
+            result = [result stringByAppendingString:charachter];
+            }
         }
     }
+    
     str = [arr componentsJoinedByString:@" "];
+    
     return str;
 }
 + (NSString *)prepareString:(NSString *)target {
-    return [[[Searcher removeAllSymbols:target] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    return [[[Searcher removeAllSymbols:target] lowercaseString]
+            stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 
 
