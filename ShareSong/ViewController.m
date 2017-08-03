@@ -212,7 +212,7 @@
     }
     NSString *title = [dict objectForKey:@"title"];
     NSString *artist = [dict objectForKey:@"artist"];
-    NSString *imgLink = [dict objectForKey:@"imgLink"];
+    NSString *imgLink = [dict objectForKey:@"artwork"];
     
     NSDictionary *songData = [[NSDictionary alloc] initWithObjectsAndKeys:appleMusicLink,@"appleLink",
                               spotifyLink, @"spotifyLink",

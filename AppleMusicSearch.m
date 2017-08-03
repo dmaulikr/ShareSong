@@ -214,8 +214,6 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     return productId;
 }
 + (NSURL *)configureLookupURLWithTrackID:(NSString *)trackID storefrontIdentifier:(NSString *)identifier {
-    NSLog(@"%@", trackID);
-    NSLog(@"%@", identifier);
     NSString *base = @"https://itunes.apple.com/";
     NSString *result = [[[[base stringByAppendingString:identifier]
                           stringByAppendingString:@"/lookup?id="]

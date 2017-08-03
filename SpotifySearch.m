@@ -293,7 +293,7 @@ NSString *clientSecret = @"14fba0da45374793b66b9dbf5e0ea7d4";
     return false;
 }
 + (BOOL)checkLinkWithString:(NSString *)link {
-    if ([link containsString:@"https://open.spotify.com/"]) {return YES;}
+    if ([link containsString:@"https://open.spotify.com/"]) { return YES; }
     return NO;
 }
 
