@@ -252,6 +252,7 @@
     self.titleLabel.text = [[[SMKHistoryData sharedData] songAtIndex:index] title];
     self.artistLabel.text = [[[SMKHistoryData sharedData] songAtIndex:index] artist];
     self.coverAlbumView.image = [[[SMKHistoryData sharedData] songAtIndex:index] albumCover];
+    
 }
 - (void)clearSongInformation {
     self.appleMusicLink = @"";

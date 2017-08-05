@@ -7,14 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E709B5F91F2D44C700DFB5E1 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E764C96D1EBA976B00625D9E /* NotificationCenter.framework */; };
+		E709B5FD1F2D44C700DFB5E1 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E709B5FC1F2D44C700DFB5E1 /* TodayViewController.m */; };
+		E709B6001F2D44C700DFB5E1 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E709B5FE1F2D44C700DFB5E1 /* MainInterface.storyboard */; };
+		E709B6041F2D44C700DFB5E1 /* ShareSongToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E709B5F81F2D44C700DFB5E1 /* ShareSongToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E72966F01EDA13B500BC2FC2 /* SMKDoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = E72966EF1EDA13B500BC2FC2 /* SMKDoneView.m */; };
+		E72DE4331F2FCD3100A79C20 /* Searcher.m in Sources */ = {isa = PBXBuildFile; fileRef = E72DE4321F2FCD3100A79C20 /* Searcher.m */; };
+		E749F25C1F2D08EE00CA99C2 /* StorefrontCountries.plist in Resources */ = {isa = PBXBuildFile; fileRef = E749F25B1F2D08EE00CA99C2 /* StorefrontCountries.plist */; };
 		E75D135C1EC900DD0046429D /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = E75D135B1EC900DD0046429D /* up.png */; };
 		E75D135F1EC904980046429D /* SMKLoaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E75D135E1EC904980046429D /* SMKLoaderView.m */; };
 		E764C9661EBA946C00625D9E /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E764C9651EBA946C00625D9E /* logo.png */; };
-		E764C96E1EBA976B00625D9E /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E764C96D1EBA976B00625D9E /* NotificationCenter.framework */; };
-		E764C9721EBA976B00625D9E /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E764C9711EBA976B00625D9E /* TodayViewController.m */; };
-		E764C9751EBA976B00625D9E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E764C9731EBA976B00625D9E /* MainInterface.storyboard */; };
-		E764C9791EBA976B00625D9E /* SMKShareSongTodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E764C96B1EBA976B00625D9E /* SMKShareSongTodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E77F0FA31ED6108C0074D614 /* spotifyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E77F0FA11ED6108C0074D614 /* spotifyButton.png */; };
 		E77F0FA41ED6108C0074D614 /* appleButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E77F0FA21ED6108C0074D614 /* appleButton.png */; };
 		E7993B281EBA926C0028B276 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7993B271EBA926C0028B276 /* main.m */; };
@@ -37,23 +39,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E764C9771EBA976B00625D9E /* PBXContainerItemProxy */ = {
+		E709B6021F2D44C700DFB5E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E7993B1B1EBA926C0028B276 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = E764C96A1EBA976B00625D9E;
-			remoteInfo = SMKShareSongTodayExtension;
+			remoteGlobalIDString = E709B5F71F2D44C700DFB5E1;
+			remoteInfo = ShareSongToday;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E764C97D1EBA976B00625D9E /* Embed App Extensions */ = {
+		E709B6081F2D44C700DFB5E1 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				E764C9791EBA976B00625D9E /* SMKShareSongTodayExtension.appex in Embed App Extensions */,
+				E709B6041F2D44C700DFB5E1 /* ShareSongToday.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,18 +63,23 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E709B5F81F2D44C700DFB5E1 /* ShareSongToday.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareSongToday.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E709B5FB1F2D44C700DFB5E1 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
+		E709B5FC1F2D44C700DFB5E1 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
+		E709B5FF1F2D44C700DFB5E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		E709B6011F2D44C700DFB5E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E709B6091F2D471B00DFB5E1 /* ShareSongToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareSongToday.entitlements; sourceTree = "<group>"; };
+		E709B60A1F2D476200DFB5E1 /* ShareSong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareSong.entitlements; sourceTree = "<group>"; };
 		E72966EE1EDA13B500BC2FC2 /* SMKDoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDoneView.h; sourceTree = "<group>"; };
 		E72966EF1EDA13B500BC2FC2 /* SMKDoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDoneView.m; sourceTree = "<group>"; };
+		E72DE4311F2FCD3100A79C20 /* Searcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Searcher.h; sourceTree = "<group>"; };
+		E72DE4321F2FCD3100A79C20 /* Searcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Searcher.m; sourceTree = "<group>"; };
+		E749F25B1F2D08EE00CA99C2 /* StorefrontCountries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = StorefrontCountries.plist; sourceTree = "<group>"; };
 		E75D135B1EC900DD0046429D /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
 		E75D135D1EC904980046429D /* SMKLoaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKLoaderView.h; sourceTree = "<group>"; };
 		E75D135E1EC904980046429D /* SMKLoaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKLoaderView.m; sourceTree = "<group>"; };
 		E764C9651EBA946C00625D9E /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
-		E764C96B1EBA976B00625D9E /* SMKShareSongTodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SMKShareSongTodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E764C96D1EBA976B00625D9E /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		E764C9701EBA976B00625D9E /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
-		E764C9711EBA976B00625D9E /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
-		E764C9741EBA976B00625D9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		E764C9761EBA976B00625D9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E77F0FA11ED6108C0074D614 /* spotifyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotifyButton.png; sourceTree = "<group>"; };
 		E77F0FA21ED6108C0074D614 /* appleButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appleButton.png; sourceTree = "<group>"; };
 		E7993B231EBA926C0028B276 /* ShareSong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareSong.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,11 +115,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E764C9681EBA976B00625D9E /* Frameworks */ = {
+		E709B5F51F2D44C700DFB5E1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E764C96E1EBA976B00625D9E /* NotificationCenter.framework in Frameworks */,
+				E709B5F91F2D44C700DFB5E1 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +133,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E709B5FA1F2D44C700DFB5E1 /* ShareSongToday */ = {
+			isa = PBXGroup;
+			children = (
+				E709B6091F2D471B00DFB5E1 /* ShareSongToday.entitlements */,
+				E709B5FB1F2D44C700DFB5E1 /* TodayViewController.h */,
+				E709B5FC1F2D44C700DFB5E1 /* TodayViewController.m */,
+				E709B5FE1F2D44C700DFB5E1 /* MainInterface.storyboard */,
+				E709B6011F2D44C700DFB5E1 /* Info.plist */,
+			);
+			path = ShareSongToday;
+			sourceTree = "<group>";
+		};
 		E759F05C1ED3972F00E5B44D /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,22 +172,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E764C96F1EBA976B00625D9E /* SMKShareSongTodayExtension */ = {
-			isa = PBXGroup;
-			children = (
-				E764C9701EBA976B00625D9E /* TodayViewController.h */,
-				E764C9711EBA976B00625D9E /* TodayViewController.m */,
-				E764C9731EBA976B00625D9E /* MainInterface.storyboard */,
-				E764C9761EBA976B00625D9E /* Info.plist */,
-			);
-			path = SMKShareSongTodayExtension;
-			sourceTree = "<group>";
-		};
 		E7993B1A1EBA926C0028B276 = {
 			isa = PBXGroup;
 			children = (
 				E7993B251EBA926C0028B276 /* ShareSong */,
-				E764C96F1EBA976B00625D9E /* SMKShareSongTodayExtension */,
+				E709B5FA1F2D44C700DFB5E1 /* ShareSongToday */,
 				E764C96C1EBA976B00625D9E /* Frameworks */,
 				E7993B241EBA926C0028B276 /* Products */,
 			);
@@ -178,7 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				E7993B231EBA926C0028B276 /* ShareSong.app */,
-				E764C96B1EBA976B00625D9E /* SMKShareSongTodayExtension.appex */,
+				E709B5F81F2D44C700DFB5E1 /* ShareSongToday.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,6 +194,7 @@
 		E7993B251EBA926C0028B276 /* ShareSong */ = {
 			isa = PBXGroup;
 			children = (
+				E709B60A1F2D476200DFB5E1 /* ShareSong.entitlements */,
 				E79BDB6D1EC79D5A006F1AA5 /* Data */,
 				E7993B4B1EBA93970028B276 /* Animator */,
 				E7993B471EBA934A0028B276 /* Model */,
@@ -196,6 +205,7 @@
 				E7993B321EBA926C0028B276 /* Assets.xcassets */,
 				E7993B341EBA926C0028B276 /* LaunchScreen.storyboard */,
 				E7993B371EBA926C0028B276 /* Info.plist */,
+				E749F25B1F2D08EE00CA99C2 /* StorefrontCountries.plist */,
 				E7993B261EBA926C0028B276 /* Supporting Files */,
 			);
 			path = ShareSong;
@@ -260,6 +270,8 @@
 				E79BDB6B1EC79D48006F1AA5 /* SMKHistoryData.m */,
 				E79BDB6E1EC79E22006F1AA5 /* SMKSong.h */,
 				E79BDB6F1EC79E22006F1AA5 /* SMKSong.m */,
+				E72DE4311F2FCD3100A79C20 /* Searcher.h */,
+				E72DE4321F2FCD3100A79C20 /* Searcher.m */,
 			);
 			name = Data;
 			path = ..;
@@ -279,21 +291,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E764C96A1EBA976B00625D9E /* SMKShareSongTodayExtension */ = {
+		E709B5F71F2D44C700DFB5E1 /* ShareSongToday */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E764C97A1EBA976B00625D9E /* Build configuration list for PBXNativeTarget "SMKShareSongTodayExtension" */;
+			buildConfigurationList = E709B6071F2D44C700DFB5E1 /* Build configuration list for PBXNativeTarget "ShareSongToday" */;
 			buildPhases = (
-				E764C9671EBA976B00625D9E /* Sources */,
-				E764C9681EBA976B00625D9E /* Frameworks */,
-				E764C9691EBA976B00625D9E /* Resources */,
+				E709B5F41F2D44C700DFB5E1 /* Sources */,
+				E709B5F51F2D44C700DFB5E1 /* Frameworks */,
+				E709B5F61F2D44C700DFB5E1 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = SMKShareSongTodayExtension;
-			productName = SMKShareSongTodayExtension;
-			productReference = E764C96B1EBA976B00625D9E /* SMKShareSongTodayExtension.appex */;
+			name = ShareSongToday;
+			productName = ShareSongToday;
+			productReference = E709B5F81F2D44C700DFB5E1 /* ShareSongToday.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		E7993B221EBA926C0028B276 /* ShareSong */ = {
@@ -303,12 +315,12 @@
 				E7993B1F1EBA926C0028B276 /* Sources */,
 				E7993B201EBA926C0028B276 /* Frameworks */,
 				E7993B211EBA926C0028B276 /* Resources */,
-				E764C97D1EBA976B00625D9E /* Embed App Extensions */,
+				E709B6081F2D44C700DFB5E1 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				E764C9781EBA976B00625D9E /* PBXTargetDependency */,
+				E709B6031F2D44C700DFB5E1 /* PBXTargetDependency */,
 			);
 			name = ShareSong;
 			productName = ShareSong;
@@ -324,15 +336,25 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Samoilenko Volodymyr";
 				TargetAttributes = {
-					E764C96A1EBA976B00625D9E = {
-						CreatedOnToolsVersion = 8.3.2;
+					E709B5F71F2D44C700DFB5E1 = {
+						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 7JW64WU539;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					E7993B221EBA926C0028B276 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 7JW64WU539;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -350,17 +372,17 @@
 			projectRoot = "";
 			targets = (
 				E7993B221EBA926C0028B276 /* ShareSong */,
-				E764C96A1EBA976B00625D9E /* SMKShareSongTodayExtension */,
+				E709B5F71F2D44C700DFB5E1 /* ShareSongToday */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E764C9691EBA976B00625D9E /* Resources */ = {
+		E709B5F61F2D44C700DFB5E1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E764C9751EBA976B00625D9E /* MainInterface.storyboard in Resources */,
+				E709B6001F2D44C700DFB5E1 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +393,7 @@
 				E79BDB611EC786AB006F1AA5 /* down.png in Resources */,
 				E764C9661EBA946C00625D9E /* logo.png in Resources */,
 				E7993B361EBA926C0028B276 /* LaunchScreen.storyboard in Resources */,
+				E749F25C1F2D08EE00CA99C2 /* StorefrontCountries.plist in Resources */,
 				E77F0FA41ED6108C0074D614 /* appleButton.png in Resources */,
 				E7993B331EBA926C0028B276 /* Assets.xcassets in Resources */,
 				E7C5AA401EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib in Resources */,
@@ -383,11 +406,11 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E764C9671EBA976B00625D9E /* Sources */ = {
+		E709B5F41F2D44C700DFB5E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E764C9721EBA976B00625D9E /* TodayViewController.m in Sources */,
+				E709B5FD1F2D44C700DFB5E1 /* TodayViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +426,7 @@
 				E7993B461EBA93240028B276 /* SpotifySearch.m in Sources */,
 				E79BDB701EC79E22006F1AA5 /* SMKSong.m in Sources */,
 				E7993B2E1EBA926C0028B276 /* ViewController.m in Sources */,
+				E72DE4331F2FCD3100A79C20 /* Searcher.m in Sources */,
 				E72966F01EDA13B500BC2FC2 /* SMKDoneView.m in Sources */,
 				E7993B2B1EBA926C0028B276 /* AppDelegate.m in Sources */,
 				E7993B4A1EBA93820028B276 /* SMKLoadAnimator.m in Sources */,
@@ -415,18 +439,18 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		E764C9781EBA976B00625D9E /* PBXTargetDependency */ = {
+		E709B6031F2D44C700DFB5E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E764C96A1EBA976B00625D9E /* SMKShareSongTodayExtension */;
-			targetProxy = E764C9771EBA976B00625D9E /* PBXContainerItemProxy */;
+			target = E709B5F71F2D44C700DFB5E1 /* ShareSongToday */;
+			targetProxy = E709B6021F2D44C700DFB5E1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E764C9731EBA976B00625D9E /* MainInterface.storyboard */ = {
+		E709B5FE1F2D44C700DFB5E1 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E764C9741EBA976B00625D9E /* Base */,
+				E709B5FF1F2D44C700DFB5E1 /* Base */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -450,25 +474,27 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		E764C97B1EBA976B00625D9E /* Debug */ = {
+		E709B6051F2D44C700DFB5E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareSongToday/ShareSongToday.entitlements;
 				DEVELOPMENT_TEAM = 7JW64WU539;
-				INFOPLIST_FILE = SMKShareSongTodayExtension/Info.plist;
+				INFOPLIST_FILE = ShareSongToday/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SMK.ShareSong.SMKShareSongTodayExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = SMK.ShareSong.ShareSongToday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
-		E764C97C1EBA976B00625D9E /* Release */ = {
+		E709B6061F2D44C700DFB5E1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareSongToday/ShareSongToday.entitlements;
 				DEVELOPMENT_TEAM = 7JW64WU539;
-				INFOPLIST_FILE = SMKShareSongTodayExtension/Info.plist;
+				INFOPLIST_FILE = ShareSongToday/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SMK.ShareSong.SMKShareSongTodayExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = SMK.ShareSong.ShareSongToday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -568,6 +594,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ShareSong/ShareSong.entitlements;
 				DEVELOPMENT_TEAM = 7JW64WU539;
 				INFOPLIST_FILE = ShareSong/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -580,6 +607,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ShareSong/ShareSong.entitlements;
 				DEVELOPMENT_TEAM = 7JW64WU539;
 				INFOPLIST_FILE = ShareSong/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -591,11 +619,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E764C97A1EBA976B00625D9E /* Build configuration list for PBXNativeTarget "SMKShareSongTodayExtension" */ = {
+		E709B6071F2D44C700DFB5E1 /* Build configuration list for PBXNativeTarget "ShareSongToday" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E764C97B1EBA976B00625D9E /* Debug */,
-				E764C97C1EBA976B00625D9E /* Release */,
+				E709B6051F2D44C700DFB5E1 /* Debug */,
+				E709B6061F2D44C700DFB5E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

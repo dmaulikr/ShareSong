@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E764C96A1EBA976B00625D9E"
-               BuildableName = "SMKShareSongTodayExtension.appex"
-               BlueprintName = "SMKShareSongTodayExtension"
+               BlueprintIdentifier = "E709B5F71F2D44C700DFB5E1"
+               BuildableName = "ShareSongToday.appex"
+               BlueprintName = "ShareSongToday"
                ReferencedContainer = "container:ShareSong.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,9 +47,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E764C96A1EBA976B00625D9E"
-            BuildableName = "SMKShareSongTodayExtension.appex"
-            BlueprintName = "SMKShareSongTodayExtension"
+            BlueprintIdentifier = "E709B5F71F2D44C700DFB5E1"
+            BuildableName = "ShareSongToday.appex"
+            BlueprintName = "ShareSongToday"
             ReferencedContainer = "container:ShareSong.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

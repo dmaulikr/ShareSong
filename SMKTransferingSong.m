@@ -33,7 +33,9 @@
     return sharedTransfer;
 }
 - (instancetype)init {
-    @throw [NSException exceptionWithName:@"Singleton" reason:@"Use +[SMKTransferingSong sharedTransfer]" userInfo:nil];
+    @throw [NSException exceptionWithName:@"Singleton"
+                                   reason:@"Use +[SMKTransferingSong sharedTransfer]"
+                                 userInfo:nil];
     return nil;
 }
 - (instancetype)initPrivate {
@@ -57,20 +59,35 @@
 }
 
 #pragma mark - Start transfer Links
-- (void)transferSongWithLink:(NSString *)link withSuccessBlock:(void(^)(NSDictionary *dict))successBlock withFailureBlock:(void(^)())failureBlock {
+- (void)transferSongWithLink:(NSString *)link
+            withSuccessBlock:(void(^)(NSDictionary *dict))successBlock
+            withFailureBlock:(void(^)())failureBlock {
+    
     if ([SpotifySearch checkLinkWithString:link]) {
         
-        [self fromSpotifyToAppleMusic:link withSuccessBlock:successBlock withFailureBlock:failureBlock];
+        [self fromSpotifyToAppleMusic:link
+                     withSuccessBlock:successBlock
+                     withFailureBlock:failureBlock];
+        
     } else if ([AppleMusicSearch checkLinkWithString:link]) {
         
-        [self fromAppleMusicToSpotify:link withSuccessBlock:successBlock withFailureBlock:failureBlock];
+        [self fromAppleMusicToSpotify:link
+                     withSuccessBlock:successBlock
+                     withFailureBlock:failureBlock];
     }
 }
-- (void)fromSpotifyToAppleMusic:(NSString *)link withSuccessBlock:(void(^)(NSDictionary *dict))successBlock withFailureBlock:(void(^)())failureBlock {
+- (void)fromSpotifyToAppleMusic:(NSString *)link
+               withSuccessBlock:(void(^)(NSDictionary *dict))successBlock
+               withFailureBlock:(void(^)())failureBlock {
+    
     NSString *trackId = [SpotifySearch parseURLToGetTrackId:link];
-    [SpotifySearch makeDataTaskWithTrackId:trackId withToken:self.tokenData withBlock:^(NSDictionary *terms, BOOL success, NSError *error) {
+    [SpotifySearch makeDataTaskWithTrackId:trackId
+                                 withToken:self.tokenData
+                                 withBlock:^(NSDictionary *terms, BOOL success, NSError *error) {
         if (success) {
-            [AppleMusicSearch makeDataWithDictionary:terms withFrontStoreID:self.appleMusicFrontStoreId withBlock:^(NSDictionary* dict, bool success) {
+            [AppleMusicSearch makeDataWithDictionary:terms
+                                    withFrontStoreID:self.appleMusicFrontStoreId
+                                           withBlock:^(NSDictionary* dict, bool success) {
                 if (success) {
                     successBlock(dict);
                 } else {
@@ -82,10 +99,16 @@
         }
     }];
 }
-- (void)fromAppleMusicToSpotify:(NSString *)link withSuccessBlock:(void(^)(NSDictionary *dict))successBlock withFailureBlock:(void(^)())failureBlock {
-    [AppleMusicSearch getAttributesWithAppleMusicLink:link withBlock:^(NSDictionary *info, bool success, NSError *error) {
+- (void)fromAppleMusicToSpotify:(NSString *)link
+               withSuccessBlock:(void(^)(NSDictionary *dict))successBlock
+               withFailureBlock:(void(^)())failureBlock {
+    
+    [AppleMusicSearch trackInfoWithURL:link
+                             withBlock:^(NSDictionary *info, bool success, NSError *error) {
         if (success) {
-            [SpotifySearch makeDataTaskWithTemp:info withToken:self.tokenData withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
+            [SpotifySearch makeDataTaskWithTemp:info
+                                      withToken:self.tokenData
+                                      withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
                 if (success) {
                     successBlock(dict);
                 } else {
@@ -93,7 +116,9 @@
                 }
             }];
         } else {
-            @throw [NSException exceptionWithName:error.localizedDescription reason:error.domain userInfo:error.userInfo];
+            @throw [NSException exceptionWithName:error.localizedDescription
+                                           reason:error.domain
+                                         userInfo:error.userInfo];
         }
     }];
     
@@ -106,15 +131,25 @@
     [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
         
         if (status) {
-        
-            [serviceController requestStorefrontIdentifierWithCompletionHandler:^(NSString * _Nullable storefrontIdentifier, NSError * _Nullable error) {
+            [serviceController
+             requestStorefrontIdentifierWithCompletionHandler:^(NSString * _Nullable storefrontIdentifier,
+                                                                NSError * _Nullable error) {
                 if (error) {
-                    @throw [NSException exceptionWithName:error.localizedDescription reason:error.domain userInfo:error.userInfo];
+                    @throw [NSException exceptionWithName:error.localizedDescription
+                                                   reason:error.domain
+                                                 userInfo:error.userInfo];
                 }
                 self.appleMusicFrontStoreId = [storefrontIdentifier substringToIndex:6];
             }];
         }
     }];
+}
+- (NSString *)countryCodeWithIdentifier:(NSString *)identifier {
+    NSURL *plistURL = [[NSBundle mainBundle] URLForResource:@"StorefrontCountries"
+                                              withExtension:@"plist"];
+    NSDictionary *countryCodeDictionary = [NSDictionary dictionaryWithContentsOfURL:plistURL];
+    
+    return countryCodeDictionary[identifier];
 }
 
 

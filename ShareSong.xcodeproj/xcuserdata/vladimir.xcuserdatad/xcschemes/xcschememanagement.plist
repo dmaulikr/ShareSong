@@ -4,19 +4,24 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>SMKShareSongTodayExtension.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
-		</dict>
 		<key>ShareSong.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>ShareSongToday.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>E709B5F71F2D44C700DFB5E1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E764C96A1EBA976B00625D9E</key>
 		<dict>
 			<key>primary</key>

@@ -1,8 +1,8 @@
 //
 //  TodayViewController.h
-//  SMKShareSongTodayExtension
+//  ShareSongToday
 //
-//  Created by Vo1 on 04/05/2017.
+//  Created by Vo1 on 30/07/2017.
 //  Copyright © 2017 Samoilenko Volodymyr. All rights reserved.
 //
 

@@ -55,8 +55,11 @@
     return NO;
 }
 - (void)addSongWithDict:(NSDictionary *)data {
+//    NSLog(@"%@", data);
+//    NSLog(@"%@",[data objectForKey:@"imgLink"]);
     UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[data objectForKey:@"imgLink"]]]];
-    SMKSong *song = [[SMKSong alloc] initWithTitle:[data objectForKey:@"title"] artist:[data objectForKey:@"artist"] albumCover:img spotifyLink:[data objectForKey:@"spotifyLink"] appleMusicLink:[data objectForKey:@"appleLink"]];
+    
+    SMKSong *song = [[SMKSong alloc] initWithTitle:[data objectForKey:@"title"] artist:[data objectForKey:@"artist"] albumName:[data objectForKey:@"albumName"] albumCover:img spotifyLink:[data objectForKey:@"spotifyLink"] appleMusicLink:[data objectForKey:@"appleLink"]];
     if ([self.songs count] >= 50) {
         [self.songs removeLastObject];
     }
