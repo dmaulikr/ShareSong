@@ -14,7 +14,6 @@
 NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?";
 
 
-
 #pragma mark - download Data
 + (void)makeDataWithDictionary:(NSDictionary *)dict
               withFrontStoreID:(NSString *)frontstoreId
@@ -39,8 +38,6 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     [[session dataTaskWithURL:url
             completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-                
-                
                 
                 if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -176,7 +173,7 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     return false;
 }
 + (BOOL)checkLinkWithString:(NSString *)link {
-    if ([link containsString:@"https://itun."]) {
+    if ([link containsString:@"https://itun."] || [link containsString:@"https://itunes."]) {
         return YES;
     }
     return NO;

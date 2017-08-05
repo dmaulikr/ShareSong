@@ -142,13 +142,13 @@
             });
         } withFailureBlock:^{
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakViewController failureWithLink:@"Sorry, but this song is absent on wishes music service, please try again later"];
+                [weakViewController failureWithLink:@"Why are you punishing me? (Bad link)"];
                 [weakViewController.indicatorView stopAnimating];
                 weakViewController.resultTextField.text = @"";
             });
         }];
     } else {
-        [weakViewController failureWithLink:@"Wrong Link, try again with another link."];
+        [weakViewController failureWithLink:@"I have some bad news. (Wrong link)"];
         weakViewController.resultTextField.text = @"";
         [weakViewController.indicatorView stopAnimating];
     }
@@ -213,6 +213,7 @@
     self.resultTextField.layer.borderWidth = 3;
     self.resultTextField.layer.borderColor = [UIColor colorWithRed:247.0/255 green:150.0/255 blue:150.0/255 alpha:1.0].CGColor;
     self.resultTextField.textAlignment = NSTextAlignmentCenter;
+    self.resultTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
 }
 - (void)prepareIndicatorView {
     self.indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -225,13 +226,13 @@
     NSString *emoji = [self configuredEmoji:@"\xF0\x9F\x99\x8C"];
     NSString *successTitle = [NSString stringWithFormat:@"%@ Success %@",emoji,emoji];
     [self.successAlertController setTitle:successTitle];
-    [self.successAlertController setMessage:@"You link to the song now in clipboard. Just send it"];
+    [self.successAlertController setMessage:@"You wishes link in clipboard now. Just send it to your mom ;)"];
     
     self.failureAlertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *actionFail = [UIAlertAction actionWithTitle:@"OMG WHY?!" style:UIAlertActionStyleCancel handler:nil];
-    NSString *failTitle = [NSString stringWithFormat:@"Sorry, but your link is wrong. "];
+    NSString *failTitle = [NSString stringWithFormat:@"Sorry, but your link is wrong. Very wrong"];
     [self.failureAlertController setTitle:failTitle];
-    [self.failureAlertController setMessage:@"Maybe, it's not link from your subscription country. Try again with another lunk, and be careaful"];
+    [self.failureAlertController setMessage:@"Maybe, no.Try again later. Bad link. No life. Just work."];
     
     [self.successAlertController addAction:actionSuccess];
     [self.failureAlertController addAction:actionFail];

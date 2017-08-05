@@ -102,7 +102,6 @@
     }
     
     NSMutableArray *result = [[NSMutableArray alloc] init];
-    int counter = 0;
     
     for (int i = 0; i < [src count]; ++i) {
         if ([[grades objectAtIndex:i] integerValue] == minMisses) {
