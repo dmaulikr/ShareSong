@@ -15,6 +15,8 @@
  Make connection between ViewCntroller and Spotify/AppleMusic transefr classes.
  For appleMusic needed request, that will be done in -appleMusicFetchStorefrontRegion
  */
+//https://open.spotify.com/track/1VJa6gdfxI5XOQo7ogPh0w
+//https://itun.es/ua/TiKcjb?i=1225409072
 
 @interface SMKTransferingSong() <MPMediaPickerControllerDelegate>
 @property (nonatomic) NSString *appleMusicFrontStoreId;
@@ -78,7 +80,7 @@
 }
 - (void)fromSpotifyToAppleMusic:(NSString *)link
                withSuccessBlock:(void(^)(NSDictionary *dict))successBlock
-               withFailureBlock:(void(^)())failureBlock {
+               withFailureBlock:(void(^)(NSString *error))failureBlock {
     
     NSString *trackId = [SpotifySearch parseURLToGetTrackId:link];
     [SpotifySearch makeDataTaskWithTrackId:trackId
@@ -91,17 +93,17 @@
                 if (success) {
                     successBlock(dict);
                 } else {
-                    failureBlock();
+                    failureBlock(@"");
                 }
             }];
         } else {
-            failureBlock();
+            failureBlock(error.domain);
         }
     }];
 }
 - (void)fromAppleMusicToSpotify:(NSString *)link
                withSuccessBlock:(void(^)(NSDictionary *dict))successBlock
-               withFailureBlock:(void(^)())failureBlock {
+               withFailureBlock:(void(^)(NSString *message))failureBlock {
     
     [AppleMusicSearch trackInfoWithURL:link
                              withBlock:^(NSDictionary *info, bool success, NSError *error) {
@@ -112,13 +114,11 @@
                 if (success) {
                     successBlock(dict);
                 } else {
-                    failureBlock();
+                    failureBlock(@"");
                 }
             }];
         } else {
-            @throw [NSException exceptionWithName:error.localizedDescription
-                                           reason:error.domain
-                                         userInfo:error.userInfo];
+            failureBlock(error.domain);
         }
     }];
     

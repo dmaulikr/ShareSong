@@ -226,7 +226,7 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
 + (void)trackInfoWithURL:(NSString *)link withBlock:(void(^)(NSDictionary* info,
                                                              bool success,
                                                              NSError* error))block {
-    
+//    https://itun.es/ua/TiKcjb?i=1225409074
     NSURL *url = [AppleMusicSearch configureLookupURLWithTrackID:[AppleMusicSearch trackIDWithURL:link]
                                             storefrontIdentifier:[self storefrontCountryWithURL:link]];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration
@@ -238,7 +238,10 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
                                     NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-
+            if ([[json objectForKey:@"resultCount"] integerValue] == 0) {
+                block(nil, NO, [NSError errorWithDomain:@"Wrong Link" code:0 userInfo:nil]);
+                return;
+            }
             NSDictionary *data = [[json objectForKey:@"results"] objectAtIndex:0];
             NSString *title = [data objectForKey:@"trackName"];
             NSString *artist = [data objectForKey:@"artistName"];

@@ -13,8 +13,8 @@
 @implementation SpotifySearch
 NSString *spotifYURLSearchWithTrackID = @"https://api.spotify.com/v1/tracks/";
 NSString *spotifYURLSearchWithTemp = @"https://api.spotify.com/v1/search?";
-NSString *clientId = @"2bf098647b36471489e3575763ee7661";
-NSString *clientSecret = @"14fba0da45374793b66b9dbf5e0ea7d4";
+NSString *clientId = @"785d0dd3031a4594895b8e72ba83548a";
+NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
 
 #pragma mark - download Data
 + (void)makeDataTaskWithTemp:(NSDictionary *)dict
@@ -144,15 +144,22 @@ NSString *clientSecret = @"14fba0da45374793b66b9dbf5e0ea7d4";
 #pragma mark - Get song's info from track ID
 + (void)makeDataTaskWithTrackId:(NSString *)trackId withToken:(NSDictionary *)tokenData
                       withBlock:(void(^)(NSDictionary *terms, BOOL success, NSError *error))block {
+    
     NSString *prepareForUrl = [NSString stringWithFormat:@"%@%@",spotifYURLSearchWithTrackID, trackId];
     NSURL *url = [NSURL URLWithString:prepareForUrl];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSMutableURLRequest *request = [SpotifySearch configureRequestForDataTaskWith:url withToken:tokenData];
+    
     [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-
             if ([json objectForKey:@"error"]) {
+                
+                NSString *message = [[json objectForKey:@"error"] objectForKey:@"message"];
+                if ([message isEqualToString:@"invalid id"]) {
+                    block(nil,NO,[NSError errorWithDomain:@"Wrong Link" code:0 userInfo:nil]);
+                    return;
+                }
                 [SpotifySearch spotifyToken:^(NSDictionary *token) {
                     [SMKTransferingSong sharedTransfer].tokenData = token;
                     [SpotifySearch makeDataTaskWithTrackId:trackId
@@ -211,6 +218,7 @@ NSString *clientSecret = @"14fba0da45374793b66b9dbf5e0ea7d4";
                                                                 NSURLResponse * _Nullable response,
                                                                 NSError * _Nullable error) {
         if (!error) {
+            NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:data options:0 error:nil]);
             dispatch_async(dispatch_get_main_queue(), ^{
                 block([NSJSONSerialization JSONObjectWithData:data options:0 error:nil]);
             });

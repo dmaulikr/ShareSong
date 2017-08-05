@@ -140,9 +140,10 @@
                 [weakViewController save];
                 [weakViewController.indicatorView stopAnimating];
             });
-        } withFailureBlock:^{
+        } withFailureBlock:^(NSString *errorMessage){
+            if (!errorMessage) {errorMessage = [NSString stringWithFormat:@""];}
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakViewController failureWithLink:@"Why are you punishing me? (Bad link)"];
+                [weakViewController failureWithLink:[NSString stringWithFormat:@"Why are you punishing me? (%@)", errorMessage]];
                 [weakViewController.indicatorView stopAnimating];
                 weakViewController.resultTextField.text = @"";
             });
@@ -168,6 +169,7 @@
 }
 - (void)failureWithLink:(NSString *)error {
     self.resultTextField.text = @"";
+    [self.failureAlertController setMessage:error];
     [self presentViewController:self.failureAlertController animated:YES completion:nil];
 }
 
