@@ -47,6 +47,7 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
             if ([json objectForKey:@"error"]) {
+                NSLog(@"%@", error);
                 [SpotifySearch spotifyToken:^(NSDictionary *token) {
                     [SMKTransferingSong sharedTransfer].tokenData = token;
                     [SpotifySearch makeDataTaskWithTemp:dict
@@ -153,10 +154,12 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
     [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSLog(@"%@", json);
+        
             if ([json objectForKey:@"error"]) {
                 
                 NSString *message = [[json objectForKey:@"error"] objectForKey:@"message"];
-                if ([message isEqualToString:@"invalid id"]) {
+                if ([message isEqualToString:@"invalid id"] || [message isEqualToString:@"non existing id"]) {
                     block(nil,NO,[NSError errorWithDomain:@"Wrong Link" code:0 userInfo:nil]);
                     return;
                 }
@@ -166,6 +169,7 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
                                                  withToken:[SMKTransferingSong sharedTransfer].tokenData
                                                  withBlock:^(NSDictionary *terms, BOOL success, NSError *error) {
                         block(terms,success,error);
+                        return;
                     }];
                 }];
                 return;
@@ -218,6 +222,7 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
                                                                 NSURLResponse * _Nullable response,
                                                                 NSError * _Nullable error) {
         if (!error) {
+            
             NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:data options:0 error:nil]);
             dispatch_async(dispatch_get_main_queue(), ^{
                 block([NSJSONSerialization JSONObjectWithData:data options:0 error:nil]);

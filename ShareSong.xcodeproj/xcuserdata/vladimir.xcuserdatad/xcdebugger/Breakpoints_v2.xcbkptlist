@@ -6,16 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SpotifySearch.m"
-            timestampString = "523628013.651161"
+            filePath = "ShareSong/ViewController.m"
+            timestampString = "523635741.186344"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
-            landmarkName = "+makeDataTaskWithTrackId:withToken:withBlock:"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "-succesfullLink:sourceLink:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

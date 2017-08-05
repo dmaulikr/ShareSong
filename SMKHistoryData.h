@@ -15,8 +15,9 @@
 - (void)addSongWithDict:(NSDictionary *)data;
 - (SMKSong*)songAtIndex:(NSUInteger)index;
 - (NSInteger)countOfSongs;
-- (BOOL)isMemberWithLink:(NSString *)link;
+- (BOOL)isMemberWith:(NSString *)link;
 - (BOOL)saveChanges;
+- (void)print;
 
 - (void)removeAllSongs;
 @end

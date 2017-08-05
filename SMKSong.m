@@ -78,7 +78,6 @@
     [aCoder encodeObject:self.artist forKey:@"albumName"];
     [aCoder encodeObject:self.spotifyLink forKey:@"spotifyLink"];
     [aCoder encodeObject:self.appleMusicLink forKey:@"appleMusicLink"];
-    
 }
 
 

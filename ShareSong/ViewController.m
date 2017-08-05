@@ -127,6 +127,7 @@
     }
 }
 - (void)search{
+    
     self.resultTextField.text = @"";
     NSString *url = [UIPasteboard generalPasteboard].string;
     [self.indicatorView startAnimating];
@@ -162,7 +163,7 @@
 - (void)succesfullLink:(NSDictionary *)dict sourceLink:(NSString *)link{
     self.resultTextField.text = [dict objectForKey:@"url"];
     [self pasteToPasteboard:self.resultTextField.text];
-    if (![[SMKHistoryData sharedData] isMemberWithLink:link]) {
+    if (![[SMKHistoryData sharedData] isMemberWith:link]) {
         [[SMKHistoryData sharedData] addSongWithDict:[self prepareDictWith:dict sourceLink:link]];
     }
     [self presentViewController:self.successAlertController animated:YES completion:nil];
