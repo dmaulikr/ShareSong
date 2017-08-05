@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface Searcher : NSObject
-+ (void)test;
 + (NSArray *)searchTheNeededOneWith:(NSDictionary *)pred in:(NSArray *)src;
-+ (NSArray *)filterBy:(NSString *)pred forKey:(NSString *)key in:(NSArray *)src;
++ (NSDictionary *)decodeData:(NSDictionary *)src;
 @end

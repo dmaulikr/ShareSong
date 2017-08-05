@@ -10,39 +10,6 @@
 
 @implementation Searcher
 
-+ (void)test {
-    
-    NSArray *arr = @[
-                     [[NSDictionary alloc] initWithObjects:@[@"Drake",@"OMG"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Drake",@"SIgn"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Drake",@"Passionf22ruit feat me"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Drake",@"Passionf22ruit feat me"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Drake",@"Passionf22ruit feat me"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Drake",@"Passion"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Drake",@"Passionf22ruit feat me"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Drake",@"Passionfruit feat me"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Matt Franco",@"Passionfruit - Piano Version"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Karaoke Freaks",@"Passionfruit (Originally Performed by Drake) [Instrumental Version]"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Karaoke Freaks",@"Passionfruit (Originally Performed by Drake) - Instrumental Version"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Isabella Perone",@"Passionfruit - Tribute Drake"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"2017 Dynamo Hitz",@"Passionfruit (Originally performed by Drake)"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"2017 Dynamo Hitz",@"Passionfruit"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"L'Orchestra Cinematique",@"Passionfruit (Originally Performed By Drake) [Piano Instrumental]"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"L'Orchestra Cinematique",@"Passionfruit (Originally Performed By Drake) [Piano Instrumental]"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Karaoke Station",@"Passionfruit (Karaoke Version) (Originally Performed by Drake)"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Drake",@"Pass1ionfruit"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Karaoke Station",@"Passionfruit (Karaoke Version) (Originally Performed by Drake)"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"2017 Dynamo Hitz",@"Passionfruit (Originally performed by Drake)"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Drake",@"Passionfruit"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"2017 Dynamo Hitz",@"Passionfruit"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Karaoke Pro",@"Passionfruit (Originally Performed by Drake) [Instrumental Version]"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[ @"Karaoke Pro",@"Passionfruit (Originally Performed by Drake) - Instrumental Version"] forKeys:@[@"artist",@"title"]],
-                     [[NSDictionary alloc] initWithObjects:@[@"Isabella Perone",@"Passionfruit - Tribute Drake"] forKeys:@[@"artist",@"title"]]
-                     ];
-    
-    NSLog(@"%@",[Searcher searchTheNeededOneWith:[[NSDictionary alloc] initWithObjects:@[@"Drake",@"Passionfruit"] forKeys:@[@"artist",@"title"]] in:arr]);
-    
-}
 + (NSArray *)searchTheNeededOneWith:(NSDictionary *)pred in:(NSArray *)src {
     
     NSArray *filterdByArtist = [[NSArray alloc] initWithArray:src];
@@ -52,8 +19,13 @@
     if (![filterdByArtist count]) {return nil;}
     }
     
-    //    2. filter by title
-    NSArray *filterdByTitle = [Searcher filterBy:[pred objectForKey:@"title"] forKey:@"title" in:filterdByArtist];
+//        2. filter by albums
+    NSArray *filterByAlbum = [Searcher filterBySmallestMissing:[pred objectForKey:@"albumName"] forKey:@"albumName" in:filterdByArtist];
+    
+    
+    //    3. filter by title
+    NSArray *filterdByTitle = [Searcher filterBy:[pred objectForKey:@"title"] forKey:@"title" in:filterByAlbum];
+    
     
     if ([filterdByTitle count] > 1) {
         for (NSDictionary *obj in filterdByTitle) {
@@ -67,7 +39,6 @@
     return filterdByTitle;
 }
 
-// after preparing predicate for filtering sort all items by best hitting
 + (NSArray *)filterBy:(NSString *)pred forKey:(NSString *)key in:(NSArray *)src {
     
     NSString *lowerCaseWithoutSpacePred = [Searcher prepareString:pred];
@@ -87,7 +58,7 @@
         }
         [grades addObject:@(hitCounter)];
     }
-//    NSLog(@"%@", grades);
+
     NSMutableArray *result = [[NSMutableArray alloc] init];
     int counter = 1;
     int maxHits = (int)[[pred componentsSeparatedByString:@" "] count];
@@ -96,6 +67,7 @@
         for (int i = 0; i < [src count]; ++i) {
             if ([[grades objectAtIndex:i] integerValue] == counter) {
                 [result addObject:[src objectAtIndex:i]];
+
             }
         }
     }
@@ -104,7 +76,50 @@
     } else {
         return src;
     }
+}
++ (NSArray *)filterBySmallestMissing:(NSString *)pred forKey:(NSString *)key in:(NSArray *)src {
     
+    NSString *lowerCaseWithoutSpacePred = [Searcher prepareString:pred];
+    NSMutableArray *grades = [[NSMutableArray alloc] init];
+    // break strings to words
+    int minMisses = 100;
+    for (NSDictionary *obj in src) {
+        NSString *str = [obj objectForKey:key];
+        NSArray *components = [[Searcher removeAllSymbols:str] componentsSeparatedByString:@" "];
+        
+        int missesCounter = 0;
+    // and check if they are contains in pred and filling array with grades
+        for (NSString *comp in components) {
+            NSLog(@"%@ in %@", comp, lowerCaseWithoutSpacePred);
+            if (![lowerCaseWithoutSpacePred containsString:[comp lowercaseString]]) {
+                missesCounter += 1;
+                NSLog(@"NO");
+            }
+        }
+        NSLog(@"%d", missesCounter);
+        if (missesCounter <= minMisses) { minMisses = missesCounter; }
+        [grades addObject:@(missesCounter)];
+    }
+    
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    int counter = 0;
+    
+    for (int i = 0; i < [src count]; ++i) {
+        if ([[grades objectAtIndex:i] integerValue] == minMisses) {
+            [result addObject:[src objectAtIndex:i]];
+        }
+    }
+    
+    if ([result count]) {
+        return result;
+    } else {
+        return src;
+    }
+    
+    
+    
+    return [NSArray new];
+
 }
 + (NSArray *)nearestSearchBy:(NSString *)pred forKey:(NSString *)key in:(NSArray *)src {
     
@@ -153,11 +168,9 @@
     
     return [one1 isEqualToString:target1];
 }
-
-// need to fix this method, it makes problems with symbols in names
 + (NSString *)removeAllSymbols:(NSString *)str {
     str = [str stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    
+    NSMutableArray *arrOut = [[NSMutableArray alloc] init];
     NSMutableArray *arr = (NSMutableArray *)[str componentsSeparatedByString:@" "];
     for (int i = 0; i < [arr count]; ++i) {
         NSMutableString *word = arr[i];
@@ -167,6 +180,7 @@
         for (NSUInteger j = 0; j < length; ++j) {
             
             NSString *charachter = [NSString stringWithFormat:@"%c", [word characterAtIndex:j]];
+            
             NSRange symbolRange = [charachter rangeOfCharacterFromSet:[NSCharacterSet symbolCharacterSet]];
             NSRange punctuationRange = [charachter rangeOfCharacterFromSet:[NSCharacterSet punctuationCharacterSet]];
             NSRange whitespaceRange = [charachter rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -177,15 +191,29 @@
             result = [result stringByAppendingString:charachter];
             }
         }
+        result = [result stringByReplacingOccurrencesOfString:@" " withString:@""];
+        if (![result isEqualToString:@""]) {
+            [arrOut addObject:result];
+        }
     }
     
-    str = [arr componentsJoinedByString:@" "];
+    str = [arrOut componentsJoinedByString:@" "];
     
     return str;
 }
 + (NSString *)prepareString:(NSString *)target {
     return [[[Searcher removeAllSymbols:target] lowercaseString]
             stringByReplacingOccurrencesOfString:@" " withString:@""];
+}
+
++ (NSDictionary *)decodeData:(NSDictionary *)src {
+    NSArray *keys = [src allKeys];
+    NSArray *values = [src allValues];
+    NSMutableArray *valuesNormal = [[NSMutableArray alloc] init];
+    for (NSString *str in values) {
+        [valuesNormal addObject:[str stringByReplacingOccurrencesOfString:@"+" withString:@" "]];
+    }
+    return [[NSDictionary alloc] initWithObjects:valuesNormal forKeys:keys];
 }
 
 

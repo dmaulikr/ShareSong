@@ -25,13 +25,13 @@
 @property (weak, nonatomic) IBOutlet UIView *backViewWithMask;
 @property (weak, nonatomic) IBOutlet UIButton *historyButton;
 @property (weak, nonatomic) IBOutlet UIView *logoBackgroundView;
-@property (nonatomic) UIAlertController *alertController;
+@property (nonatomic) UIAlertController *successAlertController;
+@property (nonatomic) UIAlertController *failureAlertController;
 @property (nonatomic) SMKLoaderView *animationView;
 @property (nonatomic) SMKTransferingSong *transferManager;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *height;
 @property (weak, nonatomic) IBOutlet UIView *bottomLine;
 @property (weak, nonatomic) IBOutlet UIView *secondBottomLine;
-@property (nonatomic) UIView *notificatationView;
 @property (nonatomic) UILabel *errorLabel;
 
 @end
@@ -99,7 +99,9 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     [textField resignFirstResponder];
-    [self search];
+    if (![self.resultTextField.text isEqualToString:@""]) {
+        [self search];
+    }
     return YES;
 }
 
@@ -107,7 +109,6 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
     [self.resultTextField resignFirstResponder];
-    if ([self isNeedToHideWarning]) {[self hideWarningView];}
 }
 
 #pragma mark - Actions
@@ -160,43 +161,14 @@
 - (void)succesfullLink:(NSDictionary *)dict sourceLink:(NSString *)link{
     self.resultTextField.text = [dict objectForKey:@"url"];
     [self pasteToPasteboard:self.resultTextField.text];
-    [self setMessageForSuccessAlert];
     if (![[SMKHistoryData sharedData] isMemberWithLink:link]) {
         [[SMKHistoryData sharedData] addSongWithDict:[self prepareDictWith:dict sourceLink:link]];
     }
-    [self presentViewController:self.alertController animated:YES completion:nil];
+    [self presentViewController:self.successAlertController animated:YES completion:nil];
 }
 - (void)failureWithLink:(NSString *)error {
     self.resultTextField.text = @"";
-
-    [self showWarningView:error];
-}
-- (void)showWarningView:(NSString *)str {
-    self.errorLabel.text = str;
-    if (self.notificatationView.frame.origin.y <= 0) {
-        [UIView animateWithDuration:1/2.0 animations:^{
-            CGRect rect = CGRectMake(self.notificatationView.frame.origin.x,
-                                     self.notificatationView.frame.origin.y+self.notificatationView.frame.size.height,
-                                     self.notificatationView.frame.size.width,
-                                     self.notificatationView.frame.size.height);
-            [self.notificatationView setFrame:rect];
-        } completion:nil];        
-    }
-}
-- (void)hideWarningView {
-    [UIView animateWithDuration:1/2.0 animations:^{
-        CGRect rect = CGRectMake(self.notificatationView.frame.origin.x,
-                                 self.notificatationView.frame.origin.y-self.notificatationView.frame.size.height,
-                                 self.notificatationView.frame.size.width,
-                                 self.notificatationView.frame.size.height);
-        [self.notificatationView setFrame:rect];
-    } completion:nil];
-}
-- (BOOL)isNeedToHideWarning{
-    if (self.notificatationView.frame.origin.y >= 0) {
-        return YES;
-    }
-    return NO;
+    [self presentViewController:self.failureAlertController animated:YES completion:nil];
 }
 
 #pragma mark - Prerare dict for crearitn history
@@ -227,35 +199,8 @@
     [self configureLogo];
     [self configureTextFields];
     [self prepareIndicatorView];
-    [self prepareAlertController];
+    [self prepareAlertControllers];
     [self setImageForHistoryButton];
-    [self configureErrorView];
-}
-- (void)configureErrorView {
-    self.notificatationView = [[UIView alloc] initWithFrame:CGRectZero];
-    CGFloat width = self.view.frame.size.width;
-    CGFloat height = self.view.frame.size.height / 7.0;
-    CGFloat x = 0;
-    CGFloat y = -height;
-    CGRect rect = CGRectMake(x, y, width, height);
-    [self.notificatationView setFrame:rect];
-    
-    self.notificatationView.backgroundColor = [UIColor colorWithRed:247/255.0 green:150/255.0 blue:150/255.0 alpha:100.0];
-    
-    self.errorLabel = [[UILabel alloc] init];
-    self.errorLabel.font = [UIFont systemFontOfSize:20];
-    self.errorLabel.textAlignment = NSTextAlignmentCenter;
-    self.errorLabel.textColor = [UIColor whiteColor];
-    self.errorLabel.numberOfLines = 2;
-    
-    [self.notificatationView addSubview:self.errorLabel];
-    [self.view addSubview:self.notificatationView];
-    
-    self.errorLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.errorLabel.bottomAnchor constraintEqualToAnchor:self.notificatationView.bottomAnchor constant:-5].active = YES;
-    [self.errorLabel.leftAnchor constraintEqualToAnchor:self.notificatationView.leftAnchor].active = YES;
-    [self.errorLabel.rightAnchor constraintEqualToAnchor:self.notificatationView.rightAnchor].active = YES;
-    
 }
 - (void)configureLogo {
     self.logoBackgroundView.layer.cornerRadius = self.logoBackgroundView.frame.size.width/2.0;
@@ -274,10 +219,22 @@
     self.indicatorView.center = self.view.center;
     [self.view addSubview:self.indicatorView];
 }
-- (void)prepareAlertController {
-    self.alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+- (void)prepareAlertControllers {
+    self.successAlertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *actionSuccess = [UIAlertAction actionWithTitle:@"Daaamn" style:UIAlertActionStyleCancel handler:nil];
-    [self.alertController addAction:actionSuccess];
+    NSString *emoji = [self configuredEmoji:@"\xF0\x9F\x99\x8C"];
+    NSString *successTitle = [NSString stringWithFormat:@"%@ Success %@",emoji,emoji];
+    [self.successAlertController setTitle:successTitle];
+    [self.successAlertController setMessage:@"You link to the song now in clipboard. Just send it"];
+    
+    self.failureAlertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *actionFail = [UIAlertAction actionWithTitle:@"OMG WHY?!" style:UIAlertActionStyleCancel handler:nil];
+    NSString *failTitle = [NSString stringWithFormat:@"Sorry, but your link is wrong. "];
+    [self.failureAlertController setTitle:failTitle];
+    [self.failureAlertController setMessage:@"Maybe, it's not link from your subscription country. Try again with another lunk, and be careaful"];
+    
+    [self.successAlertController addAction:actionSuccess];
+    [self.failureAlertController addAction:actionFail];
 }
 - (void)setImageForHistoryButton {
     [self.historyButton setImage:[UIImage imageNamed:@"up"] forState:UIControlStateNormal];
@@ -288,17 +245,7 @@
     [self.historyButton.imageView.centerXAnchor constraintEqualToAnchor:self.historyButton.centerXAnchor].active = YES;
     [self.historyButton.imageView.centerYAnchor constraintEqualToAnchor:self.historyButton.centerYAnchor].active = YES;
 }
-- (void)setMessageForWrongLink {
-    NSString *title = [NSString stringWithFormat:@"Sorry, but your link is wrong. "];
-    [self.alertController setTitle:title];
-    [self.alertController setMessage:@"Maybe, it's not link from your subscription country. Try again with another lunk, and be careaful"];
-}
-- (void)setMessageForSuccessAlert {
-    NSString *emoji = [self configuredEmoji:@"\xF0\x9F\x99\x8C"];
-    NSString *title = [NSString stringWithFormat:@"%@ Success %@",emoji,emoji];
-    [self.alertController setTitle:title];
-    [self.alertController setMessage:@"You link to the song now in clipboard. Just send it"];
-}
+
 - (NSString *)configuredEmoji:(NSString *)str {
     NSData *data = [str dataUsingEncoding:NSNonLossyASCIIStringEncoding];
     NSString *valueUnicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

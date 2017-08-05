@@ -1,4 +1,4 @@
-//
+
 //  AppleMusicSearch.m
 //  constrains
 //
@@ -23,7 +23,7 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     
     NSString *title = [dict objectForKey:@"title"];
     NSString *artist = [dict objectForKey:@"artist"];
-    
+    dict = [Searcher decodeData:dict];
     NSString *encodeTitle = [title
                              stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
                                                                                  URLHostAllowedCharacterSet]];
@@ -39,6 +39,9 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
     [[session dataTaskWithURL:url
             completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
+                
+                
+                
                 if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             
