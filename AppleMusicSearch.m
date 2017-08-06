@@ -4,7 +4,6 @@
 //
 //  Created by Vo1 on 18/04/2017.
 //  Copyright © 2017 Samoilenko Volodymyr. All rights reserved.
-//https://itunes.apple.com/ua/lookup?id=1245248621&entity=song
 
 #import "AppleMusicSearch.h"
 #import "Searcher.h"
@@ -19,7 +18,6 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
               withFrontStoreID:(NSString *)frontstoreId
                      withBlock:(void(^)(NSDictionary *dict,bool success))block {
 
-    
     NSString *title = [dict objectForKey:@"title"];
     NSString *artist = [dict objectForKey:@"artist"];
     dict = [Searcher decodeData:dict];
@@ -239,7 +237,7 @@ NSString *appleMusicURLWithTermFrontStoreID = @"https://itunes.apple.com/search?
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             if ([[json objectForKey:@"resultCount"] integerValue] == 0) {
-                block(nil, NO, [NSError errorWithDomain:@"Wrong Link" code:0 userInfo:nil]);
+                block(nil, NO, [NSError errorWithDomain:@"Are u sure about correct link?" code:0 userInfo:nil]);
                 return;
             }
             NSDictionary *data = [[json objectForKey:@"results"] objectAtIndex:0];

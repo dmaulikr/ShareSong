@@ -52,7 +52,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchFromNotification:)
                                                  name:@"search" object:nil];
     
-    
 }
 - (void)viewDidAppear:(BOOL)animated {
     static dispatch_once_t onceToken;

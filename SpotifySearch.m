@@ -21,21 +21,15 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
                    withToken:(NSDictionary *)tokenData
                    withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block {
 
-    
-    NSString *str = @"Unforgettable (Latin Remix) [feat. Swae Lee]";
-         
-    
     NSString *artist = [[dict objectForKey:@"artist"] lowercaseString];
-    NSLog(@"%@", artist);
     NSString *title = [[dict objectForKey:@"title"] lowercaseString];
+    
     NSString *encodeArtist = [artist
                               stringByAddingPercentEncodingWithAllowedCharacters:
                               [NSCharacterSet URLHostAllowedCharacterSet]];
     NSString *encodeTitle = [title
                              stringByAddingPercentEncodingWithAllowedCharacters:
                              [NSCharacterSet URLHostAllowedCharacterSet]];
-    
-    
     
     NSURL *url = [NSURL URLWithString:[NSString
                                        stringWithFormat:@"%@q=%@+%@&type=track&limit=50",
@@ -164,8 +158,11 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
             if ([json objectForKey:@"error"]) {
                 
                 NSString *message = [[json objectForKey:@"error"] objectForKey:@"message"];
-                if ([message isEqualToString:@"invalid id"] || [message isEqualToString:@"non existing id"]) {
-                    block(nil,NO,[NSError errorWithDomain:@"Wrong Link" code:0 userInfo:nil]);
+                if ([message isEqualToString:@"invalid id"]) {
+                      block(nil,NO,[NSError errorWithDomain:@"Are u sure about correct link?" code:0 userInfo:nil]);
+                    return;
+                } else if ([message isEqualToString:@"non existing id"]) {
+                     block(nil,NO,[NSError errorWithDomain:@"Your link is very wrong :(" code:0 userInfo:nil]);
                     return;
                 }
                 [SpotifySearch spotifyToken:^(NSDictionary *token) {
@@ -258,22 +255,31 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
 }
 + (NSArray *)arrayWith:(NSDictionary *)json {
     NSMutableArray *result = [[NSMutableArray alloc] init];
+    
     NSArray *arr = [[json objectForKey:@"tracks"] objectForKey:@"items"];
     for (NSDictionary *dict in arr) {
+        @try {
+            NSString *artwork = [[[[dict objectForKey:@"album"] objectForKey:@"images"] objectAtIndex:0] objectForKey:@"url"];
+            NSString *url = [[[dict objectForKey:@"album"] objectForKey:@"external_urls"] objectForKey:@"spotify"];
+            NSDictionary *info = [NSDictionary
+                                  dictionaryWithObjects:@[ [[[[dict objectForKey:@"album"] objectForKey:@"artists"]
+                                                             objectAtIndex:0] objectForKey:@"name"],
+                                                           [[dict objectForKey:@"album"] objectForKey:@"name"],
+                                                           [dict objectForKey:@"name"],
+                                                           artwork,
+                                                           url
+                                                           ]
+                                  forKeys:@[@"artist",@"albumName",@"title",@"artwork",@"url"]];
+            [result addObject:info];
+            
+        } @catch (NSException *exception) {
+            // send to server
         
-        NSString *artwork = [[[[dict objectForKey:@"album"] objectForKey:@"images"] objectAtIndex:0] objectForKey:@"url"];
-        NSString *url = [[[dict objectForKey:@"album"] objectForKey:@"external_urls"] objectForKey:@"spotify"];
-        NSDictionary *info = [NSDictionary
-                              dictionaryWithObjects:@[ [[[[dict objectForKey:@"album"] objectForKey:@"artists"]
-                                                         objectAtIndex:0] objectForKey:@"name"],
-                                                      [[dict objectForKey:@"album"] objectForKey:@"name"],
-                                                       [[dict objectForKey:@"album"] objectForKey:@"name"],
-                                                       artwork,
-                                                       url
-                                                       ]
-                                                         forKeys:@[@"artist",@"albumName",@"title",@"artwork",@"url"]];
-        [result addObject:info];
+        } @finally {
+            return (NSArray *)result;
+        }
     }
+    
     return (NSArray *)result;
 }
 + (NSDictionary *)getInfoFromSong:(NSDictionary *)dict {

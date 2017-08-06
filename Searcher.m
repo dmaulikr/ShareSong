@@ -19,13 +19,11 @@
     if (![filterdByArtist count]) {return nil;}
     }
     
-//        2. filter by albums
+    //    2. filter by albums
     NSArray *filterByAlbum = [Searcher filterBySmallestMissing:[pred objectForKey:@"albumName"] forKey:@"albumName" in:filterdByArtist];
-    
     
     //    3. filter by title
     NSArray *filterdByTitle = [Searcher filterBy:[pred objectForKey:@"title"] forKey:@"title" in:filterByAlbum];
-    
     
     if ([filterdByTitle count] > 1) {
         for (NSDictionary *obj in filterdByTitle) {
@@ -42,7 +40,6 @@
 + (NSArray *)filterBy:(NSString *)pred forKey:(NSString *)key in:(NSArray *)src {
     
     NSString *lowerCaseWithoutSpacePred = [Searcher prepareString:pred];
-    
     
     NSMutableArray *grades = [[NSMutableArray alloc] init];
     for (NSDictionary *obj in src) {
