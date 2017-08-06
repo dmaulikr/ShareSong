@@ -37,6 +37,8 @@
 		E7C5AA3F1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5AA3D1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m */; };
 		E7C5AA401EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C5AA3E1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib */; };
 		E7C6ECFE1F36F3060074AB0E /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C6ECFD1F36F3060074AB0E /* Test.m */; };
+		E7C6ED041F376DF70074AB0E /* IntroducingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C6ED031F376DF70074AB0E /* IntroducingViewController.m */; };
+		E7C6ED061F376ECC0074AB0E /* introduce.png in Resources */ = {isa = PBXBuildFile; fileRef = E7C6ED051F376ECC0074AB0E /* introduce.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +117,9 @@
 		E7C5AA3E1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMKHistoryCollectionViewCell.xib; sourceTree = "<group>"; };
 		E7C6ECFC1F36F3060074AB0E /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
 		E7C6ECFD1F36F3060074AB0E /* Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Test.m; sourceTree = "<group>"; };
+		E7C6ED021F376DF70074AB0E /* IntroducingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroducingViewController.h; sourceTree = "<group>"; };
+		E7C6ED031F376DF70074AB0E /* IntroducingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroducingViewController.m; sourceTree = "<group>"; };
+		E7C6ED051F376ECC0074AB0E /* introduce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = introduce.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +224,7 @@
 		E7993B261EBA926C0028B276 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E7C6ED051F376ECC0074AB0E /* introduce.png */,
 				E77F0FA11ED6108C0074D614 /* spotifyButton.png */,
 				E77F0FA21ED6108C0074D614 /* appleButton.png */,
 				E75D135B1EC900DD0046429D /* up.png */,
@@ -238,6 +244,8 @@
 				E7993B4D1EBA93C60028B276 /* SMKIntroViewController.m */,
 				E79BDB651EC791C0006F1AA5 /* SMKHistoryCollectionViewController.h */,
 				E79BDB661EC791C0006F1AA5 /* SMKHistoryCollectionViewController.m */,
+				E7C6ED021F376DF70074AB0E /* IntroducingViewController.h */,
+				E7C6ED031F376DF70074AB0E /* IntroducingViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -403,6 +411,7 @@
 				E7993B331EBA926C0028B276 /* Assets.xcassets in Resources */,
 				E7C5AA401EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib in Resources */,
 				E75D135C1EC900DD0046429D /* up.png in Resources */,
+				E7C6ED061F376ECC0074AB0E /* introduce.png in Resources */,
 				E77F0FA31ED6108C0074D614 /* spotifyButton.png in Resources */,
 				E7993B311EBA926C0028B276 /* Main.storyboard in Resources */,
 			);
@@ -425,6 +434,7 @@
 			files = (
 				E7993B401EBA92C70028B276 /* SMKTransferingSong.m in Sources */,
 				E7C6ECFE1F36F3060074AB0E /* Test.m in Sources */,
+				E7C6ED041F376DF70074AB0E /* IntroducingViewController.m in Sources */,
 				E7C5AA3F1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m in Sources */,
 				E79BDB671EC791C0006F1AA5 /* SMKHistoryCollectionViewController.m in Sources */,
 				E7993B4E1EBA93C60028B276 /* SMKIntroViewController.m in Sources */,

@@ -16,7 +16,7 @@
 #import "SMKLoaderView.h"
 #import "SMKSong.h"
 #import "Searcher.h"
-
+#import "IntroducingViewController.h"
 
 @interface ViewController () <MPMediaPickerControllerDelegate, UITextFieldDelegate, UIViewControllerTransitioningDelegate>
 
@@ -54,10 +54,15 @@
     
 }
 - (void)viewDidAppear:(BOOL)animated {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self search];
-    });
+    if ([self firstTimeOpenApp]) {
+        IntroducingViewController *vc = [[IntroducingViewController alloc] init];
+        [self presentViewController:vc animated:YES completion:nil];
+    } else {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self search];
+        });
+    }
 }
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
@@ -287,7 +292,15 @@
     return NO;
 }
 
-#pragma mark - Check Apple Music Subscription
+#pragma mark - Introduce View
+- (bool)firstTimeOpenApp {
+    BOOL wasOpenned = [[NSUserDefaults standardUserDefaults] boolForKey:@"wasOpenned"];
+    if (!wasOpenned) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 
 @end
