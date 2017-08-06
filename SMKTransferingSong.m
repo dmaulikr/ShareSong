@@ -11,12 +11,11 @@
 #import "SpotifySearch.h"
 @import StoreKit;
 
+
 /*
  Make connection between ViewCntroller and Spotify/AppleMusic transefr classes.
  For appleMusic needed request, that will be done in -appleMusicFetchStorefrontRegion
  */
-//https://open.spotify.com/track/1VJa6gdfxI5XOQo7ogPh0w
-//https://itun.es/ua/TiKcjb?i=1225409072
 
 @interface SMKTransferingSong() <MPMediaPickerControllerDelegate>
 @property (nonatomic) NSString *appleMusicFrontStoreId;
@@ -24,14 +23,18 @@
 
 @implementation SMKTransferingSong
 
+// ------------------------------------------------------------------
 
 
+
+// ------------------------------------------------------------------
 #pragma mark - Initializer
 + (instancetype)sharedTransfer {
     static SMKTransferingSong *sharedTransfer = nil;
     if (!sharedTransfer) {
         sharedTransfer = [[self alloc] initPrivate];
     }
+//    [SMKTransferingSong test];
     return sharedTransfer;
 }
 - (instancetype)init {
@@ -114,15 +117,13 @@
                 if (success) {
                     successBlock(dict);
                 } else {
-                    failureBlock(@"");
+                    failureBlock(@"[SpotifySearch makeDataTaskWithTemp:info ...");
                 }
             }];
         } else {
             failureBlock(error.domain);
         }
     }];
-    
-    
 }
 
 #pragma mark - get AppleStore id

@@ -90,13 +90,10 @@
         int missesCounter = 0;
     // and check if they are contains in pred and filling array with grades
         for (NSString *comp in components) {
-            NSLog(@"%@ in %@", comp, lowerCaseWithoutSpacePred);
             if (![lowerCaseWithoutSpacePred containsString:[comp lowercaseString]]) {
                 missesCounter += 1;
-                NSLog(@"NO");
             }
         }
-        NSLog(@"%d", missesCounter);
         if (missesCounter <= minMisses) { minMisses = missesCounter; }
         [grades addObject:@(missesCounter)];
     }

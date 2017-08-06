@@ -20,9 +20,14 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
 + (void)makeDataTaskWithTemp:(NSDictionary *)dict
                    withToken:(NSDictionary *)tokenData
                    withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block {
+
     
-    NSString *artist = [dict objectForKey:@"artist"];
-    NSString *title = [dict objectForKey:@"title"];
+    NSString *str = @"Unforgettable (Latin Remix) [feat. Swae Lee]";
+         
+    
+    NSString *artist = [[dict objectForKey:@"artist"] lowercaseString];
+    NSLog(@"%@", artist);
+    NSString *title = [[dict objectForKey:@"title"] lowercaseString];
     NSString *encodeArtist = [artist
                               stringByAddingPercentEncodingWithAllowedCharacters:
                               [NSCharacterSet URLHostAllowedCharacterSet]];
@@ -30,8 +35,10 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
                              stringByAddingPercentEncodingWithAllowedCharacters:
                              [NSCharacterSet URLHostAllowedCharacterSet]];
     
+    
+    
     NSURL *url = [NSURL URLWithString:[NSString
-                                       stringWithFormat:@"%@q=%@+%@&type=track&limit=20",
+                                       stringWithFormat:@"%@q=%@+%@&type=track&limit=50",
                                        spotifYURLSearchWithTemp, encodeTitle, encodeArtist]];
     
     NSMutableURLRequest *request = [SpotifySearch configureRequestForDataTaskWith:url
@@ -47,7 +54,6 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
             if ([json objectForKey:@"error"]) {
-                NSLog(@"%@", error);
                 [SpotifySearch spotifyToken:^(NSDictionary *token) {
                     [SMKTransferingSong sharedTransfer].tokenData = token;
                     [SpotifySearch makeDataTaskWithTemp:dict
@@ -65,7 +71,7 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
                 block([filtred firstObject],YES, nil);
             
             } else {
-                [SpotifySearch retryRequestWithTitle:title
+                [SpotifySearch retryRequestWithTitle:dict
                                            withToken:tokenData
                                            withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
                     block(dict,success,error);
@@ -78,11 +84,12 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
         }
     }] resume];
 }
-+ (void)retryRequestWithTitle:(NSString *)songTitle
++ (void)retryRequestWithTitle:(NSDictionary *)dict
                     withToken:(NSDictionary *)tokenData
                     withBlock:(void(^)(NSDictionary *dict, BOOL success, NSError *error))block {
     
-    NSString *title = songTitle;
+    NSString *title = [dict objectForKey:@"title"];
+    title = [SpotifySearch removeScopesFromString:title];
     NSString *encodeTitle = [title stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@q=%@&type=track&limit=20",
@@ -96,12 +103,11 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         if (!error) {
             
-            NSArray *filtred = [Searcher searchTheNeededOneWith:@{songTitle:@"title"} in:[SpotifySearch arrayWith:json]];
+            NSArray *filtred = [Searcher searchTheNeededOneWith:dict in:[SpotifySearch arrayWith:json]];
             if ([filtred count]) {
                 block([filtred firstObject],YES, nil);
             } else {
-                [self retryRequestWithShortTitle:[SpotifySearch
-                                                  removeScopesFromString:title]
+                [self retryRequestWithShortTitle:title
                                        withToken:tokenData
                                        withBlock:^(NSDictionary *dict, BOOL success, NSError *error) {
                     block(dict,success,error);
@@ -154,7 +160,6 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
     [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSLog(@"%@", json);
         
             if ([json objectForKey:@"error"]) {
                 
@@ -222,8 +227,6 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
                                                                 NSURLResponse * _Nullable response,
                                                                 NSError * _Nullable error) {
         if (!error) {
-            
-            NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:data options:0 error:nil]);
             dispatch_async(dispatch_get_main_queue(), ^{
                 block([NSJSONSerialization JSONObjectWithData:data options:0 error:nil]);
             });

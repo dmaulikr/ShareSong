@@ -36,6 +36,7 @@
 		E79BDB701EC79E22006F1AA5 /* SMKSong.m in Sources */ = {isa = PBXBuildFile; fileRef = E79BDB6F1EC79E22006F1AA5 /* SMKSong.m */; };
 		E7C5AA3F1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5AA3D1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m */; };
 		E7C5AA401EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C5AA3E1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib */; };
+		E7C6ECFE1F36F3060074AB0E /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C6ECFD1F36F3060074AB0E /* Test.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,8 @@
 		E7C5AA3C1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKHistoryCollectionViewCell.h; sourceTree = "<group>"; };
 		E7C5AA3D1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKHistoryCollectionViewCell.m; sourceTree = "<group>"; };
 		E7C5AA3E1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMKHistoryCollectionViewCell.xib; sourceTree = "<group>"; };
+		E7C6ECFC1F36F3060074AB0E /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
+		E7C6ECFD1F36F3060074AB0E /* Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Test.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +178,8 @@
 		E7993B1A1EBA926C0028B276 = {
 			isa = PBXGroup;
 			children = (
+				E7C6ECFC1F36F3060074AB0E /* Test.h */,
+				E7C6ECFD1F36F3060074AB0E /* Test.m */,
 				E7993B251EBA926C0028B276 /* ShareSong */,
 				E709B5FA1F2D44C700DFB5E1 /* ShareSongToday */,
 				E764C96C1EBA976B00625D9E /* Frameworks */,
@@ -419,6 +424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7993B401EBA92C70028B276 /* SMKTransferingSong.m in Sources */,
+				E7C6ECFE1F36F3060074AB0E /* Test.m in Sources */,
 				E7C5AA3F1EC8A78D006FB610 /* SMKHistoryCollectionViewCell.m in Sources */,
 				E79BDB671EC791C0006F1AA5 /* SMKHistoryCollectionViewController.m in Sources */,
 				E7993B4E1EBA93C60028B276 /* SMKIntroViewController.m in Sources */,

@@ -6,16 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShareSong/ViewController.m"
-            timestampString = "523635741.186344"
+            filePath = "SMKTransferingSong.m"
+            timestampString = "523708505.728659"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
-            landmarkName = "-succesfullLink:sourceLink:"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "-fromAppleMusicToSpotify:withSuccessBlock:withFailureBlock:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
