@@ -23,18 +23,12 @@
 
 @implementation SMKTransferingSong
 
-// ------------------------------------------------------------------
-
-
-
-// ------------------------------------------------------------------
 #pragma mark - Initializer
 + (instancetype)sharedTransfer {
     static SMKTransferingSong *sharedTransfer = nil;
     if (!sharedTransfer) {
         sharedTransfer = [[self alloc] initPrivate];
     }
-//    [SMKTransferingSong test];
     return sharedTransfer;
 }
 - (instancetype)init {

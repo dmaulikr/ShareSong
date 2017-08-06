@@ -251,6 +251,8 @@
 				E7993B421EBA92ED0028B276 /* AppleMusicSearch.m */,
 				E7993B441EBA93240028B276 /* SpotifySearch.h */,
 				E7993B451EBA93240028B276 /* SpotifySearch.m */,
+				E72DE4311F2FCD3100A79C20 /* Searcher.h */,
+				E72DE4321F2FCD3100A79C20 /* Searcher.m */,
 			);
 			name = Model;
 			path = ..;
@@ -275,8 +277,6 @@
 				E79BDB6B1EC79D48006F1AA5 /* SMKHistoryData.m */,
 				E79BDB6E1EC79E22006F1AA5 /* SMKSong.h */,
 				E79BDB6F1EC79E22006F1AA5 /* SMKSong.m */,
-				E72DE4311F2FCD3100A79C20 /* Searcher.h */,
-				E72DE4321F2FCD3100A79C20 /* Searcher.m */,
 			);
 			name = Data;
 			path = ..;
