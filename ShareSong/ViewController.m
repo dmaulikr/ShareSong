@@ -149,7 +149,7 @@
             });
         }];
     } else {
-        [weakViewController failureWithLink:@"I have some bad news. (Wrong link)"];
+        [weakViewController failureWithLink:@"I have some bad news."];
         weakViewController.resultTextField.text = @"";
         [weakViewController.indicatorView stopAnimating];
     }
@@ -169,7 +169,9 @@
 }
 - (void)failureWithLink:(NSString *)error {
     self.resultTextField.text = @"";
-    [self.failureAlertController setMessage:error];
+    if (error) {
+        [self.failureAlertController setMessage:error];
+    }
     [self presentViewController:self.failureAlertController animated:YES completion:nil];
 }
 
@@ -228,11 +230,11 @@
     NSString *emoji = [self configuredEmoji:@"\xF0\x9F\x99\x8C"];
     NSString *successTitle = [NSString stringWithFormat:@"%@ Success %@",emoji,emoji];
     [self.successAlertController setTitle:successTitle];
-    [self.successAlertController setMessage:@"You wishes link in clipboard now. Just send it to your mom ;)"];
+    [self.successAlertController setMessage:@"You wishes link in clipboard now. Just send it to your mom."];
     
     self.failureAlertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *actionFail = [UIAlertAction actionWithTitle:@"OMG WHY?!" style:UIAlertActionStyleCancel handler:nil];
-    NSString *failTitle = [NSString stringWithFormat:@"Sorry, but your link is wrong. Very wrong"];
+    UIAlertAction *actionFail = [UIAlertAction actionWithTitle:@"OMG" style:UIAlertActionStyleCancel handler:nil];
+    NSString *failTitle = [NSString stringWithFormat:@"Your link is wrong. Very wrong."];
     [self.failureAlertController setTitle:failTitle];
     [self.failureAlertController setMessage:@"Maybe, no.Try again later. Bad link. No life. Just work."];
     

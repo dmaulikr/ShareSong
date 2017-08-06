@@ -162,7 +162,7 @@ NSString *clientSecret = @"23ed8ea00a54403baabed39b408fcce8";
                       block(nil,NO,[NSError errorWithDomain:@"Are u sure about correct link?" code:0 userInfo:nil]);
                     return;
                 } else if ([message isEqualToString:@"non existing id"]) {
-                     block(nil,NO,[NSError errorWithDomain:@"Your link is very wrong :(" code:0 userInfo:nil]);
+                     block(nil,NO,[NSError errorWithDomain:@"Probably you have alredy this song. Look in your collection" code:0 userInfo:nil]);
                     return;
                 }
                 [SpotifySearch spotifyToken:^(NSDictionary *token) {
